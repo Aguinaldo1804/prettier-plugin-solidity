@@ -406,13 +406,11 @@ export interface ParserOptions extends Prettier.ParserOptions {
   compiler: string;
 }
 
-export interface NodePrinterArguments<T> {
-  node: T;
-  options: ParserOptions;
-  path: Prettier.AstPath;
-  print: (path: Prettier.AstPath) => Prettier.Doc;
-}
-
 export interface NodePrinter<T> {
-  print: (arg: NodePrinterArguments<T>) => Prettier.Doc;
+  print: (arg: {
+    node: T;
+    options: ParserOptions;
+    path: Prettier.AstPath;
+    print: (path: Prettier.AstPath) => Prettier.Doc;
+  }) => Prettier.Doc;
 }

@@ -3,7 +3,7 @@ import satisfies from 'semver/functions/satisfies.js';
 import type { doc, Doc, ParserOptions } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
 
-export const prettierVersionSatisfies = (range: string) =>
+export const prettierVersionSatisfies = (range: string): boolean =>
   satisfies(version, range);
 
 export interface LabelWithLabel extends doc.builders.Label {
