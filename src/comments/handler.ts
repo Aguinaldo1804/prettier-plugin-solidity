@@ -3,14 +3,16 @@ import {
   handleEndOfLineComment,
   handleRemainingComment
 } from '../prettier-comments/language-js/comments.js';
-import handlers from './handlers/index.js';
+import handlers from './handlers';
+import type { AstPath, ParserOptions } from 'prettier';
+import type { Comment } from '../prettier-plugin-solidity';
 
 export function solidityHandleOwnLineComment(
-  comment,
-  text,
-  options,
-  ast,
-  isLastComment
+  comment: Comment,
+  text: string,
+  options: ParserOptions,
+  ast: AstPath,
+  isLastComment: boolean
 ) {
   const { precedingNode, enclosingNode, followingNode } = comment;
   const handlerArguments = {
@@ -32,11 +34,11 @@ export function solidityHandleOwnLineComment(
 }
 
 export function solidityHandleEndOfLineComment(
-  comment,
-  text,
-  options,
-  ast,
-  isLastComment
+  comment: Comment,
+  text: string,
+  options: ParserOptions,
+  ast: AstPath,
+  isLastComment: boolean
 ) {
   const { precedingNode, enclosingNode, followingNode } = comment;
   const handlerArguments = {
@@ -58,11 +60,11 @@ export function solidityHandleEndOfLineComment(
 }
 
 export function solidityHandleRemainingComment(
-  comment,
-  text,
-  options,
-  ast,
-  isLastComment
+  comment: Comment,
+  text: string,
+  options: ParserOptions,
+  ast: AstPath,
+  isLastComment: boolean
 ) {
   const { precedingNode, enclosingNode, followingNode } = comment;
   const handlerArguments = {
@@ -83,6 +85,6 @@ export function solidityHandleRemainingComment(
   return false;
 }
 
-export function isBlockComment(comment) {
+export function isBlockComment(comment: Comment) {
   return comment.type === 'BlockComment';
 }

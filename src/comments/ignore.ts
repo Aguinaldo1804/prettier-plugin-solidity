@@ -1,4 +1,7 @@
-function ignoreComments(path) {
+import type { AstPath } from 'prettier';
+import type { Comment } from '../prettier-plugin-solidity';
+
+function ignoreComments(path: AstPath) {
   const node = path.getValue();
   // We ignore anything that is not an object
   if (node === null || typeof node !== 'object') return;
@@ -13,7 +16,7 @@ function ignoreComments(path) {
       // The key `comments` will contain every comment for this node
       case 'comments':
         path.each((commentPath) => {
-          const comment = commentPath.getValue();
+          const comment = commentPath.getValue() as Comment;
           comment.printed = true;
         }, 'comments');
         break;

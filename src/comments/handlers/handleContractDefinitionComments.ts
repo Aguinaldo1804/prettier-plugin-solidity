@@ -1,5 +1,6 @@
 import { util } from 'prettier';
 import { getNextNonSpaceNonCommentCharacter } from '../../common/backward-compatibility.js';
+import type { HandlerArguments } from './types';
 
 const { addLeadingComment, addTrailingComment, addDanglingComment } = util;
 
@@ -10,7 +11,7 @@ function handleContractDefinitionComments({
   followingNode,
   comment,
   options
-}) {
+}: HandlerArguments) {
   if (!enclosingNode || enclosingNode.type !== 'ContractDefinition') {
     return false;
   }
@@ -48,7 +49,7 @@ function handleContractDefinitionComments({
   // When the contract is empty and contain comments.
   // Most likely disabling a linter rule.
   if (enclosingNode.subNodes.length === 0) {
-    addDanglingComment(enclosingNode, comment);
+    addDanglingComment(enclosingNode, comment, false);
     return true;
   }
 

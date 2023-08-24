@@ -1,5 +1,20 @@
-import { util } from "prettier";
-import { getNextNonSpaceNonCommentCharacter } from "../../common/backward-compatibility.js";
+import { util, version } from "prettier";
+import satisfies from 'semver/functions/satisfies.js';
+
+const prettierVersionSatisfies = (range) => satisfies(version, range);
+const isPrettier2 = () => prettierVersionSatisfies('^2.3.0');
+
+function getNextNonSpaceNonCommentCharacter(text, node, locEnd) {
+  if (isPrettier2()) {
+    const index = util.getNextNonSpaceNonCommentCharacterIndex(
+      text,
+      node,
+      locEnd
+    );
+    return index === false ? '' : text.charAt(index);
+  }
+  return util.getNextNonSpaceNonCommentCharacter(text, locEnd(node)); // V3 exposes this function directly
+}
 
 const {
   addLeadingComment,

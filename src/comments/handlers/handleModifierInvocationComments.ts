@@ -1,5 +1,6 @@
 import { util } from 'prettier';
 import { getNextNonSpaceNonCommentCharacter } from '../../common/backward-compatibility.js';
+import type { HandlerArguments } from './types';
 
 const { addLeadingComment, addTrailingComment, addDanglingComment } = util;
 
@@ -9,7 +10,7 @@ function handleModifierInvocationComments({
   enclosingNode,
   comment,
   options
-}) {
+}: HandlerArguments): boolean {
   if (!enclosingNode || enclosingNode.type !== 'ModifierInvocation') {
     return false;
   }
@@ -57,7 +58,7 @@ function handleModifierInvocationComments({
     // comment, we assume there's an explicit reason for it to be placed there
     // so we respect it here.
     //    function a() public modifier(/* block comment */)
-    addDanglingComment(enclosingNode, comment);
+    addDanglingComment(enclosingNode, comment, false);
     return true;
   }
 
