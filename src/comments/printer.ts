@@ -1,10 +1,10 @@
 import { doc, util } from 'prettier';
 import type { AstPath, ParserOptions } from 'prettier';
-import type { Comment } from '../prettier-plugin-solidity';
+import type { AST } from '../prettier-plugin-solidity';
 
 const { hardline, join } = doc.builders;
 
-function isIndentableBlockComment(comment: Comment) {
+function isIndentableBlockComment(comment: AST.Comment) {
   // If the comment has multiple lines and every line starts with a star
   // we can fix the indentation of each line. The stars in the `/*` and
   // `*/` delimiters are not included in the comment value, so add them
@@ -13,7 +13,7 @@ function isIndentableBlockComment(comment: Comment) {
   return lines.length > 1 && lines.every((line) => line.trim()[0] === '*');
 }
 
-function printIndentableBlockComment(comment: Comment) {
+function printIndentableBlockComment(comment: AST.Comment) {
   const lines = comment.raw.split('\n');
 
   return [
@@ -31,7 +31,7 @@ function printIndentableBlockComment(comment: Comment) {
 }
 
 export function printComment(commentPath: AstPath, options: ParserOptions) {
-  const comment = commentPath.getValue();
+  const comment = commentPath.getValue() as AST.Comment;
 
   switch (comment.type) {
     case 'BlockComment': {

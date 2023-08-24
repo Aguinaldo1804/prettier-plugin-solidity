@@ -5,15 +5,9 @@ import coerce from 'semver/functions/coerce';
 import satisfies from 'semver/functions/satisfies';
 import type { Parser } from 'prettier';
 import type { BinOp } from '@solidity-parser/parser/src/ast-types';
-import type {
-  BinaryOperation,
-  ForStatement,
-  ParserOptions,
-  Expression,
-  SourceUnit
-} from './prettier-plugin-solidity';
+import type { AST, ParserOptions } from './prettier-plugin-solidity';
 
-const tryHug = (node: Expression, operators: BinOp[]): Expression => {
+const tryHug = (node: AST.Expression, operators: BinOp[]): AST.Expression => {
   if (node.type === 'BinaryOperation' && operators.includes(node.operator))
     return {
       type: 'TupleExpression',
@@ -29,7 +23,10 @@ function parse(
   options = _parsers as ParserOptions
 ) {
   const compiler = coerce(options.compiler);
-  const parsed = parser.parse(text, { loc: true, range: true }) as SourceUnit;
+  const parsed = parser.parse(text, {
+    loc: true,
+    range: true
+  }) as AST.SourceUnit;
   parsed.comments = extractComments(text);
 
   parser.visit(parsed, {
@@ -63,7 +60,7 @@ function parse(
         });
       }
     },
-    ForStatement(ctx: ForStatement) {
+    ForStatement(ctx: AST.ForStatement) {
       if (ctx.initExpression) {
         ctx.initExpression.omitSemicolon = true;
       }
@@ -114,7 +111,7 @@ function parse(
                   operator: '**',
                   left: ctx.left.right,
                   right: ctx.right
-                } as BinaryOperation
+                } as AST.BinaryOperation
               ],
               isArray: false
             };

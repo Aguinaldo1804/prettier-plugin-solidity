@@ -1,13 +1,10 @@
 import { doc } from 'prettier';
 import { printComments } from '../common/printer-helpers';
-import type {
-  ExpressionStatement as ExpressionStatementType,
-  NodePrinter
-} from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { hardline } = doc.builders;
 
-export const ExpressionStatement: NodePrinter = {
+export const ExpressionStatement: NodePrinter<AST.ExpressionStatement> = {
   print: ({ node, options, path, print }) => {
     const parts = [];
 
@@ -24,7 +21,7 @@ export const ExpressionStatement: NodePrinter = {
     }
 
     parts.push(path.call(print, 'expression'));
-    parts.push((node as ExpressionStatementType).omitSemicolon ? '' : ';');
+    parts.push(node.omitSemicolon ? '' : ';');
 
     return parts;
   }

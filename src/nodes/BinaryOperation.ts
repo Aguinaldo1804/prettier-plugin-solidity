@@ -1,23 +1,18 @@
 import * as printers from '../binary-operator-printers';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const BinaryOperation: NodePrinter = {
+export const BinaryOperation: NodePrinter<AST.BinaryOperation> = {
   print: ({ node, path, print }) => {
     const binaryOperationPrinter = Object.values(printers).find((printer) =>
-      printer.match((node as AST.BinaryOperation).operator)
+      printer.match(node.operator)
     );
     if (binaryOperationPrinter === undefined) {
       throw new Error(
         `Assertion error: no printer found for operator ${JSON.stringify(
-          (node as AST.BinaryOperation).operator
+          node.operator
         )}`
       );
     }
-    return binaryOperationPrinter.print(
-      node as AST.BinaryOperation,
-      path,
-      print
-    );
+    return binaryOperationPrinter.print(node, path, print);
   }
 };

@@ -1,13 +1,13 @@
 import { util } from 'prettier';
 import { prettierVersionSatisfies } from './util.js';
 import type { AstPath } from 'prettier';
-import type { ASTNode, Comment } from '../prettier-plugin-solidity';
+import type { AST } from '../prettier-plugin-solidity';
 
 declare namespace utilV2Functions {
   function getNextNonSpaceNonCommentCharacterIndex(
     text: string,
-    node: ASTNode | Comment,
-    locEnd: (node: ASTNode) => number
+    node: AST.Node | AST.Comment,
+    locEnd: (node: AST.Node) => number
   ): number | false;
 
   function isNextLineEmptyAfterIndex(text: string, startIndex: number): boolean;
@@ -26,24 +26,24 @@ declare namespace utilV3Functions {
 type utilV2 = typeof util & typeof utilV2Functions;
 type utilV3 = typeof util & typeof utilV3Functions;
 
-export const isPrettier2 = prettierVersionSatisfies('^2.3.0');
+export const isPrettier2 = (): boolean => prettierVersionSatisfies('^2.3.0');
 
-// The functions in this file will never be 100% covered in a single run
+// The following functions will never be 100% covered in a single run
 // since it depends on the version of Prettier being used.
 // Mocking the behaviour will introduce a lot of maintenance in the tests.
-
+/* c8 ignore start */
 export function isNextLineEmpty(text: string, startIndex: number): boolean {
-  return isPrettier2
+  return isPrettier2()
     ? (util as utilV2).isNextLineEmptyAfterIndex(text, startIndex)
     : (util as utilV3).isNextLineEmpty(text, startIndex); // V3 deprecated `isNextLineEmptyAfterIndex`
 }
 
 export function getNextNonSpaceNonCommentCharacterIndex(
   text: string,
-  node: ASTNode,
-  locEnd: (node: ASTNode) => number
+  node: AST.Node,
+  locEnd: (node: AST.Node) => number
 ): number | false {
-  return isPrettier2
+  return isPrettier2()
     ? (util as utilV2).getNextNonSpaceNonCommentCharacterIndex(
         text,
         node,
@@ -57,10 +57,10 @@ export function getNextNonSpaceNonCommentCharacterIndex(
 
 export function getNextNonSpaceNonCommentCharacter(
   text: string,
-  node: ASTNode | Comment,
-  locEnd: (node: ASTNode | Comment) => number
+  node: AST.Node | AST.Comment,
+  locEnd: (node: AST.Node | AST.Comment) => number
 ): string {
-  if (isPrettier2) {
+  if (isPrettier2()) {
     const index = (util as utilV2).getNextNonSpaceNonCommentCharacterIndex(
       text,
       node,

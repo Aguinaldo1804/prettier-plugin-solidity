@@ -1,5 +1,5 @@
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const ThrowStatement: NodePrinter = {
+export const ThrowStatement: NodePrinter<AST.ThrowStatement> = {
   print: () => 'throw;'
 };

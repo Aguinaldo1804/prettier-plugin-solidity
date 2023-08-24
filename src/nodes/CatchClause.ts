@@ -1,7 +1,6 @@
 import { printSeparatedList } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const parameters = (
   node: AST.CatchClause,
@@ -17,10 +16,10 @@ const parameters = (
       ]
     : '';
 
-export const CatchClause: NodePrinter = {
+export const CatchClause: NodePrinter<AST.CatchClause> = {
   print: ({ node, path, print }) => [
     'catch ',
-    parameters(node as AST.CatchClause, path, print),
+    parameters(node, path, print),
     path.call(print, 'body')
   ]
 };

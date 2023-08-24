@@ -1,8 +1,7 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, hardline, indent, line } = doc.builders;
 
@@ -58,17 +57,12 @@ const body = (
   return [' ', path.call(print, 'body')];
 };
 
-export const ModifierDefinition: NodePrinter = {
+export const ModifierDefinition: NodePrinter<AST.ModifierDefinition> = {
   print: ({ node, path, print }) => [
     'modifier ',
-    (node as AST.ModifierDefinition).name,
-    modifierParameters(node as AST.ModifierDefinition, path, print),
-    group(
-      indent([
-        virtual(node as AST.ModifierDefinition),
-        override(node as AST.ModifierDefinition, path, print)
-      ])
-    ),
-    body(node as AST.ModifierDefinition, path, print)
+    node.name,
+    modifierParameters(node, path, print),
+    group(indent([virtual(node), override(node, path, print)])),
+    body(node, path, print)
   ]
 };

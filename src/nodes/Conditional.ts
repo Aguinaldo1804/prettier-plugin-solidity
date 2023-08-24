@@ -1,9 +1,9 @@
 import { doc } from 'prettier';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, line } = doc.builders;
 
-export const Conditional: NodePrinter = {
+export const Conditional: NodePrinter<AST.Conditional> = {
   print: ({ path, print }) =>
     group([
       path.call(print, 'condition'),

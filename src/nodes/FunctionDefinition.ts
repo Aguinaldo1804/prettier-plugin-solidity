@@ -6,14 +6,11 @@ import {
   printSeparatedList
 } from '../common/printer-helpers.js';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type {
-  FunctionDefinition as FunctionDefinitionType,
-  NodePrinter
-} from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { dedent, group, indent, join, line } = doc.builders;
 
-const functionName = (node: FunctionDefinitionType, options: ParserOptions) => {
+const functionName = (node: AST.FunctionDefinition, options: ParserOptions) => {
   if (node.isConstructor && !node.name) return 'constructor';
   if (node.name) return `function ${node.name}`;
   if (node.isReceiveEther) return 'receive';
@@ -32,7 +29,7 @@ const functionName = (node: FunctionDefinitionType, options: ParserOptions) => {
 
 const parameters = (
   parametersType: 'parameters' | 'returnParameters',
-  node: FunctionDefinitionType,
+  node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
@@ -64,16 +61,16 @@ const parameters = (
   return '';
 };
 
-const visibility = (node: FunctionDefinitionType) =>
+const visibility = (node: AST.FunctionDefinition) =>
   node.visibility && node.visibility !== 'default'
     ? [line, node.visibility]
     : '';
 
-const virtual = (node: FunctionDefinitionType) =>
+const virtual = (node: AST.FunctionDefinition) =>
   node.isVirtual ? [line, 'virtual'] : '';
 
 const override = (
-  node: FunctionDefinitionType,
+  node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ) => {
@@ -87,11 +84,11 @@ const override = (
   ];
 };
 
-const stateMutability = (node: FunctionDefinitionType) =>
+const stateMutability = (node: AST.FunctionDefinition) =>
   node.stateMutability ? [line, node.stateMutability] : '';
 
 const modifiers = (
-  node: FunctionDefinitionType,
+  node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ) =>
@@ -100,7 +97,7 @@ const modifiers = (
     : '';
 
 const returnParameters = (
-  node: FunctionDefinitionType,
+  node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
@@ -114,47 +111,36 @@ const returnParameters = (
       ]
     : '';
 
-const signatureEnd = (node: FunctionDefinitionType) =>
+const signatureEnd = (node: AST.FunctionDefinition) =>
   node.body ? dedent(line) : ';';
 
 const body = (
-  node: FunctionDefinitionType,
+  node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ) => (node.body ? path.call(print, 'body') : '');
 
-export const FunctionDefinition: NodePrinter = {
+export const FunctionDefinition: NodePrinter<AST.FunctionDefinition> = {
   print: ({ node, path, print, options }) => [
     group([
-      functionName(node as FunctionDefinitionType, options),
+      functionName(node, options),
       '(',
-      parameters(
-        'parameters',
-        node as FunctionDefinitionType,
-        path,
-        print,
-        options
-      ),
+      parameters('parameters', node, path, print, options),
       ')',
       indent(
         group([
           // TODO: sort comments for modifiers and return parameters
-          printComments(node as FunctionDefinitionType, path, options),
-          visibility(node as FunctionDefinitionType),
-          stateMutability(node as FunctionDefinitionType),
-          virtual(node as FunctionDefinitionType),
-          override(node as FunctionDefinitionType, path, print),
-          modifiers(node as FunctionDefinitionType, path, print),
-          returnParameters(
-            node as FunctionDefinitionType,
-            path,
-            print,
-            options
-          ),
-          signatureEnd(node as FunctionDefinitionType)
+          printComments(node, path, options),
+          visibility(node),
+          stateMutability(node),
+          virtual(node),
+          override(node, path, print),
+          modifiers(node, path, print),
+          returnParameters(node, path, print, options),
+          signatureEnd(node)
         ])
       )
     ]),
-    body(node as FunctionDefinitionType, path, print)
+    body(node, path, print)
   ]
 };

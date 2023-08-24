@@ -1,13 +1,8 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const NumberLiteral: NodePrinter = {
+export const NumberLiteral: NodePrinter<AST.NumberLiteral> = {
   print: ({ node }) =>
-    (node as AST.NumberLiteral).subdenomination
-      ? [
-          (node as AST.NumberLiteral).number,
-          ' ',
-          (node as AST.NumberLiteral).subdenomination!
-        ]
-      : (node as AST.NumberLiteral).number
+    node.subdenomination
+      ? [node.number, ' ', node.subdenomination]
+      : node.number
 };

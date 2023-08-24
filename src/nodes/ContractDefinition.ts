@@ -6,8 +6,7 @@ import {
   printSeparatedList
 } from '../common/printer-helpers';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, line, hardline } = doc.builders;
 
@@ -40,18 +39,16 @@ const body = (
     : '';
 };
 
-export const ContractDefinition: NodePrinter = {
+export const ContractDefinition: NodePrinter<AST.ContractDefinition> = {
   print: ({ node, options, path, print }) => [
     group([
-      (node as AST.ContractDefinition).kind === 'abstract'
-        ? 'abstract contract'
-        : (node as AST.ContractDefinition).kind,
+      node.kind === 'abstract' ? 'abstract contract' : node.kind,
       ' ',
-      (node as AST.ContractDefinition).name,
-      inheritance(node as AST.ContractDefinition, path, print),
+      node.name,
+      inheritance(node, path, print),
       '{'
     ]),
-    body(node as AST.ContractDefinition, path, options, print),
+    body(node, path, options, print),
     '}'
   ]
 };

@@ -1,7 +1,7 @@
-import type { ASTNode } from './prettier-plugin-solidity';
+import type { AST } from './prettier-plugin-solidity';
 // see: https://github.com/prettier/prettier/blob/main/src/language-js/loc.js
 
-function getRange(index: number, node: ASTNode): number {
+function getRange(index: number, node: AST.Node): number {
   if (node.range) {
     return node.range[index];
   }
@@ -16,6 +16,6 @@ function getRange(index: number, node: ASTNode): number {
 }
 
 export default {
-  locEnd: (node: ASTNode): number => getRange(1, node),
-  locStart: (node: ASTNode): number => getRange(0, node)
+  locEnd: (node: AST.Node): number => getRange(1, node),
+  locStart: (node: AST.Node): number => getRange(0, node)
 };

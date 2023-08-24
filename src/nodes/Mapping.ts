@@ -1,6 +1,5 @@
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const namedParameter = (
   prefix: 'key' | 'value',
@@ -16,12 +15,12 @@ const namedParameter = (
       ]
     : path.call(print, `${prefix}Type`);
 
-export const Mapping: NodePrinter = {
+export const Mapping: NodePrinter<AST.Mapping> = {
   print: ({ node, path, print }) => [
     'mapping(',
-    namedParameter('key', node as AST.Mapping, path, print),
+    namedParameter('key', node, path, print),
     ' => ',
-    namedParameter('value', node as AST.Mapping, path, print),
+    namedParameter('value', node, path, print),
     ')'
   ]
 };

@@ -4,8 +4,7 @@ import {
   printSeparatedList
 } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { join, line } = doc.builders;
 
@@ -22,7 +21,7 @@ const returnParameters = (
       ]
     : '';
 
-export const TryStatement: NodePrinter = {
+export const TryStatement: NodePrinter<AST.TryStatement> = {
   print: ({ node, path, print }) => {
     let parts = [
       'try',
@@ -31,11 +30,7 @@ export const TryStatement: NodePrinter = {
       })
     ];
 
-    const formattedReturnParameters = returnParameters(
-      node as AST.TryStatement,
-      path,
-      print
-    );
+    const formattedReturnParameters = returnParameters(node, path, print);
     if (formattedReturnParameters) {
       parts = parts.concat([formattedReturnParameters, ' ']);
     }

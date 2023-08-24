@@ -1,8 +1,8 @@
 import * as nodes from './nodes';
 import { hasNodeIgnoreComment, prettierVersionSatisfies } from './common/util';
 import ignoreComments from './comments/ignore';
-import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type { ASTNode, NodePrinterArguments } from './prettier-plugin-solidity';
+import type { AstPath, Doc } from 'prettier';
+import type { AST, ParserOptions } from './prettier-plugin-solidity';
 
 let checked = false;
 
@@ -23,7 +23,7 @@ function genericPrint(
 ) {
   prettierVersionCheck();
 
-  const node = path.getValue() as ASTNode;
+  const node = path.getValue() as AST.Node;
   if (node === null) {
     return '';
   }
@@ -41,12 +41,14 @@ function genericPrint(
     );
   }
 
+  // Since `node` is mutable and each printer has a specific type for it, the
+  // typescript compiler determines `node` to be of type never.
   return nodes[node.type].print({
-    node,
+    node: node as never,
     options,
     path,
     print
-  } as NodePrinterArguments);
+  });
 }
 
 export default genericPrint;

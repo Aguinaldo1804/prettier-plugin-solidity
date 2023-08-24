@@ -1,8 +1,7 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, line } = doc.builders;
 
@@ -43,20 +42,20 @@ const override = (
 const name = (node: AST.VariableDeclaration) =>
   node.name ? [' ', node.name] : '';
 
-export const VariableDeclaration: NodePrinter = {
+export const VariableDeclaration: NodePrinter<AST.VariableDeclaration> = {
   print: ({ node, path, print }) =>
-    (node as AST.VariableDeclaration).typeName
+    node.typeName
       ? group([
           path.call(print, 'typeName'),
           indent([
-            indexed(node as AST.VariableDeclaration),
-            visibility(node as AST.VariableDeclaration),
-            constantKeyword(node as AST.VariableDeclaration),
-            storageLocation(node as AST.VariableDeclaration),
+            indexed(node),
+            visibility(node),
+            constantKeyword(node),
+            storageLocation(node),
             immutable(node as AST.StateVariableDeclarationVariable),
             override(node as AST.StateVariableDeclarationVariable, path, print),
-            name(node as AST.VariableDeclaration)
+            name(node)
           ])
         ])
-      : (node as AST.VariableDeclaration).name!
+      : node.name!
 };

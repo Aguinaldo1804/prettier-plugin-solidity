@@ -1,11 +1,9 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers';
 import { isLabel } from '../common/util';
-
-import type { AstPath, Doc, ParserOptions } from 'prettier';
 import type { GroupWithId, LabelWithLabel } from '../common/util';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AstPath, Doc, ParserOptions } from 'prettier';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indentIfBreak, label, line, softline } = doc.builders;
 
@@ -35,19 +33,13 @@ const printArguments = (path: AstPath, print: (path: AstPath) => Doc) =>
   });
 
 let groupIndex = 0;
-export const FunctionCall: NodePrinter = {
+export const FunctionCall: NodePrinter<AST.FunctionCall> = {
   print: ({ node, path, print, options }) => {
     let expressionDoc = path.call(print, 'expression');
     let argumentsDoc: Doc = ')';
 
-    if (
-      (node as AST.FunctionCall).arguments &&
-      (node as AST.FunctionCall).arguments.length > 0
-    ) {
-      if (
-        (node as AST.FunctionCall).identifiers &&
-        (node as AST.FunctionCall).identifiers.length > 0
-      ) {
+    if (node.arguments && node.arguments.length > 0) {
+      if (node.identifiers && node.identifiers.length > 0) {
         argumentsDoc = printObject(path, print, options);
       } else {
         argumentsDoc = printArguments(path, print);

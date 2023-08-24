@@ -5,7 +5,7 @@ import {
   isPrettier2
 } from './backward-compatibility.js';
 import type { AstPath, Doc, ParserOptions, Printer } from 'prettier';
-import type { ASTNode, Comment } from '../prettier-plugin-solidity';
+import type { AST } from '../prettier-plugin-solidity';
 
 interface ParserOptionsWithPrinter extends ParserOptions {
   printer: Printer;
@@ -18,17 +18,17 @@ type PrettierV2Doc = Doc & {
 const { group, indent, join, line, softline, hardline } = doc.builders;
 
 export const printComments = (
-  node: ASTNode,
+  node: AST.Node,
   path: AstPath,
   options: ParserOptions,
-  filter: (comment?: Comment) => boolean = () => true
+  filter: (comment?: AST.Comment) => boolean = () => true
 ): Doc[] => {
   if (!node.comments) return [];
   const document = join(
     line,
     path
       .map((commentPath: AstPath): Doc => {
-        const comment = commentPath.getValue() as Comment;
+        const comment = commentPath.getValue() as AST.Comment;
         if (comment.trailing || comment.leading || comment.printed) {
           return '';
         }
@@ -83,7 +83,7 @@ export function printPreservingEmptyLines(
   const parts: Doc[] = [];
 >>>>>>> 41a468b (Utilities and printer helpers):src/common/printer-helpers.ts
   path.each((childPath, index) => {
-    const node = childPath.getValue() as ASTNode;
+    const node = childPath.getValue() as AST.Node;
     const nodeType = node.type;
 
     if (

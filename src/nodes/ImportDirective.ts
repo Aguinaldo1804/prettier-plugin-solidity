@@ -4,24 +4,23 @@ import satisfies from 'semver/functions/satisfies';
 import { printSeparatedList } from '../common/printer-helpers';
 import { printString } from '../common/util';
 import type { Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, line, softline } = doc.builders;
 
-export const ImportDirective: NodePrinter = {
+export const ImportDirective: NodePrinter<AST.ImportDirective> = {
   print: ({ node, options }) => {
-    const importPath = printString((node as AST.ImportDirective).path, options);
+    const importPath = printString(node.path, options);
     let document: Doc;
 
-    if ((node as AST.ImportDirective).unitAlias) {
+    if (node.unitAlias) {
       // import "./Foo.sol" as Foo;
-      document = [importPath, ' as ', (node as AST.ImportDirective).unitAlias!];
-    } else if ((node as AST.ImportDirective).symbolAliases) {
+      document = [importPath, ' as ', node.unitAlias!];
+    } else if (node.symbolAliases) {
       // import { Foo, Bar as Qux } from "./Foo.sol";
       const compiler = coerce(options.compiler);
-      const symbolAliases = (node as AST.ImportDirective).symbolAliases!.map(
-        ([a, b]) => (b ? `${a} as ${b}` : a)
+      const symbolAliases = node.symbolAliases!.map(([a, b]) =>
+        b ? `${a} as ${b}` : a
       );
       let firstSeparator;
       let separator;

@@ -1,8 +1,7 @@
 import { doc } from 'prettier';
 import { printSeparatedItem } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, line } = doc.builders;
 
@@ -15,11 +14,11 @@ const printBody = (
     ? [' ', path.call(print, 'body')]
     : group(indent([line, path.call(print, 'body')]));
 
-export const WhileStatement: NodePrinter = {
+export const WhileStatement: NodePrinter<AST.WhileStatement> = {
   print: ({ node, path, print }) => [
     'while (',
     printSeparatedItem(path.call(print, 'condition')),
     ')',
-    printBody(node as AST.WhileStatement, path, print)
+    printBody(node, path, print)
   ]
 };

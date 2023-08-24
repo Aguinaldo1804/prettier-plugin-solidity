@@ -1,27 +1,20 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { line, softline } = doc.builders;
 
-export const UsingForDeclaration: NodePrinter = {
+export const UsingForDeclaration: NodePrinter<AST.UsingForDeclaration> = {
   print: ({ node, path, print, options }) => [
     'using ',
-    (node as AST.UsingForDeclaration).functions &&
-    (node as AST.UsingForDeclaration).functions.length
+    node.functions && node.functions.length
       ? [
           '{',
           printSeparatedList(
-            (node as AST.UsingForDeclaration).functions.map(
-              (functionName, i) =>
-                (node as AST.UsingForDeclaration).operators[i]
-                  ? [
-                      functionName,
-                      ' as ',
-                      (node as AST.UsingForDeclaration).operators[i]!
-                    ]
-                  : functionName
+            node.functions.map((functionName, i) =>
+              node.operators[i]
+                ? [functionName, ' as ', node.operators[i]!]
+                : functionName
             ),
             {
               firstSeparator: options.bracketSpacing ? line : softline
@@ -29,11 +22,9 @@ export const UsingForDeclaration: NodePrinter = {
           ),
           '}'
         ]
-      : (node as AST.UsingForDeclaration).libraryName!,
+      : node.libraryName!,
     ' for ',
-    (node as AST.UsingForDeclaration).typeName
-      ? path.call(print, 'typeName')
-      : '*',
-    (node as AST.UsingForDeclaration).isGlobal ? ' global;' : ';'
+    node.typeName ? path.call(print, 'typeName') : '*',
+    node.isGlobal ? ' global;' : ';'
   ]
 };

@@ -2,8 +2,7 @@ import { doc } from 'prettier';
 import { isLabel } from '../common/util';
 import type { LabelWithLabel } from '../common/util';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, label, softline } = doc.builders;
 
@@ -111,7 +110,7 @@ const processChain = (chain: Doc[]) => {
   return label('MemberAccessChain', group([firstExpression, restOfChain]));
 };
 
-export const MemberAccess: NodePrinter = {
+export const MemberAccess: NodePrinter<AST.MemberAccess> = {
   print: ({ node, path, print }) => {
     let expressionDoc = path.call(print, 'expression');
     if (Array.isArray(expressionDoc)) {
@@ -121,11 +120,9 @@ export const MemberAccess: NodePrinter = {
     const document: Doc[] = [
       expressionDoc,
       label('separator', [softline, '.']),
-      (node as AST.MemberAccess).memberName
+      node.memberName
     ].flat();
 
-    return isEndOfChain(node as AST.MemberAccess, path)
-      ? processChain(document)
-      : document;
+    return isEndOfChain(node, path) ? processChain(document) : document;
   }
 };

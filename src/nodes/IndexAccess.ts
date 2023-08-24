@@ -2,12 +2,12 @@ import { doc } from 'prettier';
 import type { Doc } from 'prettier';
 import { isLabel } from '../common/util';
 import type { GroupWithId, LabelWithLabel } from '../common/util';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, indentIfBreak, label, softline } = doc.builders;
 
 let groupIndex = 0;
-export const IndexAccess: NodePrinter = {
+export const IndexAccess: NodePrinter<AST.IndexAccess> = {
   print: ({ path, print }) => {
     let baseDoc = path.call(print, 'base');
     let indexDoc: Doc = group([

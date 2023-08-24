@@ -1,14 +1,13 @@
 import { printSeparatedList } from '../common/printer-helpers';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const AssemblyCall: NodePrinter = {
+export const AssemblyCall: NodePrinter<AST.AssemblyCall> = {
   print: ({ node, path, print, options }) =>
-    (node as AST.AssemblyCall).arguments.length === 0 &&
+    node.arguments.length === 0 &&
     options.originalText.charAt(options.locEnd(node)) !== ')'
-      ? (node as AST.AssemblyCall).functionName
+      ? node.functionName
       : [
-          (node as AST.AssemblyCall).functionName,
+          node.functionName,
           '(',
           printSeparatedList(path.map(print, 'arguments')),
           ')'

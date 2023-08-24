@@ -1,7 +1,6 @@
 import { printSeparatedList } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const parameters = (
   node: AST.EventDefinition,
@@ -12,14 +11,14 @@ const parameters = (
     ? printSeparatedList(path.map(print, 'parameters'))
     : '';
 
-export const EventDefinition: NodePrinter = {
+export const EventDefinition: NodePrinter<AST.EventDefinition> = {
   print: ({ node, path, print }) => [
     'event ',
-    (node as AST.EventDefinition).name,
+    node.name,
     '(',
-    parameters(node as AST.EventDefinition, path, print),
+    parameters(node, path, print),
     ')',
-    (node as AST.EventDefinition).isAnonymous ? ' anonymous' : '',
+    node.isAnonymous ? ' anonymous' : '',
     ';'
   ]
 };

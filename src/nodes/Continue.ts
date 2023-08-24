@@ -1,5 +1,5 @@
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const Continue: NodePrinter = {
+export const Continue: NodePrinter<AST.Continue> = {
   print: () => 'continue'
 };

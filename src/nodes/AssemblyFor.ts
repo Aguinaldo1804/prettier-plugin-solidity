@@ -1,9 +1,9 @@
 import { doc } from 'prettier';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { join } = doc.builders;
 
-export const AssemblyFor: NodePrinter = {
+export const AssemblyFor: NodePrinter<AST.AssemblyFor> = {
   print: ({ path, print }) =>
     join(' ', [
       'for',

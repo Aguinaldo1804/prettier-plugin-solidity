@@ -1,12 +1,5 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const PragmaDirective: NodePrinter = {
-  print: ({ node }) => [
-    'pragma ',
-    (node as AST.PragmaDirective).name,
-    ' ',
-    (node as AST.PragmaDirective).value,
-    ';'
-  ]
+export const PragmaDirective: NodePrinter<AST.PragmaDirective> = {
+  print: ({ node }) => ['pragma ', node.name, ' ', node.value, ';']
 };

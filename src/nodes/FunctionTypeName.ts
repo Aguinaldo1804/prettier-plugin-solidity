@@ -2,8 +2,7 @@ import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers';
 
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, line } = doc.builders;
 
@@ -31,16 +30,16 @@ const stateMutability = (node: AST.FunctionTypeName) =>
     ? [line, node.stateMutability]
     : '';
 
-export const FunctionTypeName: NodePrinter = {
+export const FunctionTypeName: NodePrinter<AST.FunctionTypeName> = {
   print: ({ node, path, print }) => [
     'function(',
     printSeparatedList(path.map(print, 'parameterTypes')),
     ')',
     indent(
       group([
-        visibility(node as AST.FunctionTypeName),
-        stateMutability(node as AST.FunctionTypeName),
-        returnTypes(node as AST.FunctionTypeName, path, print)
+        visibility(node),
+        stateMutability(node),
+        returnTypes(node, path, print)
       ])
     )
   ]

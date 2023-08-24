@@ -1,11 +1,11 @@
 import type { ParserOptions } from 'prettier';
-import type { ASTNode, Comment } from '../../prettier-plugin-solidity';
+import type { AST } from '../../prettier-plugin-solidity';
 
 export interface HandlerArguments {
   text: string;
-  precedingNode: ASTNode;
-  enclosingNode: ASTNode;
-  followingNode: ASTNode;
-  comment: Comment;
+  precedingNode: AST.Node;
+  enclosingNode: AST.Node;
+  followingNode: AST.Node;
+  comment: AST.Comment;
   options: ParserOptions;
 }

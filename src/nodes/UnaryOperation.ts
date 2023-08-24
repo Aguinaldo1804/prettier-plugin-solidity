@@ -1,16 +1,12 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const UnaryOperation: NodePrinter = {
+export const UnaryOperation: NodePrinter<AST.UnaryOperation> = {
   print: ({ node, path, print }) =>
-    (node as AST.UnaryOperation).isPrefix
+    node.isPrefix
       ? [
-          (node as AST.UnaryOperation).operator,
-          (node as AST.UnaryOperation).operator === 'delete' ? ' ' : '',
+          node.operator,
+          node.operator === 'delete' ? ' ' : '',
           path.call(print, 'subExpression')
         ]
-      : [
-          path.call(print, 'subExpression'),
-          (node as AST.UnaryOperation).operator
-        ]
+      : [path.call(print, 'subExpression'), node.operator]
 };

@@ -1,6 +1,5 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const EnumValue: NodePrinter = {
-  print: ({ node }) => (node as AST.EnumValue).name
+export const EnumValue: NodePrinter<AST.EnumValue> = {
+  print: ({ node }) => node.name
 };

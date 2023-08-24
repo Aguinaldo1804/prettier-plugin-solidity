@@ -1,7 +1,7 @@
 import { util, version } from 'prettier';
 import satisfies from 'semver/functions/satisfies.js';
 import type { doc, Doc, ParserOptions } from 'prettier';
-import type { ASTNode, Comment } from '../prettier-plugin-solidity';
+import type { AST } from '../prettier-plugin-solidity';
 
 export const prettierVersionSatisfies = (range: string) =>
   satisfies(version, range);
@@ -59,13 +59,13 @@ export function printString(rawContent: string, options: ParserOptions) {
   return util.makeString(rawContent, enclosingQuote);
 }
 
-export function hasNodeIgnoreComment(node: ASTNode) {
+export function hasNodeIgnoreComment(node: AST.Node) {
   return (
     node &&
     node.comments &&
     node.comments.length > 0 &&
     node.comments.some(
-      (comment: Comment) => comment.value.trim() === 'prettier-ignore'
+      (comment: AST.Comment) => comment.value.trim() === 'prettier-ignore'
     )
   );
 }

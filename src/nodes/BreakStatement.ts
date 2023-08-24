@@ -1,5 +1,5 @@
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const BreakStatement: NodePrinter = {
+export const BreakStatement: NodePrinter<AST.BreakStatement> = {
   print: () => 'break;'
 };

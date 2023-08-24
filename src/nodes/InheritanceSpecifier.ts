@@ -1,7 +1,6 @@
 import { printSeparatedList } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const printArguments = (
   node: AST.InheritanceSpecifier,
@@ -12,9 +11,9 @@ const printArguments = (
     ? ['(', printSeparatedList(path.map(print, 'arguments')), ')']
     : '';
 
-export const InheritanceSpecifier: NodePrinter = {
+export const InheritanceSpecifier: NodePrinter<AST.InheritanceSpecifier> = {
   print: ({ node, path, print }) => [
     path.call(print, 'baseName'),
-    printArguments(node as AST.InheritanceSpecifier, path, print)
+    printArguments(node, path, print)
   ]
 };

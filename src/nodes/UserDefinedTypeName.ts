@@ -1,6 +1,5 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
-export const UserDefinedTypeName: NodePrinter = {
-  print: ({ node }) => (node as AST.UserDefinedTypeName).namePath
+export const UserDefinedTypeName: NodePrinter<AST.UserDefinedTypeName> = {
+  print: ({ node }) => node.namePath
 };

@@ -4,11 +4,11 @@ import {
   printPreservingEmptyLines,
   printSeparatedItem
 } from '../common/printer-helpers';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { hardline } = doc.builders;
 
-export const AssemblyBlock: NodePrinter = {
+export const AssemblyBlock: NodePrinter<AST.AssemblyBlock> = {
   print: ({ node, options, path, print }) => [
     '{',
     printSeparatedItem(

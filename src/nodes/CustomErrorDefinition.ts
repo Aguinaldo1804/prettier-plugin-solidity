@@ -1,7 +1,6 @@
 import { printSeparatedList } from '../common/printer-helpers';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const parameters = (
   node: AST.CustomErrorDefinition,
@@ -12,12 +11,12 @@ const parameters = (
     ? printSeparatedList(path.map(print, 'parameters'))
     : '';
 
-export const CustomErrorDefinition: NodePrinter = {
+export const CustomErrorDefinition: NodePrinter<AST.CustomErrorDefinition> = {
   print: ({ node, path, print }) => [
     'error ',
-    (node as AST.CustomErrorDefinition).name,
+    node.name,
     '(',
-    parameters(node as AST.CustomErrorDefinition, path, print),
+    parameters(node, path, print),
     ');'
   ]
 };

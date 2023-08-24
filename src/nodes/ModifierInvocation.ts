@@ -1,12 +1,9 @@
 import { printComments, printSeparatedList } from '../common/printer-helpers';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type {
-  ModifierInvocation as ModifierInvocationType,
-  NodePrinter
-} from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const modifierArguments = (
-  node: ModifierInvocationType,
+  node: AST.ModifierInvocation,
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
@@ -34,9 +31,9 @@ const modifierArguments = (
   return '';
 };
 
-export const ModifierInvocation: NodePrinter = {
+export const ModifierInvocation: NodePrinter<AST.ModifierInvocation> = {
   print: ({ node, path, print, options }) => [
-    (node as ModifierInvocationType).name,
-    modifierArguments(node as ModifierInvocationType, path, print, options)
+    node.name,
+    modifierArguments(node, path, print, options)
   ]
 };

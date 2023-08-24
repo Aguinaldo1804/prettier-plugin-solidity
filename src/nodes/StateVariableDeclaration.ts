@@ -1,7 +1,6 @@
 import { doc } from 'prettier';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
-import type { NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, line } = doc.builders;
 
@@ -21,10 +20,11 @@ const initialValue = (
   return group([' =', indent([line, path.call(print, 'initialValue')])]);
 };
 
-export const StateVariableDeclaration: NodePrinter = {
-  print: ({ node, path, print }) => [
-    ...path.map(print, 'variables'),
-    initialValue(node as AST.StateVariableDeclaration, path, print),
-    ';'
-  ]
-};
+export const StateVariableDeclaration: NodePrinter<AST.StateVariableDeclaration> =
+  {
+    print: ({ node, path, print }) => [
+      ...path.map(print, 'variables'),
+      initialValue(node, path, print),
+      ';'
+    ]
+  };
