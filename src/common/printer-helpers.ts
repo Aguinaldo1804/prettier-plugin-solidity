@@ -4,24 +4,42 @@ import {
   isNextLineEmpty,
   isPrettier2
 } from './backward-compatibility.js';
+import type { AstPath, Doc, ParserOptions, Printer } from 'prettier';
+import type { ASTNode, Comment } from '../prettier-plugin-solidity';
+
+interface ParserOptionsWithPrinter extends ParserOptions {
+  printer: Printer;
+}
+
+type PrettierV2Doc = Doc & {
+  parts: Doc[];
+};
 
 const { group, indent, join, line, softline, hardline } = doc.builders;
 
-export const printComments = (node, path, options, filter = () => true) => {
-  if (!node.comments) return '';
+export const printComments = (
+  node: ASTNode,
+  path: AstPath,
+  options: ParserOptions,
+  filter: (comment?: Comment) => boolean = () => true
+): Doc[] => {
+  if (!node.comments) return [];
   const document = join(
     line,
     path
-      .map((commentPath) => {
-        const comment = commentPath.getValue();
+      .map((commentPath: AstPath): Doc => {
+        const comment = commentPath.getValue() as Comment;
         if (comment.trailing || comment.leading || comment.printed) {
-          return null;
+          return '';
         }
         if (!filter(comment)) {
-          return null;
+          return '';
         }
         comment.printed = true;
-        return options.printer.printComment(commentPath, options);
+        const printer = (options as ParserOptionsWithPrinter).printer;
+        return printer.printComment
+          ? printer.printComment(commentPath, options)
+          : '';
       }, 'comments')
       .filter(Boolean)
   );
@@ -31,15 +49,41 @@ export const printComments = (node, path, options, filter = () => true) => {
   // Mocking the behaviour will introduce a lot of maintenance in the tests.
   /* c8 ignore start */
   return isPrettier2
-    ? document.parts // Prettier V2
+    ? (document as PrettierV2Doc).parts // Prettier V2
     : document; // Prettier V3
   /* c8 ignore stop */
 };
 
+<<<<<<< HEAD:src/common/printer-helpers.js
 export function printPreservingEmptyLines(path, key, options, print) {
   const parts = [];
+=======
+const shouldHaveEmptyLine = (node, checkForLeading) =>
+  Boolean(
+    // if node is not FunctionDefinition, it should have an empty line
+    node.type !== 'FunctionDefinition' ||
+      // if FunctionDefinition is not abstract, it should have an empty line
+      node.body ||
+      // if FunctionDefinition has the comment we are looking for (trailing or
+      // leading), it should have an empty line
+      node.comments?.some((comment) => checkForLeading && comment.leading)
+  );
+
+const separatingLine = (firstNode, secondNode) =>
+  shouldHaveEmptyLine(firstNode, false) || shouldHaveEmptyLine(secondNode, true)
+    ? hardline
+    : '';
+
+export function printPreservingEmptyLines(
+  path: AstPath,
+  key: string,
+  options: ParserOptions,
+  print: (path: AstPath) => Doc
+): Doc[] {
+  const parts: Doc[] = [];
+>>>>>>> 41a468b (Utilities and printer helpers):src/common/printer-helpers.ts
   path.each((childPath, index) => {
-    const node = childPath.getValue();
+    const node = childPath.getValue() as ASTNode;
     const nodeType = node.type;
 
     if (
@@ -68,16 +112,23 @@ export function printPreservingEmptyLines(path, key, options, print) {
   return parts;
 }
 
+interface PrintSeparatedOptions {
+  firstSeparator?: Doc;
+  separator?: Doc;
+  lastSeparator?: Doc;
+  grouped?: boolean;
+}
+
 // This function will add an indentation to the `item` and separate it from the
 // rest of the `doc` in most cases by a `softline`.
 export const printSeparatedItem = (
-  item,
+  item: Doc,
   {
     firstSeparator = softline,
     lastSeparator = firstSeparator,
     grouped = true
-  } = {}
-) => {
+  }: PrintSeparatedOptions = {}
+): Doc => {
   const document = [indent([firstSeparator, item]), lastSeparator];
   return grouped ? group(document) : document;
 };
@@ -87,9 +138,14 @@ export const printSeparatedItem = (
 // the list itself will be printed with a separator that in most cases is a
 // comma (,) and a `line`
 export const printSeparatedList = (
-  list,
-  { firstSeparator, separator = [',', line], lastSeparator, grouped } = {}
-) =>
+  list: Doc[],
+  {
+    firstSeparator,
+    separator = [',', line],
+    lastSeparator,
+    grouped
+  }: PrintSeparatedOptions = {}
+): Doc =>
   printSeparatedItem(join(separator, list), {
     firstSeparator,
     lastSeparator,

@@ -1,12 +1,33 @@
 import { util, version } from 'prettier';
 import satisfies from 'semver/functions/satisfies.js';
+import type { doc, Doc, ParserOptions } from 'prettier';
+import type { ASTNode, Comment } from '../prettier-plugin-solidity';
 
-export const prettierVersionSatisfies = (range) => satisfies(version, range);
+export const prettierVersionSatisfies = (range: string) =>
+  satisfies(version, range);
 
-export function printString(rawContent, options) {
-  const double = { quote: '"', regex: /"/g };
-  const single = { quote: "'", regex: /'/g };
+export interface LabelWithLabel extends doc.builders.Label {
+  label: string;
+  contents: Doc[];
+}
 
+export function isLabel(expressionDoc: Doc): boolean {
+  return (expressionDoc as LabelWithLabel).label !== undefined;
+}
+
+export interface GroupWithId extends doc.builders.Group {
+  id: symbol;
+}
+
+interface QuoteRegex {
+  quote: util.Quote;
+  regex: RegExp;
+}
+
+const double: QuoteRegex = { quote: '"', regex: /"/g };
+const single: QuoteRegex = { quote: "'", regex: /'/g };
+
+export function printString(rawContent: string, options: ParserOptions) {
   const preferred = options.singleQuote ? single : double;
   const alternate = preferred === single ? double : single;
 
@@ -38,11 +59,13 @@ export function printString(rawContent, options) {
   return util.makeString(rawContent, enclosingQuote);
 }
 
-export function hasNodeIgnoreComment(node) {
+export function hasNodeIgnoreComment(node: ASTNode) {
   return (
     node &&
     node.comments &&
     node.comments.length > 0 &&
-    node.comments.some((comment) => comment.value.trim() === 'prettier-ignore')
+    node.comments.some(
+      (comment: Comment) => comment.value.trim() === 'prettier-ignore'
+    )
   );
 }
