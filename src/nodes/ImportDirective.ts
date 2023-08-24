@@ -15,11 +15,11 @@ export const ImportDirective: NodePrinter<AST.ImportDirective> = {
 
     if (node.unitAlias) {
       // import "./Foo.sol" as Foo;
-      document = [importPath, ' as ', node.unitAlias!];
+      document = [importPath, ' as ', node.unitAlias];
     } else if (node.symbolAliases) {
       // import { Foo, Bar as Qux } from "./Foo.sol";
       const compiler = coerce(options.compiler);
-      const symbolAliases = node.symbolAliases!.map(([a, b]) =>
+      const symbolAliases = node.symbolAliases.map(([a, b]) =>
         b ? `${a} as ${b}` : a
       );
       let firstSeparator;

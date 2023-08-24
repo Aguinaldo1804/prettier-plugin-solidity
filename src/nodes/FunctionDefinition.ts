@@ -50,7 +50,7 @@ const parameters = (
       (comment) =>
         getNextNonSpaceNonCommentCharacter(
           options.originalText,
-          comment!,
+          comment,
           options.locEnd
         ) === ')'
     );

@@ -10,9 +10,7 @@ const contents = (
   path: AstPath,
   print: (path: AstPath) => Doc
 ) =>
-  node.components &&
-  node.components.length === 1 &&
-  node.components[0]!.type === 'BinaryOperation'
+  node.components.length === 1 && node.components[0]!.type === 'BinaryOperation'
     ? path.map(print, 'components')
     : [printSeparatedList(path.map(print, 'components'))];
 

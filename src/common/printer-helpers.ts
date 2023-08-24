@@ -21,7 +21,7 @@ export const printComments = (
   node: AST.Node,
   path: AstPath,
   options: ParserOptions,
-  filter: (comment?: AST.Comment) => boolean = () => true
+  filter: (comment: AST.Comment) => boolean = () => true
 ): Doc[] => {
   if (!node.comments) return [];
   const document = join(

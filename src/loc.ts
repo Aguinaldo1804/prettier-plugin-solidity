@@ -8,7 +8,7 @@ function getRange(index: number, node: AST.Node): number {
   if (
     node.type === 'ExpressionStatement' &&
     node.expression &&
-    node.expression!.range
+    node.expression.range
   ) {
     return node.expression.range[index];
   }

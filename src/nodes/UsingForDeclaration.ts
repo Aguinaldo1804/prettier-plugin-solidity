@@ -11,11 +11,10 @@ export const UsingForDeclaration: NodePrinter<AST.UsingForDeclaration> = {
       ? [
           '{',
           printSeparatedList(
-            node.functions.map((functionName, i) =>
-              node.operators[i]
-                ? [functionName, ' as ', node.operators[i]!]
-                : functionName
-            ),
+            node.functions.map((functionName, i) => {
+              const operator = node.operators[i];
+              return operator ? [functionName, ' as ', operator] : functionName;
+            }),
             {
               firstSeparator: options.bracketSpacing ? line : softline
             }
