@@ -11,7 +11,7 @@ export default (webpackEnv) => {
   const isEnvProduction = Boolean(webpackEnv.production);
 
   return {
-    entry: './src/index.js',
+    entry: './src/index.ts',
 
     // Avoid bundling Prettier
     externals: {
@@ -31,6 +31,7 @@ export default (webpackEnv) => {
 
     // We tell webpack to use the browser friendly package.
     resolve: {
+      extensions: ['.ts', '.js'],
       alias: {
         '@solidity-parser/parser': '@solidity-parser/parser/dist/index.iife.js'
       }
@@ -38,6 +39,11 @@ export default (webpackEnv) => {
 
     module: {
       rules: [
+        {
+          test: /\.ts$/,
+          use: 'ts-loader',
+          exclude: /node_modules/
+        },
         {
           // We tell webpack to append "module.exports = SolidityParser;" at the
           // end of the file.
