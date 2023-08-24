@@ -1,10 +1,19 @@
 import extractComments from 'solidity-comments-extractor';
 // https://prettier.io/docs/en/plugins.html#parsers
 import parser from '@solidity-parser/parser';
-import coerce from 'semver/functions/coerce.js';
-import satisfies from 'semver/functions/satisfies.js';
+import coerce from 'semver/functions/coerce';
+import satisfies from 'semver/functions/satisfies';
+import type { Parser } from 'prettier';
+import type { BinOp } from '@solidity-parser/parser/src/ast-types';
+import type {
+  BinaryOperation,
+  ForStatement,
+  ParserOptions,
+  Expression,
+  SourceUnit
+} from './prettier-plugin-solidity';
 
-const tryHug = (node, operators) => {
+const tryHug = (node: Expression, operators: BinOp[]): Expression => {
   if (node.type === 'BinaryOperation' && operators.includes(node.operator))
     return {
       type: 'TupleExpression',
@@ -14,9 +23,13 @@ const tryHug = (node, operators) => {
   return node;
 };
 
-function parse(text, _parsers, options = _parsers) {
+function parse(
+  text: string,
+  _parsers: Parser[] | ParserOptions,
+  options = _parsers as ParserOptions
+) {
   const compiler = coerce(options.compiler);
-  const parsed = parser.parse(text, { loc: true, range: true });
+  const parsed = parser.parse(text, { loc: true, range: true }) as SourceUnit;
   parsed.comments = extractComments(text);
 
   parser.visit(parsed, {
@@ -50,7 +63,7 @@ function parse(text, _parsers, options = _parsers) {
         });
       }
     },
-    ForStatement(ctx) {
+    ForStatement(ctx: ForStatement) {
       if (ctx.initExpression) {
         ctx.initExpression.omitSemicolon = true;
       }
@@ -101,7 +114,7 @@ function parse(text, _parsers, options = _parsers) {
                   operator: '**',
                   left: ctx.left.right,
                   right: ctx.right
-                }
+                } as BinaryOperation
               ],
               isArray: false
             };

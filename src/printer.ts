@@ -1,9 +1,8 @@
-import * as nodes from './nodes/index.js';
-import {
-  hasNodeIgnoreComment,
-  prettierVersionSatisfies
-} from './common/util.js';
-import ignoreComments from './comments/ignore.js';
+import * as nodes from './nodes';
+import { hasNodeIgnoreComment, prettierVersionSatisfies } from './common/util';
+import ignoreComments from './comments/ignore';
+import type { AstPath, Doc, ParserOptions } from 'prettier';
+import type { ASTNode, NodePrinterArguments } from './prettier-plugin-solidity';
 
 let checked = false;
 
@@ -17,10 +16,14 @@ function prettierVersionCheck() {
   checked = true;
 }
 
-function genericPrint(path, options, print) {
+function genericPrint(
+  path: AstPath,
+  options: ParserOptions,
+  print: (path: AstPath) => Doc
+) {
   prettierVersionCheck();
 
-  const node = path.getValue();
+  const node = path.getValue() as ASTNode;
   if (node === null) {
     return '';
   }
@@ -38,7 +41,12 @@ function genericPrint(path, options, print) {
     );
   }
 
-  return nodes[node.type].print({ node, options, path, print });
+  return nodes[node.type].print({
+    node,
+    options,
+    path,
+    print
+  } as NodePrinterArguments);
 }
 
 export default genericPrint;
