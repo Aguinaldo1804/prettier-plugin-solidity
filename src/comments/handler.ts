@@ -13,7 +13,7 @@ export function solidityHandleOwnLineComment(
   options: ParserOptions,
   ast: AstPath,
   isLastComment: boolean
-) {
+): boolean {
   const { precedingNode, enclosingNode, followingNode } = comment;
   const handlerArguments = {
     text,
@@ -39,7 +39,7 @@ export function solidityHandleEndOfLineComment(
   options: ParserOptions,
   ast: AstPath,
   isLastComment: boolean
-) {
+): boolean {
   const { precedingNode, enclosingNode, followingNode } = comment;
   const handlerArguments = {
     text,
@@ -65,7 +65,7 @@ export function solidityHandleRemainingComment(
   options: ParserOptions,
   ast: AstPath,
   isLastComment: boolean
-) {
+): boolean {
   const { precedingNode, enclosingNode, followingNode } = comment;
   const handlerArguments = {
     text,
@@ -85,6 +85,6 @@ export function solidityHandleRemainingComment(
   return false;
 }
 
-export function isBlockComment(comment: AST.Comment) {
+export function isBlockComment(comment: AST.Comment): boolean {
   return comment.type === 'BlockComment';
 }

@@ -6,7 +6,7 @@ const parameters = (
   node: AST.CustomErrorDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.parameters && node.parameters.length > 0
     ? printSeparatedList(path.map(print, 'parameters'))
     : '';

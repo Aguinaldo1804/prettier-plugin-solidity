@@ -6,7 +6,7 @@ const printArguments = (
   node: AST.InheritanceSpecifier,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.arguments && node.arguments.length
     ? ['(', printSeparatedList(path.map(print, 'arguments')), ')']
     : '';

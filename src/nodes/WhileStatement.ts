@@ -9,7 +9,7 @@ const printBody = (
   node: AST.WhileStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.body.type === 'Block'
     ? [' ', path.call(print, 'body')]
     : group(indent([line, path.call(print, 'body')]));

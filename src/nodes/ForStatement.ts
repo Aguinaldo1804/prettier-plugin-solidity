@@ -9,25 +9,27 @@ const initExpression = (
   node: AST.ForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => (node.initExpression ? path.call(print, 'initExpression') : '');
+): Doc => (node.initExpression ? path.call(print, 'initExpression') : '');
 
 const conditionExpression = (
   node: AST.ForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => (node.conditionExpression ? path.call(print, 'conditionExpression') : '');
+): Doc =>
+  node.conditionExpression ? path.call(print, 'conditionExpression') : '';
 
 const loopExpression = (
   node: AST.ForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => (node.loopExpression.expression ? path.call(print, 'loopExpression') : '');
+): Doc =>
+  node.loopExpression.expression ? path.call(print, 'loopExpression') : '';
 
 const printBody = (
   node: AST.ForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.body.type === 'Block'
     ? [' ', path.call(print, 'body')]
     : group(indent([line, path.call(print, 'body')]));

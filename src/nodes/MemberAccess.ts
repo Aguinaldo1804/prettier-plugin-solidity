@@ -6,7 +6,7 @@ import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, label, softline } = doc.builders;
 
-const isEndOfChain = (node: AST.MemberAccess, path: AstPath) => {
+const isEndOfChain = (node: AST.MemberAccess, path: AstPath): boolean => {
   let i = 0;
   let currentNode = node;
   let parentNode = path.getParentNode(i);
@@ -95,7 +95,7 @@ const isEndOfChain = (node: AST.MemberAccess, path: AstPath) => {
  * @returns a processed doc[] with the proper grouping and indentation ready to
  * be printed.
  */
-const processChain = (chain: Doc[]) => {
+const processChain = (chain: Doc[]): Doc => {
   const firstSeparatorIndex = chain.findIndex(
     (element) =>
       isLabel(element) && (element as LabelWithLabel).label === 'separator'

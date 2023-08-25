@@ -9,7 +9,7 @@ const modifierParameters = (
   node: AST.ModifierDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   if (node.parameters && node.parameters.length > 0) {
     return [
       '(',
@@ -29,14 +29,14 @@ const modifierParameters = (
   return '()';
 };
 
-const virtual = (node: AST.ModifierDefinition) =>
+const virtual = (node: AST.ModifierDefinition): Doc =>
   node.isVirtual ? [line, 'virtual'] : '';
 
 const override = (
   node: AST.ModifierDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   if (!node.override) return '';
   if (node.override.length === 0) return [line, 'override'];
   return [
@@ -51,7 +51,7 @@ const body = (
   node: AST.ModifierDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   if (!node.body) return ';';
   if (node.isVirtual) return group([' ', path.call(print, 'body')]);
   return [' ', path.call(print, 'body')];

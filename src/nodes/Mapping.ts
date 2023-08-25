@@ -6,7 +6,7 @@ const namedParameter = (
   node: AST.Mapping,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node[`${prefix}Name`]
     ? [
         path.call(print, `${prefix}Type`),

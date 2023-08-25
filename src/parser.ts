@@ -21,7 +21,7 @@ function parse(
   text: string,
   _parsers: Parser[] | ParserOptions,
   options = _parsers as ParserOptions
-) {
+): AST.SourceUnit {
   const compiler = coerce(options.compiler);
   const parsed = parser.parse(text, {
     loc: true,

@@ -19,7 +19,7 @@ export function handleOwnLineComment(
   options: ParserOptions,
   ast: AstPath,
   isLastComment: boolean
-) {
+): boolean {
   const { precedingNode, enclosingNode, followingNode } = comment;
   if (
     handleLastFunctionArgComments(
@@ -90,7 +90,7 @@ export function handleEndOfLineComment(
   options: ParserOptions,
   ast: AstPath,
   isLastComment: boolean
-) {
+): boolean {
   const { precedingNode, enclosingNode, followingNode } = comment;
   if (
     handleLastFunctionArgComments(
@@ -151,7 +151,7 @@ export function handleRemainingComment(
   options: ParserOptions,
   ast: AstPath,
   isLastComment: boolean
-) {
+): boolean {
   const { precedingNode, enclosingNode, followingNode } = comment;
 
   if (
@@ -203,7 +203,7 @@ export function handleRemainingComment(
   return false;
 }
 
-function addBlockStatementFirstComment(node: AST, comment: AST) {
+function addBlockStatementFirstComment(node: AST, comment: AST): void {
   if (!node.body) {
     addDanglingComment(node, comment, false);
     return;
@@ -217,7 +217,7 @@ function addBlockStatementFirstComment(node: AST, comment: AST) {
   }
 }
 
-function addBlockOrNotComment(node: AST, comment: AST) {
+function addBlockOrNotComment(node: AST, comment: AST): void {
   if (node.type === 'BlockStatement') {
     addBlockStatementFirstComment(node, comment);
   } else {
@@ -248,7 +248,7 @@ function handleIfStatementComments(
   followingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   if (
     !enclosingNode ||
     enclosingNode.type !== 'IfStatement' ||
@@ -317,7 +317,7 @@ function handleWhileComments(
   followingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   if (
     !enclosingNode ||
     enclosingNode.type !== 'WhileStatement' ||
@@ -355,7 +355,7 @@ function handleTryStatementComments(
   precedingNode: AST,
   followingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     !enclosingNode ||
     (enclosingNode.type !== 'TryStatement' &&
@@ -392,7 +392,7 @@ function handleMemberExpressionComments(
   enclosingNode: AST,
   followingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     enclosingNode.type === 'MemberExpression' &&
@@ -413,7 +413,7 @@ function handleConditionalExpressionComments(
   comment: AST,
   text: string,
   options: ParserOptions
-) {
+): boolean {
   const isSameLineAsPrecedingNode =
     precedingNode &&
     !hasNewlineInRange(
@@ -438,7 +438,7 @@ function handleObjectPropertyAssignment(
   enclosingNode: AST,
   precedingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     (enclosingNode.type === 'ObjectProperty' ||
@@ -458,7 +458,7 @@ function handleClassComments(
   precedingNode: AST,
   followingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     (enclosingNode.type === 'ClassDeclaration' ||
@@ -486,7 +486,7 @@ function handleMethodNameComments(
   precedingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   // This is only needed for estree parsers (flow, typescript) to attach
   // after a method name:
   // obj = { fn /*comment*/() {} };
@@ -531,7 +531,7 @@ function handleFunctionNameComments(
   precedingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   if (
     getNextNonSpaceNonCommentCharacter(text, comment, options.locEnd) !== '('
   ) {
@@ -558,7 +558,7 @@ function handleCommentAfterArrowParams(
   enclosingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   if (!(enclosingNode && enclosingNode.type === 'ArrowFunctionExpression')) {
     return false;
   }
@@ -581,7 +581,7 @@ function handleCommentInEmptyParens(
   enclosingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   if (
     getNextNonSpaceNonCommentCharacter(text, comment, options.locEnd) !== ')'
   ) {
@@ -625,7 +625,7 @@ function handleLastFunctionArgComments(
   followingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   // Type definitions functions
   if (
     precedingNode &&
@@ -658,7 +658,10 @@ function handleLastFunctionArgComments(
   return false;
 }
 
-function handleImportSpecifierComments(enclosingNode: AST, comment: AST) {
+function handleImportSpecifierComments(
+  enclosingNode: AST,
+  comment: AST
+): boolean {
   if (enclosingNode && enclosingNode.type === 'ImportSpecifier') {
     addLeadingComment(enclosingNode, comment);
     return true;
@@ -666,7 +669,10 @@ function handleImportSpecifierComments(enclosingNode: AST, comment: AST) {
   return false;
 }
 
-function handleLabeledStatementComments(enclosingNode: AST, comment: AST) {
+function handleLabeledStatementComments(
+  enclosingNode: AST,
+  comment: AST
+): boolean {
   if (enclosingNode && enclosingNode.type === 'LabeledStatement') {
     addLeadingComment(enclosingNode, comment);
     return true;
@@ -677,7 +683,7 @@ function handleLabeledStatementComments(enclosingNode: AST, comment: AST) {
 function handleBreakAndContinueStatementComments(
   enclosingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     (enclosingNode.type === 'ContinueStatement' ||
@@ -694,7 +700,7 @@ function handleCallExpressionComments(
   precedingNode: AST,
   enclosingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     enclosingNode.type === 'CallExpression' &&
@@ -713,7 +719,7 @@ function handleUnionTypeComments(
   enclosingNode: AST,
   followingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     (enclosingNode.type === 'UnionTypeAnnotation' ||
@@ -725,7 +731,7 @@ function handleUnionTypeComments(
   return false;
 }
 
-function handlePropertyComments(enclosingNode: AST, comment: AST) {
+function handlePropertyComments(enclosingNode: AST, comment: AST): boolean {
   if (
     enclosingNode &&
     (enclosingNode.type === 'Property' ||
@@ -742,7 +748,7 @@ function handleOnlyComments(
   ast: AST, // AstPath doesn't have a `body` attribute
   comment: AST,
   isLastComment: boolean
-) {
+): boolean {
   // With Flow the enclosingNode is undefined so use the AST instead.
   if (ast && ast.body && ast.body.length === 0) {
     if (isLastComment) {
@@ -772,7 +778,7 @@ function handleForComments(
   enclosingNode: AST,
   precedingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     (enclosingNode.type === 'ForInStatement' ||
@@ -790,7 +796,7 @@ function handleImportDeclarationComments(
   precedingNode: AST,
   comment: AST,
   options: ParserOptions
-) {
+): boolean {
   if (
     precedingNode &&
     precedingNode.type === 'ImportSpecifier' &&
@@ -804,7 +810,10 @@ function handleImportDeclarationComments(
   return false;
 }
 
-function handleAssignmentPatternComments(enclosingNode: AST, comment: AST) {
+function handleAssignmentPatternComments(
+  enclosingNode: AST,
+  comment: AST
+): boolean {
   if (enclosingNode && enclosingNode.type === 'AssignmentPattern') {
     addLeadingComment(enclosingNode, comment);
     return true;
@@ -816,7 +825,7 @@ function handleTypeAliasComments(
   enclosingNode: AST,
   followingNode: AST,
   comment: AST
-) {
+): boolean {
   if (enclosingNode && enclosingNode.type === 'TypeAlias') {
     addLeadingComment(enclosingNode, comment);
     return true;
@@ -828,7 +837,7 @@ function handleVariableDeclaratorComments(
   enclosingNode: AST,
   followingNode: AST,
   comment: AST
-) {
+): boolean {
   if (
     enclosingNode &&
     (enclosingNode.type === 'VariableDeclarator' ||
@@ -851,7 +860,7 @@ function handleTSMappedTypeComments(
   precedingNode: AST,
   followingNode: AST,
   comment: AST
-) {
+): boolean {
   if (!enclosingNode || enclosingNode.type !== 'TSMappedType') {
     return false;
   }
@@ -877,6 +886,6 @@ function handleTSMappedTypeComments(
   return false;
 }
 
-export function isBlockComment(comment: AST) {
+export function isBlockComment(comment: AST): boolean {
   return comment.type === 'Block' || comment.type === 'CommentBlock';
 }

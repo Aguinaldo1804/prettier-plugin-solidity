@@ -4,21 +4,27 @@ import type { BinaryOperationPrinter } from './types';
 
 const { group, line, indent } = doc.builders;
 
-const groupIfNecessaryBuilder = (path: AstPath) => (document: Doc) =>
-  path.getParentNode().type === 'BinaryOperation' ? document : group(document);
+const groupIfNecessaryBuilder =
+  (path: AstPath) =>
+  (document: Doc): Doc =>
+    path.getParentNode().type === 'BinaryOperation'
+      ? document
+      : group(document);
 
-const indentIfNecessaryBuilder = (path: AstPath) => (document: Doc) => {
-  let node = path.getNode();
-  for (let i = 0; ; i += 1) {
-    const parentNode = path.getParentNode(i);
-    if (parentNode.type === 'ReturnStatement') return document;
-    if (parentNode.type === 'IfStatement') return document;
-    if (parentNode.type === 'WhileStatement') return document;
-    if (parentNode.type !== 'BinaryOperation') return indent(document);
-    if (node === parentNode.right) return document;
-    node = parentNode;
-  }
-};
+const indentIfNecessaryBuilder =
+  (path: AstPath) =>
+  (document: Doc): Doc => {
+    let node = path.getNode();
+    for (let i = 0; ; i += 1) {
+      const parentNode = path.getParentNode(i);
+      if (parentNode.type === 'ReturnStatement') return document;
+      if (parentNode.type === 'IfStatement') return document;
+      if (parentNode.type === 'WhileStatement') return document;
+      if (parentNode.type !== 'BinaryOperation') return indent(document);
+      if (node === parentNode.right) return document;
+      node = parentNode;
+    }
+  };
 
 export const logical: BinaryOperationPrinter = {
   match: (op) => ['&&', '||'].includes(op),

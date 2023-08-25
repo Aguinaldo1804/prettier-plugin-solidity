@@ -9,7 +9,7 @@ const printTrueBody = (
   node: AST.IfStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   if (node.trueBody.type === 'Block') {
     return [' ', path.call(print, 'trueBody')];
   }
@@ -24,7 +24,7 @@ const printFalseBody = (
   node: AST.IfStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.falseBody!.type === 'Block' || node.falseBody!.type === 'IfStatement'
     ? [' ', path.call(print, 'falseBody')]
     : group(indent([line, path.call(print, 'falseBody')]));
@@ -34,7 +34,7 @@ const printElse = (
   path: AstPath,
   print: (path: AstPath) => Doc,
   commentsBetweenIfAndElse: AST.Comment[]
-) => {
+): Doc => {
   if (node.falseBody) {
     const elseOnSameLine =
       node.trueBody.type === 'Block' && commentsBetweenIfAndElse.length === 0;

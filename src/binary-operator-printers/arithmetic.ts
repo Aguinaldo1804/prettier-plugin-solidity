@@ -5,32 +5,36 @@ import type { BinaryOperationPrinter } from './types';
 
 const { group, line, indent } = doc.builders;
 
-const groupIfNecessaryBuilder = (path: AstPath) => (document: Doc) => {
-  const parentNode = path.getParentNode();
-  if (
-    parentNode.type === 'BinaryOperation' &&
-    !comparison.match(parentNode.operator)
-  ) {
-    return document;
-  }
-  return group(document);
-};
-
-const indentIfNecessaryBuilder = (path: AstPath) => (document: Doc) => {
-  let node = path.getNode();
-  for (let i = 0; ; i += 1) {
-    const parentNode = path.getParentNode(i);
-    if (parentNode.type === 'ReturnStatement') return document;
+const groupIfNecessaryBuilder =
+  (path: AstPath) =>
+  (document: Doc): Doc => {
+    const parentNode = path.getParentNode();
     if (
-      parentNode.type !== 'BinaryOperation' ||
-      comparison.match(parentNode.operator)
+      parentNode.type === 'BinaryOperation' &&
+      !comparison.match(parentNode.operator)
     ) {
-      return indent(document);
+      return document;
     }
-    if (node === parentNode.right) return document;
-    node = parentNode;
-  }
-};
+    return group(document);
+  };
+
+const indentIfNecessaryBuilder =
+  (path: AstPath) =>
+  (document: Doc): Doc => {
+    let node = path.getNode();
+    for (let i = 0; ; i += 1) {
+      const parentNode = path.getParentNode(i);
+      if (parentNode.type === 'ReturnStatement') return document;
+      if (
+        parentNode.type !== 'BinaryOperation' ||
+        comparison.match(parentNode.operator)
+      ) {
+        return indent(document);
+      }
+      if (node === parentNode.right) return document;
+      node = parentNode;
+    }
+  };
 
 export const arithmetic: BinaryOperationPrinter = {
   match: (op) => ['+', '-', '*', '/', '%'].includes(op),

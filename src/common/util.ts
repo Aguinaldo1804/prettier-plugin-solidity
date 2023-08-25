@@ -27,7 +27,10 @@ interface QuoteRegex {
 const double: QuoteRegex = { quote: '"', regex: /"/g };
 const single: QuoteRegex = { quote: "'", regex: /'/g };
 
-export function printString(rawContent: string, options: ParserOptions) {
+export function printString(
+  rawContent: string,
+  options: ParserOptions
+): string {
   const preferred = options.singleQuote ? single : double;
   const alternate = preferred === single ? double : single;
 
@@ -59,13 +62,13 @@ export function printString(rawContent: string, options: ParserOptions) {
   return util.makeString(rawContent, enclosingQuote);
 }
 
-export function hasNodeIgnoreComment(node: AST.Node) {
-  return (
+export function hasNodeIgnoreComment(node: AST.Node): boolean {
+  return Boolean(
     node &&
-    node.comments &&
-    node.comments.length > 0 &&
-    node.comments.some(
-      (comment: AST.Comment) => comment.value.trim() === 'prettier-ignore'
-    )
+      node.comments &&
+      node.comments.length > 0 &&
+      node.comments.some(
+        (comment: AST.Comment) => comment.value.trim() === 'prettier-ignore'
+      )
   );
 }

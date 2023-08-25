@@ -8,7 +8,7 @@ const expression = (
   node: AST.ReturnStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   if (node.expression) {
     return node.expression.type === 'TupleExpression'
       ? [' ', path.call(print, 'expression')]

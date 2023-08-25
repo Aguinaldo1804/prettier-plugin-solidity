@@ -6,7 +6,7 @@ import type { AST, ParserOptions } from './prettier-plugin-solidity';
 
 let checked = false;
 
-function prettierVersionCheck() {
+function prettierVersionCheck(): void {
   if (checked) return;
   if (!prettierVersionSatisfies('>=2.3.0')) {
     throw new Error(
@@ -20,7 +20,7 @@ function genericPrint(
   path: AstPath,
   options: ParserOptions,
   print: (path: AstPath) => Doc
-) {
+): Doc {
   prettierVersionCheck();
 
   const node = path.getValue() as AST.Node;

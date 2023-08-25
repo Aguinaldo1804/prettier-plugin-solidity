@@ -14,7 +14,7 @@ const inheritance = (
   node: AST.ContractDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.baseContracts.length > 0
     ? [
         ' is',
@@ -29,7 +29,7 @@ const body = (
   path: AstPath,
   options: ParserOptions,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   const comments = printComments(node, path, options);
   return node.subNodes.length > 0 || comments.length
     ? printSeparatedItem(

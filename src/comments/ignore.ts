@@ -1,7 +1,7 @@
 import type { AstPath } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
 
-function ignoreComments(path: AstPath) {
+function ignoreComments(path: AstPath): void {
   const node = path.getValue();
   // We ignore anything that is not an object
   if (node === null || typeof node !== 'object') return;

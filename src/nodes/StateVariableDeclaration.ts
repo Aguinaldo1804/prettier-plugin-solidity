@@ -8,7 +8,7 @@ const initialValue = (
   node: AST.StateVariableDeclaration,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   if (!node.initialValue) {
     return '';
   }

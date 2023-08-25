@@ -7,7 +7,7 @@ const modifierArguments = (
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
-) => {
+): Doc => {
   if (node.arguments) {
     // We always print parentheses at this stage because the parser already
     // stripped them in FunctionDefinitions that are not a constructor.

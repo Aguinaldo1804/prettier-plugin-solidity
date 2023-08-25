@@ -10,7 +10,10 @@ import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { dedent, group, indent, join, line } = doc.builders;
 
-const functionName = (node: AST.FunctionDefinition, options: ParserOptions) => {
+const functionName = (
+  node: AST.FunctionDefinition,
+  options: ParserOptions
+): Doc => {
   if (node.isConstructor && !node.name) return 'constructor';
   if (node.name) return `function ${node.name}`;
   if (node.isReceiveEther) return 'receive';
@@ -33,7 +36,7 @@ const parameters = (
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
-) => {
+): Doc => {
   const parametersArray = node[parametersType];
 
   if (parametersArray && parametersArray.length > 0) {
@@ -61,19 +64,19 @@ const parameters = (
   return '';
 };
 
-const visibility = (node: AST.FunctionDefinition) =>
+const visibility = (node: AST.FunctionDefinition): Doc =>
   node.visibility && node.visibility !== 'default'
     ? [line, node.visibility]
     : '';
 
-const virtual = (node: AST.FunctionDefinition) =>
+const virtual = (node: AST.FunctionDefinition): Doc =>
   node.isVirtual ? [line, 'virtual'] : '';
 
 const override = (
   node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => {
+): Doc => {
   if (!node.override) return '';
   if (node.override.length === 0) return [line, 'override'];
   return [
@@ -84,14 +87,14 @@ const override = (
   ];
 };
 
-const stateMutability = (node: AST.FunctionDefinition) =>
+const stateMutability = (node: AST.FunctionDefinition): Doc =>
   node.stateMutability ? [line, node.stateMutability] : '';
 
 const modifiers = (
   node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.modifiers.length > 0
     ? [line, join(line, path.map(print, 'modifiers'))]
     : '';
@@ -101,7 +104,7 @@ const returnParameters = (
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
-) =>
+): Doc =>
   node.returnParameters
     ? [
         line,
@@ -111,14 +114,14 @@ const returnParameters = (
       ]
     : '';
 
-const signatureEnd = (node: AST.FunctionDefinition) =>
+const signatureEnd = (node: AST.FunctionDefinition): Doc =>
   node.body ? dedent(line) : ';';
 
 const body = (
   node: AST.FunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => (node.body ? path.call(print, 'body') : '');
+): Doc => (node.body ? path.call(print, 'body') : '');
 
 export const FunctionDefinition: NodePrinter<AST.FunctionDefinition> = {
   print: ({ node, path, print, options }) => [

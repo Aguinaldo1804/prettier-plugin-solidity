@@ -11,7 +11,7 @@ const printObject = (
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
-) => {
+): Doc => {
   const identifiers = path.map(print, 'identifiers');
   return [
     '{',
@@ -27,7 +27,7 @@ const printObject = (
   ];
 };
 
-const printArguments = (path: AstPath, print: (path: AstPath) => Doc) =>
+const printArguments = (path: AstPath, print: (path: AstPath) => Doc): Doc =>
   printSeparatedList(path.map(print, 'arguments'), {
     lastSeparator: [softline, ')']
   });

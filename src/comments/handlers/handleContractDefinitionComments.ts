@@ -11,7 +11,7 @@ function handleContractDefinitionComments({
   followingNode,
   comment,
   options
-}: HandlerArguments) {
+}: HandlerArguments): boolean {
   if (!enclosingNode || enclosingNode.type !== 'ContractDefinition') {
     return false;
   }

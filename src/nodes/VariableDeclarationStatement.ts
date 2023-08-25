@@ -6,14 +6,14 @@ import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indentIfBreak } = doc.builders;
 
-const embraceVariables = (document: Doc[], embrace: boolean) =>
+const embraceVariables = (document: Doc[], embrace: boolean): Doc =>
   embrace ? ['(', printSeparatedList(document), ')'] : document;
 
 const initialValue = (
   node: AST.VariableDeclarationStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) => (node.initialValue ? [' = ', path.call(print, 'initialValue')] : '');
+): Doc => (node.initialValue ? [' = ', path.call(print, 'initialValue')] : '');
 
 let groupIndex = 0;
 export const VariableDeclarationStatement: NodePrinter<AST.VariableDeclarationStatement> =

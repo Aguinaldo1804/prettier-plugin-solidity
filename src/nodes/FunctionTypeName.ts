@@ -10,7 +10,7 @@ const returnTypes = (
   node: AST.FunctionTypeName,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.returnTypes.length > 0
     ? [
         line,
@@ -20,12 +20,12 @@ const returnTypes = (
       ]
     : '';
 
-const visibility = (node: AST.FunctionTypeName) =>
+const visibility = (node: AST.FunctionTypeName): Doc =>
   node.visibility && node.visibility !== 'default'
     ? [line, node.visibility]
     : '';
 
-const stateMutability = (node: AST.FunctionTypeName) =>
+const stateMutability = (node: AST.FunctionTypeName): Doc =>
   node.stateMutability && node.stateMutability !== 'default'
     ? [line, node.stateMutability]
     : '';

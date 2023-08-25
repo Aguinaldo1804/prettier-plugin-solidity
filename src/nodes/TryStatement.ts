@@ -12,7 +12,7 @@ const returnParameters = (
   node: AST.TryStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.returnParameters
     ? [
         'returns (',

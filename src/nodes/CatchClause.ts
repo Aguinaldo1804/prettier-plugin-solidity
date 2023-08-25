@@ -6,7 +6,7 @@ const parameters = (
   node: AST.CatchClause,
   path: AstPath,
   print: (path: AstPath) => Doc
-) =>
+): Doc =>
   node.parameters
     ? [
         node.kind || '',
