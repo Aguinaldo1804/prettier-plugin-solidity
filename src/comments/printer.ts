@@ -1,4 +1,5 @@
 import { doc, util } from 'prettier';
+import { getNode } from '../common/util';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
 
@@ -34,7 +35,7 @@ export function printComment(
   commentPath: AstPath,
   options: ParserOptions
 ): Doc {
-  const comment = commentPath.getValue() as AST.Comment;
+  const comment = getNode(commentPath) as AST.Comment;
 
   switch (comment.type) {
     case 'BlockComment': {

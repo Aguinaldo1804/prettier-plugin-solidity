@@ -1,8 +1,9 @@
+import { getNode } from '../common/util';
 import type { AstPath } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
 
 function ignoreComments(path: AstPath): void {
-  const node = path.getValue();
+  const node = getNode(path) as AST.Node;
   // We ignore anything that is not an object
   if (node === null || typeof node !== 'object') return;
 
@@ -16,14 +17,14 @@ function ignoreComments(path: AstPath): void {
       // The key `comments` will contain every comment for this node
       case 'comments':
         path.each((commentPath) => {
-          const comment = commentPath.getValue() as AST.Comment;
+          const comment = getNode(commentPath) as AST.Comment;
           comment.printed = true;
         }, 'comments');
         break;
       default:
         // If the value for that key is an Array or an Object we go deeper.
-        if (typeof node[key] === 'object') {
-          if (Array.isArray(node[key])) {
+        if (typeof node[key as keyof AST.Node] === 'object') {
+          if (Array.isArray(node[key as keyof AST.Node])) {
             path.each(ignoreComments, key);
             return;
           }

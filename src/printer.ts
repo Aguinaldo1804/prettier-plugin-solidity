@@ -1,5 +1,9 @@
 import * as nodes from './nodes';
-import { hasNodeIgnoreComment, prettierVersionSatisfies } from './common/util';
+import {
+  getNode,
+  hasNodeIgnoreComment,
+  prettierVersionSatisfies
+} from './common/util';
 import ignoreComments from './comments/ignore';
 import type { AstPath, Doc } from 'prettier';
 import type { AST, ParserOptions } from './prettier-plugin-solidity';
@@ -23,7 +27,7 @@ function genericPrint(
 ): Doc {
   prettierVersionCheck();
 
-  const node = path.getValue() as AST.Node;
+  const node = getNode(path) as AST.Node;
   if (node === null) {
     return '';
   }

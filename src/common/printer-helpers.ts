@@ -1,5 +1,6 @@
 import { doc } from 'prettier';
 import {
+  getNode,
   isLast,
   isNextLineEmpty,
   isPrettier2
@@ -28,7 +29,7 @@ export const printComments = (
     line,
     path
       .map((commentPath: AstPath): Doc => {
-        const comment = commentPath.getValue() as AST.Comment;
+        const comment = getNode(commentPath) as AST.Comment;
         if (comment.trailing || comment.leading || comment.printed) {
           return '';
         }
@@ -83,7 +84,7 @@ export function printPreservingEmptyLines(
   const parts: Doc[] = [];
 >>>>>>> 41a468b (Utilities and printer helpers):src/common/printer-helpers.ts
   path.each((childPath, index) => {
-    const node = childPath.getValue() as AST.Node;
+    const node = getNode(childPath) as AST.Node;
     const nodeType = node.type;
 
     if (

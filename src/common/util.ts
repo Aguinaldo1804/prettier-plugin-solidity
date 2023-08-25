@@ -1,5 +1,5 @@
 import { util, version } from 'prettier';
-import satisfies from 'semver/functions/satisfies.js';
+import satisfies from 'semver/functions/satisfies';
 import type { doc, Doc, ParserOptions } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
 
