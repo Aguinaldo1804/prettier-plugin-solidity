@@ -1,5 +1,6 @@
 import { doc } from 'prettier';
 import {
+  getNode,
   isFirst,
   isLast,
   isNextLineEmpty,
@@ -16,7 +17,7 @@ export const printComments = (node, path, options, filter = () => true) => {
     line,
     path
       .map((commentPath) => {
-        const comment = commentPath.getValue();
+        const comment = getNode(commentPath);
         if (comment.trailing || comment.leading || comment.printed) {
           return null;
         }
@@ -58,7 +59,7 @@ const separatingLine = (firstNode, secondNode) =>
 export function printPreservingEmptyLines(path, key, options, print) {
   const parts = [];
   path.each((childPath, index) => {
-    const node = childPath.getValue();
+    const node = getNode(childPath);
     const nodeType = node.type;
 
     if (
