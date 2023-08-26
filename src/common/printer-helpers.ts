@@ -55,26 +55,6 @@ export const printComments = (
   /* c8 ignore stop */
 };
 
-<<<<<<< HEAD:src/common/printer-helpers.js
-export function printPreservingEmptyLines(path, key, options, print) {
-  const parts = [];
-=======
-const shouldHaveEmptyLine = (node, checkForLeading) =>
-  Boolean(
-    // if node is not FunctionDefinition, it should have an empty line
-    node.type !== 'FunctionDefinition' ||
-      // if FunctionDefinition is not abstract, it should have an empty line
-      node.body ||
-      // if FunctionDefinition has the comment we are looking for (trailing or
-      // leading), it should have an empty line
-      node.comments?.some((comment) => checkForLeading && comment.leading)
-  );
-
-const separatingLine = (firstNode, secondNode) =>
-  shouldHaveEmptyLine(firstNode, false) || shouldHaveEmptyLine(secondNode, true)
-    ? hardline
-    : '';
-
 export function printPreservingEmptyLines(
   path: AstPath,
   key: string,
@@ -82,7 +62,6 @@ export function printPreservingEmptyLines(
   print: (path: AstPath) => Doc
 ): Doc[] {
   const parts: Doc[] = [];
->>>>>>> 41a468b (Utilities and printer helpers):src/common/printer-helpers.ts
   path.each((childPath, index) => {
     const node = getNode(childPath) as AST.Node;
     const nodeType = node.type;
