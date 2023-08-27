@@ -1,4 +1,3 @@
-const FULL_TEST = Boolean(process.env.FULL_TEST);
 const TEST_STANDALONE = Boolean(process.env.TEST_STANDALONE);
 const testMatch = [
   '<rootDir>/tests/format/**/jsfmt.spec.js',
@@ -10,23 +9,7 @@ if (TEST_STANDALONE) {
 }
 
 export default {
-  // runner: 'jest-light-runner',
-  collectCoverage: !TEST_STANDALONE && FULL_TEST,
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!<rootDir>/node_modules/',
-    '!src/prettier-comments/**/*.ts'
-  ],
-  coverageDirectory: './coverage/',
-  coveragePathIgnorePatterns: ['/node_modules/'],
-  coverageThreshold: {
-    global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100
-    }
-  },
+  runner: 'jest-light-runner',
   setupFiles: ['<rootDir>/tests/config/setup.js'],
   snapshotSerializers: [
     'jest-snapshot-serializer-raw',

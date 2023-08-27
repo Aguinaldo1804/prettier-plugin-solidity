@@ -2,8 +2,8 @@ import {
   handleOwnLineComment,
   handleEndOfLineComment,
   handleRemainingComment
-} from '../prettier-comments/language-js/comments';
-import handlers from './handlers';
+} from '../prettier-comments/language-js/comments.js';
+import handlers from './handlers/index.js';
 import type { AstPath, ParserOptions } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
 

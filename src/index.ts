@@ -1,9 +1,9 @@
-import * as comments from './comments';
-import massageAstNode from './clean';
-import loc from './loc';
-import options from './options';
-import parse from './parser';
-import print from './printer';
+import * as comments from './comments/index.js';
+import massageAstNode from './clean.js';
+import loc from './loc.js';
+import options from './options.js';
+import parse from './parser.js';
+import print from './printer.js';
 import type { AST } from './prettier-plugin-solidity';
 
 // https://prettier.io/docs/en/plugins.html#languages

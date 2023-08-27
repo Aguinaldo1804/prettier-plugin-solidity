@@ -1,5 +1,5 @@
 import { doc } from 'prettier';
-import { printString } from '../common/util';
+import { printString } from '../common/util.js';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { join, hardline } = doc.builders;

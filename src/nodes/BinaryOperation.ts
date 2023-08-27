@@ -1,4 +1,4 @@
-import * as printers from '../binary-operator-printers';
+import * as printers from '../binary-operator-printers/index.js';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 export const BinaryOperation: NodePrinter<AST.BinaryOperation> = {

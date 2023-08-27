@@ -1,4 +1,7 @@
-import { printComments, printSeparatedList } from '../common/printer-helpers';
+import {
+  printComments,
+  printSeparatedList
+} from '../common/printer-helpers.js';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 

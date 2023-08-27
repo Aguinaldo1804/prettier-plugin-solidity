@@ -1,8 +1,8 @@
 import extractComments from 'solidity-comments-extractor';
 // https://prettier.io/docs/en/plugins.html#parsers
 import parser from '@solidity-parser/parser';
-import coerce from 'semver/functions/coerce';
-import satisfies from 'semver/functions/satisfies';
+import coerce from 'semver/functions/coerce.js';
+import satisfies from 'semver/functions/satisfies.js';
 import type { Parser } from 'prettier';
 import type { BinOp } from '@solidity-parser/parser/src/ast-types';
 import type { AST, ParserOptions } from './prettier-plugin-solidity';

@@ -1,8 +1,8 @@
 import { doc } from 'prettier';
-import coerce from 'semver/functions/coerce';
-import satisfies from 'semver/functions/satisfies';
-import { printSeparatedList } from '../common/printer-helpers';
-import { printString } from '../common/util';
+import coerce from 'semver/functions/coerce.js';
+import satisfies from 'semver/functions/satisfies.js';
+import { printSeparatedList } from '../common/printer-helpers.js';
+import { printString } from '../common/util.js';
 import type { Doc } from 'prettier';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 

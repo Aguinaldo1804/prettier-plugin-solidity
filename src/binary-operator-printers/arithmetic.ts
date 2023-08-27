@@ -1,5 +1,5 @@
 import { doc } from 'prettier';
-import { comparison } from './comparison';
+import { comparison } from './comparison.js';
 import type { AstPath, Doc } from 'prettier';
 import type { BinaryOperationPrinter } from './types';
 

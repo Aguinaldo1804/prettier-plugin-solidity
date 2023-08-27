@@ -32,6 +32,9 @@ export default (webpackEnv) => {
     // We tell webpack to use the browser friendly package.
     resolve: {
       extensions: ['.ts', '.js'],
+      extensionAlias: {
+        '.js': ['.js', '.ts']
+      },
       alias: {
         '@solidity-parser/parser': '@solidity-parser/parser/dist/index.iife.js'
       }

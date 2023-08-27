@@ -2,7 +2,7 @@ import { doc } from 'prettier';
 import {
   printComments,
   printPreservingEmptyLines
-} from '../common/printer-helpers';
+} from '../common/printer-helpers.js';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { hardline, indent } = doc.builders;

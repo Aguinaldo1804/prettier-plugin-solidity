@@ -2,7 +2,7 @@ import { util } from 'prettier';
 import {
   getNextNonSpaceNonCommentCharacter,
   getNextNonSpaceNonCommentCharacterIndex
-} from '../../common/util';
+} from '../../common/util.js';
 import type { AST, AstPath, ParserOptions } from 'prettier';
 
 const {

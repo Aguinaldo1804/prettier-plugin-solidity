@@ -1,5 +1,5 @@
 import { doc } from 'prettier';
-import { printComments } from '../common/printer-helpers';
+import { printComments } from '../common/printer-helpers.js';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { hardline } = doc.builders;

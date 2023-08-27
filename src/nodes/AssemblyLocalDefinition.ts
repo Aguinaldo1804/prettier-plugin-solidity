@@ -1,5 +1,5 @@
 import { doc } from 'prettier';
-import { printSeparatedList } from '../common/printer-helpers';
+import { printSeparatedList } from '../common/printer-helpers.js';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { line } = doc.builders;

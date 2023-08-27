@@ -1,5 +1,5 @@
 import { doc } from 'prettier';
-import { printPreservingEmptyLines } from '../common/printer-helpers';
+import { printPreservingEmptyLines } from '../common/printer-helpers.js';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { line } = doc.builders;
