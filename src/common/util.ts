@@ -1,22 +1,14 @@
 import { util, version } from 'prettier';
 import satisfies from 'semver/functions/satisfies.js';
-import type { doc, Doc, ParserOptions } from 'prettier';
+import type { Doc, ParserOptions } from 'prettier';
+import type { LabelWithLabel } from './types';
 import type { AST } from '../prettier-plugin-solidity';
 
 export const prettierVersionSatisfies = (range: string): boolean =>
   satisfies(version, range);
 
-export interface LabelWithLabel extends doc.builders.Label {
-  label: string;
-  contents: Doc[];
-}
-
 export function isLabel(expressionDoc: Doc): boolean {
   return (expressionDoc as LabelWithLabel).label !== undefined;
-}
-
-export interface GroupWithId extends doc.builders.Group {
-  id: symbol;
 }
 
 interface QuoteRegex {

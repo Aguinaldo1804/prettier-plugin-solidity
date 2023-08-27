@@ -1,7 +1,7 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
 import { isLabel } from '../common/util.js';
-import type { GroupWithId, LabelWithLabel } from '../common/util';
+import type { GroupWithId, LabelWithLabel } from '../common/types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 

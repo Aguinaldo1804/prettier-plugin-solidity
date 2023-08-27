@@ -1,7 +1,7 @@
 import { doc } from 'prettier';
 import type { Doc } from 'prettier';
 import { isLabel } from '../common/util.js';
-import type { GroupWithId, LabelWithLabel } from '../common/util';
+import type { GroupWithId, LabelWithLabel } from '../common/types';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
 const { group, indent, indentIfBreak, label, softline } = doc.builders;

@@ -1,11 +1,12 @@
 import type * as ParserAST from '@solidity-parser/parser/src/ast-types';
+import type * as Extracted from 'solidity-comments-extractor';
 import type * as Prettier from 'prettier';
 
-export interface ParserOptions extends Prettier.ParserOptions {
+interface ParserOptions extends Prettier.ParserOptions {
   compiler: string;
 }
 
-export interface NodePrinter<T> {
+interface NodePrinter<T> {
   print: (arg: {
     node: T;
     options: ParserOptions;
@@ -15,12 +16,7 @@ export interface NodePrinter<T> {
 }
 
 export namespace AST {
-  interface BaseComment {
-    type: 'BlockComment' | 'LineComment';
-    range?: [number, number];
-    loc?: Location;
-    raw: string;
-    value: string;
+  interface BaseComment extends Extracted.Comment {
     leading?: boolean;
     trailing?: boolean;
     printed?: boolean;
@@ -292,6 +288,7 @@ export namespace AST {
     | HexLiteral;
 
   export type AssemblyExpression = AssemblyCall | AssemblyLiteral;
+
   export type AssemblyItem =
     | Identifier
     | AssemblyBlock
@@ -306,11 +303,8 @@ export namespace AST {
     | AssemblyIf
     | Break
     | Continue
-    | NumberLiteral
-    | StringLiteral
-    | HexNumber
-    | HexLiteral
-    | DecimalNumber;
+    | NumberLiteral;
+
   export type Statement =
     | IfStatement
     | WhileStatement
@@ -324,16 +318,17 @@ export namespace AST {
     | EmitStatement
     | ThrowStatement
     | SimpleStatement
-    | VariableDeclarationStatement
     | UncheckedStatement
     | TryStatement
     | RevertStatement;
+
   export type TypeName =
     | ElementaryTypeName
     | UserDefinedTypeName
     | Mapping
     | ArrayTypeName
     | FunctionTypeName;
+
   export type PrimaryExpression =
     | BooleanLiteral
     | HexLiteral
@@ -342,10 +337,10 @@ export namespace AST {
     | Identifier
     | TupleExpression
     | TypeName;
+
   export type Expression =
     | IndexAccess
     | IndexRangeAccess
-    | TupleExpression
     | BinaryOperation
     | Conditional
     | MemberAccess
@@ -354,6 +349,7 @@ export namespace AST {
     | NewExpression
     | PrimaryExpression
     | NameValueExpression;
+
   export type Node =
     | SourceUnit
     | PragmaDirective
@@ -371,30 +367,8 @@ export namespace AST {
     | EnumValue
     | EnumDefinition
     | VariableDeclaration
-    | UserDefinedTypeName
-    | Mapping
-    | ArrayTypeName
-    | FunctionTypeName
-    | Block
     | Statement
-    | ElementaryTypeName
-    | AssemblyBlock
-    | AssemblyCall
-    | AssemblyLocalDefinition
-    | AssemblyAssignment
-    | AssemblyStackAssignment
-    | LabelDefinition
-    | AssemblySwitch
     | AssemblyCase
-    | AssemblyFunctionDefinition
-    | AssemblyFor
-    | AssemblyIf
-    | AssemblyLiteral
-    | TupleExpression
-    | BinaryOperation
-    | Conditional
-    | IndexAccess
-    | IndexRangeAccess
     | AssemblyItem
     | Expression
     | NameValueList

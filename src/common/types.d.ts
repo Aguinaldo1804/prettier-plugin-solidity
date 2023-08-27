@@ -1,5 +1,6 @@
 import type { util } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
+import type { doc, Doc } from 'prettier';
 
 declare namespace utilV2Functions {
   function getNextNonSpaceNonCommentCharacterIndex(
@@ -23,3 +24,12 @@ declare namespace utilV3Functions {
 
 type utilV2 = typeof util & typeof utilV2Functions;
 type utilV3 = typeof util & typeof utilV3Functions;
+
+interface LabelWithLabel extends doc.builders.Label {
+  label: string;
+  contents: Doc[];
+}
+
+interface GroupWithId extends doc.builders.Group {
+  id: symbol;
+}

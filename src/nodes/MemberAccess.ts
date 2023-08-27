@@ -1,6 +1,6 @@
 import { doc } from 'prettier';
 import { isLabel } from '../common/util.js';
-import type { LabelWithLabel } from '../common/util';
+import type { LabelWithLabel } from '../common/types';
 import type { AstPath, Doc } from 'prettier';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
