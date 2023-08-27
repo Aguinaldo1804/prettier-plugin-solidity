@@ -1,31 +1,32 @@
+import type * as ParserAST from '@solidity-parser/parser/src/ast-types';
 import type * as Prettier from 'prettier';
 
-import type * as ParserAST from '@solidity-parser/parser/src/ast-types';
+export interface ParserOptions extends Prettier.ParserOptions {
+  compiler: string;
+}
+
+export interface NodePrinter<T> {
+  print: (arg: {
+    node: T;
+    options: ParserOptions;
+    path: Prettier.AstPath;
+    print: (path: Prettier.AstPath) => Prettier.Doc;
+  }) => Prettier.Doc;
+}
 
 export namespace AST {
-  export const CommentTypes = ['BlockComment', 'LineComment'] as const;
-
-  export type CommentTypeString = (typeof CommentTypes)[number];
-
-  export interface BaseComment extends WithRange {
-    type: CommentTypeString;
+  interface BaseComment {
+    type: 'BlockComment' | 'LineComment';
     range?: [number, number];
     loc?: Location;
     raw: string;
     value: string;
-  }
-
-  export interface BaseComment {
-    leading: boolean;
-    trailing: boolean;
-    printed: boolean;
-    precedingNode: Node;
-    enclosingNode: Node;
-    followingNode: Node;
-  }
-
-  export interface WithRange {
-    range?: [number, number];
+    leading?: boolean;
+    trailing?: boolean;
+    printed?: boolean;
+    precedingNode?: Node;
+    enclosingNode?: Node;
+    followingNode?: Node;
   }
   export interface BlockComment extends BaseComment {
     type: 'BlockComment';
@@ -401,16 +402,4 @@ export namespace AST {
     | CatchClause
     | FileLevelConstant
     | TypeDefinition;
-}
-export interface ParserOptions extends Prettier.ParserOptions {
-  compiler: string;
-}
-
-export interface NodePrinter<T> {
-  print: (arg: {
-    node: T;
-    options: ParserOptions;
-    path: Prettier.AstPath;
-    print: (path: Prettier.AstPath) => Prettier.Doc;
-  }) => Prettier.Doc;
 }

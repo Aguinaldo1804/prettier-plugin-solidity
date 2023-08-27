@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const proxyquire = require('proxyquire');
 const prettier = require('prettier/standalone.js');
 
