@@ -17,13 +17,14 @@ const indentIfNecessaryBuilder =
     let node = path.getNode();
     for (let i = 0; ; i += 1) {
       const parentNode = path.getParentNode(i);
-      if (parentNode.type === 'ReturnStatement') return document;
-      if (parentNode.type === 'IfStatement') return document;
-      if (parentNode.type === 'WhileStatement') return document;
+      if (parentNode.type === 'ReturnStatement') break;
+      if (parentNode.type === 'IfStatement') break;
+      if (parentNode.type === 'WhileStatement') break;
       if (parentNode.type !== 'BinaryOperation') return indent(document);
-      if (node === parentNode.right) return document;
+      if (node === parentNode.right) break;
       node = parentNode;
     }
+    return document;
   };
 
 export const logical: BinaryOperationPrinter = {

@@ -24,16 +24,17 @@ const indentIfNecessaryBuilder =
     let node = path.getNode();
     for (let i = 0; ; i += 1) {
       const parentNode = path.getParentNode(i);
-      if (parentNode.type === 'ReturnStatement') return document;
+      if (parentNode.type === 'ReturnStatement') break;
       if (
         parentNode.type !== 'BinaryOperation' ||
         comparison.match(parentNode.operator)
       ) {
         return indent(document);
       }
-      if (node === parentNode.right) return document;
+      if (node === parentNode.right) break;
       node = parentNode;
     }
+    return document;
   };
 
 export const arithmetic: BinaryOperationPrinter = {

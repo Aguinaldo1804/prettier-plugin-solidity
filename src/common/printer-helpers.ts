@@ -38,9 +38,7 @@ export const printComments = (
         }
         comment.printed = true;
         const printer = (options as ParserOptionsWithPrinter).printer;
-        return printer.printComment
-          ? printer.printComment(commentPath, options)
-          : '';
+        return printer.printComment!(commentPath, options);
       }, 'comments')
       .filter(Boolean)
   );
