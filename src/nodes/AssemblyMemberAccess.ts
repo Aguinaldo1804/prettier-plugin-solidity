@@ -1,4 +1,4 @@
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 export const AssemblyMemberAccess: NodePrinter<AST.AssemblyMemberAccess> = {
   print: ({ path, print }) => [

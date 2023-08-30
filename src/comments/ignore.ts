@@ -1,6 +1,6 @@
 import { getNode } from '../common/util.js';
 import type { AstPath } from 'prettier';
-import type { AST } from '../prettier-plugin-solidity';
+import type { AST } from '../types';
 
 export default function ignoreComments(path: AstPath): void {
   const node = getNode(path) as AST.Node;

@@ -1,5 +1,5 @@
 import type { ParserOptions } from 'prettier';
-import type { AST } from '../../prettier-plugin-solidity';
+import type { AST } from '../../types';
 
 interface HandlerArguments {
   text: string;

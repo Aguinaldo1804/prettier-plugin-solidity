@@ -1,7 +1,7 @@
 import { util, version } from 'prettier';
 import satisfies from 'semver/functions/satisfies.js';
 import type { ParserOptions } from 'prettier';
-import type { AST } from '../prettier-plugin-solidity';
+import type { AST } from '../types';
 
 export const prettierVersionSatisfies = (range: string): boolean =>
   satisfies(version, range);

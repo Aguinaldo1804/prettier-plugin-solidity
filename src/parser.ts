@@ -5,7 +5,7 @@ import coerce from 'semver/functions/coerce.js';
 import satisfies from 'semver/functions/satisfies.js';
 import type { Parser } from 'prettier';
 import type { BinOp } from '@solidity-parser/parser/src/ast-types';
-import type { AST, ParserOptions } from './prettier-plugin-solidity';
+import type { AST, ParserOptions } from './types';
 
 const tryHug = (node: AST.Expression, operators: BinOp[]): AST.Expression => {
   if (node.type === 'BinaryOperation' && operators.includes(node.operator))

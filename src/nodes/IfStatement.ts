@@ -4,7 +4,7 @@ import {
   printSeparatedItem
 } from '../common/printer-helpers.js';
 import type { AstPath, Doc } from 'prettier';
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 const { group, hardline, indent, line } = doc.builders;
 

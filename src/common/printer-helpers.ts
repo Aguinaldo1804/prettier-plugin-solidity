@@ -7,7 +7,7 @@ import {
 } from './backward-compatibility.js';
 import type { AstPath, Doc } from 'prettier';
 import type { DocV2, PrintSeparatedOptions } from './types';
-import type { AST, ParserOptions } from '../prettier-plugin-solidity';
+import type { AST, ParserOptions } from '../types';
 
 const { group, indent, join, line, softline, hardline } = doc.builders;
 

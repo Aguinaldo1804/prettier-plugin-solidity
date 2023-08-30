@@ -3,7 +3,7 @@ import {
   printSeparatedItem,
   printSeparatedList
 } from '../common/printer-helpers.js';
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 const { line } = doc.builders;
 

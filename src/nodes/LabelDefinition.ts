@@ -1,5 +1,5 @@
 import { doc } from 'prettier';
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 const { dedent, line } = doc.builders;
 

@@ -6,11 +6,7 @@ import {
   printSeparatedList
 } from '../common/printer-helpers.js';
 import type { AstPath, Doc } from 'prettier';
-import type {
-  AST,
-  NodePrinter,
-  ParserOptions
-} from '../prettier-plugin-solidity';
+import type { AST, NodePrinter, ParserOptions } from '../types';
 
 const { dedent, group, indent, join, line } = doc.builders;
 

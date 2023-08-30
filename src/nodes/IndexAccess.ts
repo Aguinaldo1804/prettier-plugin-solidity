@@ -1,6 +1,6 @@
 import { doc } from 'prettier';
 import type { Doc } from 'prettier';
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 const { group, indent, indentIfBreak, label, softline } = doc.builders;
 

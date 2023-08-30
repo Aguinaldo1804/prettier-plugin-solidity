@@ -6,7 +6,7 @@ import {
 } from './common/util.js';
 import ignoreComments from './comments/ignore.js';
 import type { AstPath, Doc } from 'prettier';
-import type { AST, ParserOptions } from './prettier-plugin-solidity';
+import type { AST, ParserOptions } from './types';
 
 let checked = false;
 

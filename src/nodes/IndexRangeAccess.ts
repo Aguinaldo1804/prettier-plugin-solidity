@@ -1,4 +1,4 @@
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 export const IndexRangeAccess: NodePrinter<AST.IndexRangeAccess> = {
   print: ({ node, path, print }) => [

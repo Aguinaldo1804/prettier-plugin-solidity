@@ -1,4 +1,4 @@
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 export const UserDefinedTypeName: NodePrinter<AST.UserDefinedTypeName> = {
   print: ({ node }) => node.namePath

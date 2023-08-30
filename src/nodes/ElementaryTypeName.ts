@@ -1,5 +1,5 @@
 import type { Doc } from 'prettier';
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 const stateMutability = (node: AST.ElementaryTypeName): Doc =>
   node.stateMutability && node.stateMutability.length > 0

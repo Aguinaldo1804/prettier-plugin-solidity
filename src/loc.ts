@@ -1,4 +1,4 @@
-import type { AST } from './prettier-plugin-solidity';
+import type { AST } from './types';
 // see: https://github.com/prettier/prettier/blob/main/src/language-js/loc.js
 
 function getRange(index: number, node: AST.Node): number {

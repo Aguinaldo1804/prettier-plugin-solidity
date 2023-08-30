@@ -5,7 +5,7 @@ import {
 } from '../prettier-comments/language-js/comments.js';
 import handlers from './handlers/index.js';
 import type { AstPath, ParserOptions } from 'prettier';
-import type { AST } from '../prettier-plugin-solidity';
+import type { AST } from '../types';
 
 export function solidityHandleOwnLineComment(
   comment: AST.Comment,

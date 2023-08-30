@@ -2,7 +2,7 @@ import { util } from 'prettier';
 import { prettierVersionSatisfies } from './util.js';
 import type { AstPath } from 'prettier';
 import type { utilV2 } from './types';
-import type { AST } from '../prettier-plugin-solidity';
+import type { AST } from '../types';
 
 export const isPrettier2 = prettierVersionSatisfies('^2.3.0');
 

@@ -1,5 +1,5 @@
 import type { Doc, util } from 'prettier';
-import type { AST } from '../prettier-plugin-solidity';
+import type { AST } from '../types';
 
 declare namespace utilV2Functions {
   function getNextNonSpaceNonCommentCharacterIndex(

@@ -1,5 +1,5 @@
 import * as printers from '../binary-operator-printers/index.js';
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 export const BinaryOperation: NodePrinter<AST.BinaryOperation> = {
   print: ({ node, path, print }) => {

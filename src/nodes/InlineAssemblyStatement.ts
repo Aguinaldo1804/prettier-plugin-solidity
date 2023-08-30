@@ -1,7 +1,7 @@
 // @TODO: add support for assembly language specifier
 import { printString } from '../common/util.js';
 import { printSeparatedList } from '../common/printer-helpers.js';
-import type { AST, NodePrinter } from '../prettier-plugin-solidity';
+import type { AST, NodePrinter } from '../types';
 
 export const InlineAssemblyStatement: NodePrinter<AST.InlineAssemblyStatement> =
   {
