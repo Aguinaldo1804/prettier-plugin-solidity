@@ -1,7 +1,7 @@
 import { util } from 'prettier';
 import { prettierVersionSatisfies } from './util.js';
 import type { AstPath } from 'prettier';
-import type { utilV2, utilV3 } from './util-prettier-v2.js';
+import type { utilV2 } from './types';
 import type { AST } from '../prettier-plugin-solidity';
 
 export const isPrettier2 = prettierVersionSatisfies('^2.3.0');
@@ -12,7 +12,7 @@ export const isPrettier2 = prettierVersionSatisfies('^2.3.0');
 export function isNextLineEmpty(text: string, startIndex: number): boolean {
   return isPrettier2
     ? (util as utilV2).isNextLineEmptyAfterIndex(text, startIndex)
-    : (util as utilV3).isNextLineEmpty(text, startIndex); // V3 deprecated `isNextLineEmptyAfterIndex`
+    : util.isNextLineEmpty(text, startIndex); // V3 deprecated `isNextLineEmptyAfterIndex`
 }
 
 export function getNextNonSpaceNonCommentCharacterIndex(
@@ -26,10 +26,7 @@ export function getNextNonSpaceNonCommentCharacterIndex(
         node,
         locEnd
       )
-    : (util as utilV3).getNextNonSpaceNonCommentCharacterIndex(
-        text,
-        locEnd(node)
-      ); // V3 signature changed
+    : util.getNextNonSpaceNonCommentCharacterIndex(text, locEnd(node)); // V3 signature changed
 }
 
 export function getNextNonSpaceNonCommentCharacter(

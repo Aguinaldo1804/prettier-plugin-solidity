@@ -1,6 +1,4 @@
 import { doc } from 'prettier';
-import { isLabel } from '../common/util.js';
-import type { LabelWithLabel } from '../common/types';
 import type { AstPath, Doc } from 'prettier';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
@@ -97,8 +95,7 @@ const isEndOfChain = (node: AST.MemberAccess, path: AstPath): boolean => {
  */
 const processChain = (chain: Doc[]): Doc => {
   const firstSeparatorIndex = chain.findIndex(
-    (element) =>
-      isLabel(element) && (element as LabelWithLabel).label === 'separator'
+    (element) => (element as doc.builders.Label).label === 'separator'
   );
   // The doc[] before the first separator
   const firstExpression = chain.slice(0, firstSeparatorIndex);

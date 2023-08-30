@@ -1,7 +1,5 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
-import { isLabel } from '../common/util.js';
-import type { GroupWithId, LabelWithLabel } from '../common/types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
@@ -35,7 +33,10 @@ const printArguments = (path: AstPath, print: (path: AstPath) => Doc): Doc =>
 let groupIndex = 0;
 export const FunctionCall: NodePrinter<AST.FunctionCall> = {
   print: ({ node, path, print, options }) => {
-    let expressionDoc = path.call(print, 'expression');
+    let expressionDoc = path.call(
+      print,
+      'expression'
+    ) as doc.builders.DocCommand;
     let argumentsDoc: Doc = ')';
 
     if (node.arguments && node.arguments.length > 0) {
@@ -49,17 +50,17 @@ export const FunctionCall: NodePrinter<AST.FunctionCall> = {
     // If we are at the end of a MemberAccessChain we should indent the
     // arguments accordingly.
     if (
-      isLabel(expressionDoc) &&
-      (expressionDoc as LabelWithLabel).label === 'MemberAccessChain'
+      expressionDoc.type === 'label' &&
+      expressionDoc.label === 'MemberAccessChain'
     ) {
-      expressionDoc = group((expressionDoc as LabelWithLabel).contents, {
+      expressionDoc = group(expressionDoc.contents, {
         id: Symbol(`FunctionCall.expression-${groupIndex}`)
       });
 
       groupIndex += 1;
 
       argumentsDoc = indentIfBreak(argumentsDoc, {
-        groupId: (expressionDoc as GroupWithId).id
+        groupId: expressionDoc.id!
       });
       // We wrap the expression in a label in case there is an IndexAccess or
       // a FunctionCall following this IndexAccess.

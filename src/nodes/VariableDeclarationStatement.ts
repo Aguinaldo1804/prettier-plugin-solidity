@@ -1,6 +1,5 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
-import type { GroupWithId } from '../common/types';
 import type { AstPath, Doc } from 'prettier';
 import type { AST, NodePrinter } from '../prettier-plugin-solidity';
 
@@ -39,9 +38,7 @@ export const VariableDeclarationStatement: NodePrinter<AST.VariableDeclarationSt
 
       return group([
         declarationDoc,
-        indentIfBreak(initialValueDoc, {
-          groupId: (declarationDoc as GroupWithId).id
-        }),
+        indentIfBreak(initialValueDoc, { groupId: declarationDoc.id! }),
         node.omitSemicolon ? '' : ';'
       ]);
     }

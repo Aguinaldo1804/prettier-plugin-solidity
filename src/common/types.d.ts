@@ -1,6 +1,5 @@
 import type { util } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
-import type { doc, Doc } from 'prettier';
 
 declare namespace utilV2Functions {
   function getNextNonSpaceNonCommentCharacterIndex(
@@ -12,24 +11,4 @@ declare namespace utilV2Functions {
   function isNextLineEmptyAfterIndex(text: string, startIndex: number): boolean;
 }
 
-// TODO: remove once once Prettier adds these functions to their types.
-declare namespace utilV3Functions {
-  function getNextNonSpaceNonCommentCharacterIndex(
-    text: string,
-    startIndex: number
-  ): number | false;
-
-  function isNextLineEmpty(text: string, startIndex: number): boolean;
-}
-
 type utilV2 = typeof util & typeof utilV2Functions;
-type utilV3 = typeof util & typeof utilV3Functions;
-
-interface LabelWithLabel extends doc.builders.Label {
-  label: string;
-  contents: Doc[];
-}
-
-interface GroupWithId extends doc.builders.Group {
-  id: symbol;
-}
