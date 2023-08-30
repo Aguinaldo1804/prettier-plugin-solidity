@@ -20,7 +20,7 @@ function prettierVersionCheck(): void {
   checked = true;
 }
 
-function genericPrint(
+export default function genericPrint(
   path: AstPath,
   options: ParserOptions,
   print: (path: AstPath) => Doc
@@ -47,12 +47,5 @@ function genericPrint(
 
   // Since `node` is mutable and each printer has a specific type for it, the
   // typescript compiler determines `node` to be of type never.
-  return nodes[node.type].print({
-    node: node as never,
-    options,
-    path,
-    print
-  });
+  return nodes[node.type].print({ node: node as never, options, path, print });
 }
-
-export default genericPrint;

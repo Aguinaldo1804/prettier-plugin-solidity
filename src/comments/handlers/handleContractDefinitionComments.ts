@@ -4,7 +4,7 @@ import type { HandlerArguments } from './types';
 
 const { addLeadingComment, addTrailingComment, addDanglingComment } = util;
 
-function handleContractDefinitionComments({
+export default function handleContractDefinitionComments({
   text,
   precedingNode,
   enclosingNode,
@@ -55,5 +55,3 @@ function handleContractDefinitionComments({
 
   return false;
 }
-
-export default handleContractDefinitionComments;

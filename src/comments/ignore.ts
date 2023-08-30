@@ -2,7 +2,7 @@ import { getNode } from '../common/util.js';
 import type { AstPath } from 'prettier';
 import type { AST } from '../prettier-plugin-solidity';
 
-function ignoreComments(path: AstPath): void {
+export default function ignoreComments(path: AstPath): void {
   const node = getNode(path) as AST.Node;
   // We ignore anything that is not an object
   if (node === null || typeof node !== 'object') return;
@@ -33,5 +33,3 @@ function ignoreComments(path: AstPath): void {
     }
   });
 }
-
-export default ignoreComments;

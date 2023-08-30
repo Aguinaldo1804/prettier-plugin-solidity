@@ -24,10 +24,7 @@ const languages = [
 
 // https://prettier.io/docs/en/plugins.html#parsers
 const parser = { astFormat: 'solidity-ast', parse, ...loc };
-const parsers = {
-  'solidity-parse': parser
-};
-
+const parsers = { 'solidity-parse': parser };
 const canAttachComment = (node: AST.Comment): boolean =>
   node.type && node.type !== 'BlockComment' && node.type !== 'LineComment';
 
@@ -48,17 +45,5 @@ const printers = {
 };
 
 // https://prettier.io/docs/en/plugins.html#defaultoptions
-const defaultOptions = {
-  bracketSpacing: false,
-  tabWidth: 4
-};
-
-const plugin = {
-  languages,
-  parsers,
-  printers,
-  options,
-  defaultOptions
-};
-
-export default plugin;
+const defaultOptions = { bracketSpacing: false, tabWidth: 4 };
+export default { languages, parsers, printers, options, defaultOptions };

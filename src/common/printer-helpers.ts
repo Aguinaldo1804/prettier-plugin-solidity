@@ -5,16 +5,9 @@ import {
   isNextLineEmpty,
   isPrettier2
 } from './backward-compatibility.js';
-import type { AstPath, Doc, ParserOptions, Printer } from 'prettier';
-import type { AST } from '../prettier-plugin-solidity';
-
-interface ParserOptionsWithPrinter extends ParserOptions {
-  printer: Printer;
-}
-
-type PrettierV2Doc = Doc & {
-  parts: Doc[];
-};
+import type { AstPath, Doc } from 'prettier';
+import type { DocV2, PrintSeparatedOptions } from './types';
+import type { AST, ParserOptions } from '../prettier-plugin-solidity';
 
 const { group, indent, join, line, softline, hardline } = doc.builders;
 
@@ -37,7 +30,7 @@ export const printComments = (
           return '';
         }
         comment.printed = true;
-        const printer = (options as ParserOptionsWithPrinter).printer;
+        const printer = options.printer;
         return printer.printComment!(commentPath, options);
       }, 'comments')
       .filter(Boolean)
@@ -48,7 +41,7 @@ export const printComments = (
   // Mocking the behaviour will introduce a lot of maintenance in the tests.
   /* c8 ignore start */
   return isPrettier2
-    ? (document as PrettierV2Doc).parts // Prettier V2
+    ? (document as DocV2).parts // Prettier V2
     : document; // Prettier V3
   /* c8 ignore stop */
 };
@@ -88,13 +81,6 @@ export function printPreservingEmptyLines(
   }, key);
 
   return parts;
-}
-
-interface PrintSeparatedOptions {
-  firstSeparator?: Doc;
-  separator?: Doc;
-  lastSeparator?: Doc;
-  grouped?: boolean;
 }
 
 // This function will add an indentation to the `item` and separate it from the

@@ -15,9 +15,7 @@ export const UsingForDeclaration: NodePrinter<AST.UsingForDeclaration> = {
               const operator = node.operators[i];
               return operator ? [functionName, ' as ', operator] : functionName;
             }),
-            {
-              firstSeparator: options.bracketSpacing ? line : softline
-            }
+            { firstSeparator: options.bracketSpacing ? line : softline }
           ),
           '}'
         ]

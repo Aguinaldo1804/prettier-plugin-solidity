@@ -10,8 +10,6 @@ export const NameValueList: NodePrinter<AST.NameValueList> = {
       path
         .map(print, 'arguments')
         .map((argument, index) => [node.names[index], ': ', argument]),
-      {
-        firstSeparator: options.bracketSpacing ? line : softline
-      }
+      { firstSeparator: options.bracketSpacing ? line : softline }
     )
 };

@@ -9,15 +9,11 @@ import type { AST, ParserOptions } from './prettier-plugin-solidity';
 
 const tryHug = (node: AST.Expression, operators: BinOp[]): AST.Expression => {
   if (node.type === 'BinaryOperation' && operators.includes(node.operator))
-    return {
-      type: 'TupleExpression',
-      components: [node],
-      isArray: false
-    };
+    return { type: 'TupleExpression', components: [node], isArray: false };
   return node;
 };
 
-function parse(
+export default function parse(
   text: string,
   _parsers: Parser[] | ParserOptions,
   options = _parsers as ParserOptions
@@ -186,5 +182,3 @@ function parse(
 
   return parsed;
 }
-
-export default parse;
