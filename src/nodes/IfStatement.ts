@@ -9,26 +9,26 @@ import type { AST, NodePrinter } from '../types';
 const { group, hardline, indent, line } = doc.builders;
 
 const printTrueBody = (
-  node: AST.IfStatement,
+  node: AST.Statement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
-  if (node.trueBody.type === 'Block') {
+  if (node.type === 'Block') {
     return [' ', path.call(print, 'trueBody')];
   }
 
-  const ifWithinIf = node.trueBody.type === 'IfStatement';
+  const ifWithinIf = node.type === 'IfStatement';
   return group(
     indent([ifWithinIf ? hardline : line, path.call(print, 'trueBody')])
   );
 };
 
 const printFalseBody = (
-  node: AST.IfStatement,
+  node: AST.Statement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
-  node.falseBody!.type === 'Block' || node.falseBody!.type === 'IfStatement'
+  node.type === 'Block' || node.type === 'IfStatement'
     ? [' ', path.call(print, 'falseBody')]
     : group(indent([line, path.call(print, 'falseBody')]));
 
@@ -44,7 +44,7 @@ const printElse = (
     return [
       elseOnSameLine ? ' ' : hardline,
       'else',
-      printFalseBody(node, path, print)
+      printFalseBody(node.falseBody, path, print)
     ];
   }
   return '';
@@ -60,7 +60,7 @@ export const IfStatement: NodePrinter<AST.IfStatement> = {
     const parts = [];
 
     parts.push('if (', printSeparatedItem(path.call(print, 'condition')), ')');
-    parts.push(printTrueBody(node, path, print));
+    parts.push(printTrueBody(node.trueBody, path, print));
     if (commentsBetweenIfAndElse.length && node.falseBody) {
       parts.push(hardline);
       parts.push(printComments(node, path, options));

@@ -5,6 +5,7 @@ import {
   isNextLineEmpty,
   isPrettier2
 } from './backward-compatibility.js';
+import { printComment } from '../comments/printer.js';
 import type { AstPath, Doc } from 'prettier';
 import type { DocV2, PrintSeparatedOptions } from './types';
 import type { AST, ParserOptions } from '../types';
@@ -30,8 +31,7 @@ export const printComments = (
           return '';
         }
         comment.printed = true;
-        const printer = options.printer;
-        return printer.printComment!(commentPath, options);
+        return printComment(commentPath, options);
       }, 'comments')
       .filter(Boolean)
   );

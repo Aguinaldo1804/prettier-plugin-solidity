@@ -3,7 +3,6 @@ import type * as Extracted from 'solidity-comments-extractor';
 import type * as Prettier from 'prettier';
 
 interface ParserOptions extends Prettier.ParserOptions {
-  printer: Prettier.Printer;
   compiler: string;
 }
 
