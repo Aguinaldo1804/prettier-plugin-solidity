@@ -6,9 +6,9 @@ import {
   isPrettier2
 } from './backward-compatibility.js';
 import { printComment } from '../comments/printer.js';
-import type { AstPath, Doc } from 'prettier';
+import type { AstPath, Doc, ParserOptions } from 'prettier';
 import type { DocV2, PrintSeparatedOptions } from './types';
-import type { AST, ParserOptions } from '../types';
+import type { AST } from '../types';
 
 const { group, indent, join, line, softline, hardline } = doc.builders;
 
