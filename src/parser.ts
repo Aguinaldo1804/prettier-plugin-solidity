@@ -3,11 +3,13 @@ import extractComments from 'solidity-comments-extractor';
 import parser from '@solidity-parser/parser';
 import coerce from 'semver/functions/coerce.js';
 import satisfies from 'semver/functions/satisfies.js';
-import type { Parser } from 'prettier';
-import type { BinOp } from '@solidity-parser/parser/src/ast-types';
-import type { AST, ParserOptions } from './types';
+import type { Parser, ParserOptions } from 'prettier';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
 
-const tryHug = (node: AST.Expression, operators: BinOp[]): AST.Expression => {
+const tryHug = (
+  node: AST.Expression,
+  operators: AST.BinOp[]
+): AST.Expression => {
   if (node.type === 'BinaryOperation' && operators.includes(node.operator))
     return { type: 'TupleExpression', components: [node], isArray: false };
   return node;

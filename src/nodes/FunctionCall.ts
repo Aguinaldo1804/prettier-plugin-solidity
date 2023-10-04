@@ -1,7 +1,8 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type { AST, NodePrinter } from '../types';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { NodePrinter } from '../types';
 
 const { group, indentIfBreak, label, line, softline } = doc.builders;
 

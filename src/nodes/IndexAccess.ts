@@ -1,6 +1,7 @@
 import { doc } from 'prettier';
 import type { Doc } from 'prettier';
-import type { AST, NodePrinter } from '../types';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { NodePrinter } from '../types';
 
 const { group, indent, indentIfBreak, label, softline } = doc.builders;
 

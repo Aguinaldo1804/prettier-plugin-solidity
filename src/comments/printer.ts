@@ -1,7 +1,7 @@
 import { doc, util } from 'prettier';
 import { getNode } from '../common/util.js';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type { AST } from '../types';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
 
 const { hardline, join } = doc.builders;
 

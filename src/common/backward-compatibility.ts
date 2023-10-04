@@ -1,8 +1,8 @@
 import { util } from 'prettier';
 import { prettierVersionSatisfies } from './util.js';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { AstPath } from 'prettier';
 import type { utilV2 } from './types';
-import type { AST } from '../types';
 
 export const isPrettier2 = prettierVersionSatisfies('^2.3.0');
 
@@ -17,8 +17,8 @@ export function isNextLineEmpty(text: string, startIndex: number): boolean {
 
 export function getNextNonSpaceNonCommentCharacterIndex(
   text: string,
-  node: AST.Node,
-  locEnd: (node: AST.Node) => number
+  node: AST.ASTNode,
+  locEnd: (node: AST.ASTNode) => number
 ): number | false {
   return isPrettier2
     ? (util as utilV2).getNextNonSpaceNonCommentCharacterIndex(
@@ -31,8 +31,8 @@ export function getNextNonSpaceNonCommentCharacterIndex(
 
 export function getNextNonSpaceNonCommentCharacter(
   text: string,
-  node: AST.Node | AST.Comment,
-  locEnd: (node: AST.Node | AST.Comment) => number
+  node: AST.ASTNode | AST.Comment,
+  locEnd: (node: AST.ASTNode | AST.Comment) => number
 ): string {
   if (isPrettier2) {
     const index = (util as utilV2).getNextNonSpaceNonCommentCharacterIndex(
@@ -45,8 +45,8 @@ export function getNextNonSpaceNonCommentCharacter(
   return util.getNextNonSpaceNonCommentCharacter(text, locEnd(node)); // V3 exposes this function directly
 }
 
-export const getNode = (path: AstPath): AST.Node | AST.Comment =>
-  (isPrettier2 ? path.getValue() : path.node) as AST.Node | AST.Comment; // V3 deprecated `getValue`
+export const getNode = (path: AstPath): AST.ASTNode | AST.Comment =>
+  (isPrettier2 ? path.getValue() : path.node) as AST.ASTNode | AST.Comment; // V3 deprecated `getValue`
 
 export function isLast(path: AstPath, key: string, index: number) {
   return isPrettier2

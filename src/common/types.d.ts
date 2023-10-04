@@ -1,11 +1,11 @@
+import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { Doc, util } from 'prettier';
-import type { AST } from '../types';
 
 declare namespace utilV2Functions {
   function getNextNonSpaceNonCommentCharacterIndex(
     text: string,
-    node: AST.Node | AST.Comment,
-    locEnd: (node: AST.Node) => number
+    node: AST.ASTNode | AST.Comment,
+    locEnd: (node: AST.ASTNode) => number
   ): number | false;
 
   function isNextLineEmptyAfterIndex(text: string, startIndex: number): boolean;
@@ -13,7 +13,7 @@ declare namespace utilV2Functions {
 
 type utilV2 = typeof util & typeof utilV2Functions;
 
-type DocV2 = Doc & { parts: Doc[] };
+type DocV2 = Doc[] & { parts: Doc[] };
 
 interface PrintSeparatedOptions {
   firstSeparator?: Doc;

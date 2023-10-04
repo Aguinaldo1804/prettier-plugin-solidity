@@ -4,7 +4,8 @@ import satisfies from 'semver/functions/satisfies.js';
 import { printSeparatedList } from '../common/printer-helpers.js';
 import { printString } from '../common/util.js';
 import type { Doc } from 'prettier';
-import type { AST, NodePrinter } from '../types';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { NodePrinter } from '../types';
 
 const { group, line, softline } = doc.builders;
 

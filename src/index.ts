@@ -4,7 +4,7 @@ import loc from './loc.js';
 import options from './options.js';
 import parse from './parser.js';
 import print from './printer.js';
-import type { AST } from './types';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
 
 // https://prettier.io/docs/en/plugins.html#languages
 // https://github.com/ikatyang/linguist-languages/blob/master/data/Solidity.json

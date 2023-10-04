@@ -1,28 +1,29 @@
-import type * as Parser from '@solidity-parser/parser/src/ast-types';
 import type * as Extracted from 'solidity-comments-extractor';
 import type * as Prettier from 'prettier';
 
-interface ParserOptions extends Prettier.ParserOptions {
-  compiler: string;
+declare module 'prettier' {
+  interface ParserOptions {
+    compiler: string;
+  }
 }
 
 interface NodePrinter<T> {
   print: (arg: {
     node: T;
-    options: ParserOptions;
+    options: Prettier.ParserOptions;
     path: Prettier.AstPath;
     print: (path: Prettier.AstPath) => Prettier.Doc;
   }) => Prettier.Doc;
 }
 
-export namespace AST {
+declare module '@solidity-parser/parser/src/ast-types' {
   interface BaseComment extends Extracted.Comment {
     leading?: boolean;
     trailing?: boolean;
     printed?: boolean;
-    precedingNode?: Node;
-    enclosingNode?: Node;
-    followingNode?: Node;
+    precedingNode?: ASTNode;
+    enclosingNode?: ASTNode;
+    followingNode?: ASTNode;
   }
 
   export interface BlockComment extends BaseComment {
@@ -35,309 +36,160 @@ export namespace AST {
 
   export type Comment = BlockComment | LineComment;
 
-  interface BaseNode {
+  interface WithComments {
     comments?: Comment[];
   }
 
-  export interface SourceUnit extends Parser.SourceUnit, BaseNode {}
+  interface SourceUnit extends WithComments {}
 
-  export interface UserDefinedTypeName
-    extends Parser.UserDefinedTypeName,
-      BaseNode {}
+  interface UserDefinedTypeName extends WithComments {}
 
-  export interface InheritanceSpecifier
-    extends Parser.InheritanceSpecifier,
-      BaseNode {}
+  interface InheritanceSpecifier extends WithComments {}
 
-  export interface ContractDefinition
-    extends Parser.ContractDefinition,
-      BaseNode {}
+  interface ContractDefinition extends WithComments {}
 
-  export interface PragmaDirective extends Parser.PragmaDirective, BaseNode {}
+  interface PragmaDirective extends WithComments {}
 
-  export interface StringLiteral extends Parser.StringLiteral, BaseNode {}
+  interface StringLiteral extends WithComments {}
 
-  export interface Identifier extends Parser.Identifier, BaseNode {}
+  interface Identifier extends WithComments {}
 
-  export interface ImportDirective extends Parser.ImportDirective, BaseNode {}
+  interface ImportDirective extends WithComments {}
 
-  export interface VariableDeclaration
-    extends Parser.VariableDeclaration,
-      BaseNode {}
+  interface VariableDeclaration extends WithComments {}
 
-  export interface StateVariableDeclarationVariable
-    extends Parser.StateVariableDeclarationVariable,
-      BaseNode {}
+  interface StateVariableDeclarationVariable extends WithComments {}
 
-  export interface StateVariableDeclaration
-    extends Parser.StateVariableDeclaration,
-      BaseNode {}
+  interface StateVariableDeclaration extends WithComments {}
 
-  export interface FileLevelConstant
-    extends Parser.FileLevelConstant,
-      BaseNode {}
+  interface FileLevelConstant extends WithComments {}
 
-  export interface UsingForDeclaration
-    extends Parser.UsingForDeclaration,
-      BaseNode {}
+  interface UsingForDeclaration extends WithComments {}
 
-  export interface StructDefinition extends Parser.StructDefinition, BaseNode {}
+  interface StructDefinition extends WithComments {}
 
-  export interface ModifierDefinition
-    extends Parser.ModifierDefinition,
-      BaseNode {}
+  interface ModifierDefinition extends WithComments {}
 
-  export interface ModifierInvocation
-    extends Parser.ModifierInvocation,
-      BaseNode {}
+  interface ModifierInvocation extends WithComments {}
 
-  export interface FunctionDefinition
-    extends Parser.FunctionDefinition,
-      BaseNode {}
+  interface FunctionDefinition extends WithComments {}
 
-  export interface CustomErrorDefinition
-    extends Parser.CustomErrorDefinition,
-      BaseNode {}
+  interface CustomErrorDefinition extends WithComments {}
 
-  export interface TypeDefinition extends Parser.TypeDefinition, BaseNode {}
+  interface TypeDefinition extends WithComments {}
 
-  export interface RevertStatement extends Parser.RevertStatement, BaseNode {}
+  interface RevertStatement extends WithComments {}
 
-  export interface EventDefinition extends Parser.EventDefinition, BaseNode {}
+  interface EventDefinition extends WithComments {}
 
-  export interface EnumValue extends Parser.EnumValue, BaseNode {}
+  interface EnumValue extends WithComments {}
 
-  export interface EnumDefinition extends Parser.EnumDefinition, BaseNode {}
+  interface EnumDefinition extends WithComments {}
 
-  export interface ArrayTypeName extends Parser.ArrayTypeName, BaseNode {}
+  interface ArrayTypeName extends WithComments {}
 
-  export interface Mapping extends Parser.Mapping, BaseNode {}
+  interface Mapping extends WithComments {}
 
-  export interface FunctionTypeName extends Parser.FunctionTypeName, BaseNode {}
+  interface FunctionTypeName extends WithComments {}
 
-  export interface Block extends Parser.Block, BaseNode {}
+  interface Block extends WithComments {}
 
-  export interface ExpressionStatement
-    extends Parser.ExpressionStatement,
-      BaseNode {
+  interface ExpressionStatement extends WithComments {
     omitSemicolon?: boolean;
   }
 
-  export interface IfStatement extends Parser.IfStatement, BaseNode {}
+  interface IfStatement extends WithComments {}
 
-  export interface UncheckedStatement
-    extends Parser.UncheckedStatement,
-      BaseNode {}
+  interface UncheckedStatement extends WithComments {}
 
-  export interface TryStatement extends Parser.TryStatement, BaseNode {}
+  interface TryStatement extends WithComments {}
 
-  export interface CatchClause extends Parser.CatchClause, BaseNode {}
+  interface CatchClause extends WithComments {}
 
-  export interface WhileStatement extends Parser.WhileStatement, BaseNode {}
+  interface WhileStatement extends WithComments {}
 
-  export interface ForStatement extends Parser.ForStatement, BaseNode {
+  interface ForStatement extends WithComments {
     initExpression: SimpleStatement | null;
     loopExpression: ExpressionStatement;
   }
 
-  export interface InlineAssemblyStatement
-    extends Parser.InlineAssemblyStatement,
-      BaseNode {}
+  interface InlineAssemblyStatement extends WithComments {}
 
-  export interface DoWhileStatement extends Parser.DoWhileStatement, BaseNode {}
+  interface DoWhileStatement extends WithComments {}
 
-  export interface ContinueStatement
-    extends Parser.ContinueStatement,
-      BaseNode {}
+  interface ContinueStatement extends WithComments {}
 
-  export interface Break extends Parser.Break, BaseNode {}
+  interface Break extends WithComments {}
 
-  export interface Continue extends Parser.Continue, BaseNode {}
+  interface Continue extends WithComments {}
 
-  export interface BreakStatement extends Parser.BreakStatement, BaseNode {}
+  interface BreakStatement extends WithComments {}
 
-  export interface ReturnStatement extends Parser.ReturnStatement, BaseNode {}
+  interface ReturnStatement extends WithComments {}
 
-  export interface EmitStatement extends Parser.EmitStatement, BaseNode {}
+  interface EmitStatement extends WithComments {}
 
-  export interface ThrowStatement extends Parser.ThrowStatement, BaseNode {}
+  interface ThrowStatement extends WithComments {}
 
-  export interface VariableDeclarationStatement
-    extends Parser.VariableDeclarationStatement,
-      BaseNode {
+  interface VariableDeclarationStatement extends WithComments {
     omitSemicolon?: boolean;
   }
 
-  export interface ElementaryTypeName
-    extends Parser.ElementaryTypeName,
-      BaseNode {}
+  interface ElementaryTypeName extends WithComments {}
 
-  export interface FunctionCall extends Parser.FunctionCall, BaseNode {}
+  interface FunctionCall extends WithComments {}
 
-  export interface AssemblyBlock extends Parser.AssemblyBlock, BaseNode {}
+  interface AssemblyBlock extends WithComments {}
 
-  export interface AssemblyCall extends Parser.AssemblyCall, BaseNode {}
+  interface AssemblyCall extends WithComments {}
 
-  export interface AssemblyLocalDefinition
-    extends Parser.AssemblyLocalDefinition,
-      BaseNode {}
+  interface AssemblyLocalDefinition extends WithComments {}
 
-  export interface AssemblyAssignment
-    extends Parser.AssemblyAssignment,
-      BaseNode {}
+  interface AssemblyAssignment extends WithComments {}
 
-  export interface AssemblyStackAssignment
-    extends Parser.AssemblyStackAssignment,
-      BaseNode {}
+  interface AssemblyStackAssignment extends WithComments {}
 
-  export interface LabelDefinition extends Parser.LabelDefinition, BaseNode {}
+  interface LabelDefinition extends WithComments {}
 
-  export interface AssemblySwitch extends Parser.AssemblySwitch, BaseNode {}
+  interface AssemblySwitch extends WithComments {}
 
-  export interface AssemblyCase extends Parser.AssemblyCase, BaseNode {}
+  interface AssemblyCase extends WithComments {}
 
-  export interface AssemblyFunctionDefinition
-    extends Parser.AssemblyFunctionDefinition,
-      BaseNode {}
+  interface AssemblyFunctionDefinition extends WithComments {}
 
-  export interface AssemblyFor extends Parser.AssemblyFor, BaseNode {}
+  interface AssemblyFor extends WithComments {}
 
-  export interface AssemblyIf extends Parser.AssemblyIf, BaseNode {}
+  interface AssemblyIf extends WithComments {}
 
-  export interface AssemblyMemberAccess
-    extends Parser.AssemblyMemberAccess,
-      BaseNode {}
+  interface AssemblyMemberAccess extends WithComments {}
 
-  export interface NewExpression extends Parser.NewExpression, BaseNode {}
+  interface NewExpression extends WithComments {}
 
-  export interface TupleExpression extends Parser.TupleExpression, BaseNode {}
+  interface TupleExpression extends WithComments {}
 
-  export interface NameValueExpression
-    extends Parser.NameValueExpression,
-      BaseNode {}
+  interface NameValueExpression extends WithComments {}
 
-  export interface NumberLiteral extends Parser.NumberLiteral, BaseNode {}
+  interface NumberLiteral extends WithComments {}
 
-  export interface BooleanLiteral extends Parser.BooleanLiteral, BaseNode {}
+  interface BooleanLiteral extends WithComments {}
 
-  export interface HexLiteral extends Parser.HexLiteral, BaseNode {}
+  interface HexLiteral extends WithComments {}
 
-  export interface BinaryOperation extends Parser.BinaryOperation, BaseNode {}
+  interface BinaryOperation extends WithComments {}
 
-  export interface UnaryOperation extends Parser.UnaryOperation, BaseNode {}
+  interface UnaryOperation extends WithComments {}
 
-  export interface Conditional extends Parser.Conditional, BaseNode {}
+  interface Conditional extends WithComments {}
 
-  export interface IndexAccess extends Parser.IndexAccess, BaseNode {}
+  interface IndexAccess extends WithComments {}
 
-  export interface IndexRangeAccess extends Parser.IndexRangeAccess, BaseNode {}
+  interface IndexRangeAccess extends WithComments {}
 
-  export interface MemberAccess extends Parser.MemberAccess, BaseNode {}
+  interface MemberAccess extends WithComments {}
 
-  export interface HexNumber extends Parser.HexNumber, BaseNode {}
+  interface HexNumber extends WithComments {}
 
-  export interface DecimalNumber extends Parser.DecimalNumber, BaseNode {}
+  interface DecimalNumber extends WithComments {}
 
-  export interface NameValueList extends Parser.NameValueList, BaseNode {}
-
-  export type SimpleStatement =
-    | VariableDeclarationStatement
-    | ExpressionStatement;
-
-  export type AssemblyLiteral =
-    | StringLiteral
-    | BooleanLiteral
-    | DecimalNumber
-    | HexNumber
-    | HexLiteral;
-
-  export type AssemblyExpression = AssemblyCall | AssemblyLiteral;
-
-  export type AssemblyItem =
-    | Identifier
-    | AssemblyBlock
-    | AssemblyExpression
-    | AssemblyLocalDefinition
-    | AssemblyAssignment
-    | AssemblyStackAssignment
-    | LabelDefinition
-    | AssemblySwitch
-    | AssemblyFunctionDefinition
-    | AssemblyFor
-    | AssemblyIf
-    | Break
-    | Continue
-    | NumberLiteral;
-
-  export type Statement =
-    | IfStatement
-    | WhileStatement
-    | ForStatement
-    | Block
-    | InlineAssemblyStatement
-    | DoWhileStatement
-    | ContinueStatement
-    | BreakStatement
-    | ReturnStatement
-    | EmitStatement
-    | ThrowStatement
-    | SimpleStatement
-    | UncheckedStatement
-    | TryStatement
-    | RevertStatement;
-
-  export type TypeName =
-    | ElementaryTypeName
-    | UserDefinedTypeName
-    | Mapping
-    | ArrayTypeName
-    | FunctionTypeName;
-
-  export type PrimaryExpression =
-    | BooleanLiteral
-    | HexLiteral
-    | StringLiteral
-    | NumberLiteral
-    | Identifier
-    | TupleExpression
-    | TypeName;
-
-  export type Expression =
-    | IndexAccess
-    | IndexRangeAccess
-    | BinaryOperation
-    | Conditional
-    | MemberAccess
-    | FunctionCall
-    | UnaryOperation
-    | NewExpression
-    | PrimaryExpression
-    | NameValueExpression;
-
-  export type Node =
-    | SourceUnit
-    | PragmaDirective
-    | ImportDirective
-    | ContractDefinition
-    | InheritanceSpecifier
-    | StateVariableDeclaration
-    | UsingForDeclaration
-    | StructDefinition
-    | ModifierDefinition
-    | ModifierInvocation
-    | FunctionDefinition
-    | EventDefinition
-    | CustomErrorDefinition
-    | EnumValue
-    | EnumDefinition
-    | VariableDeclaration
-    | Statement
-    | AssemblyCase
-    | AssemblyItem
-    | Expression
-    | NameValueList
-    | AssemblyMemberAccess
-    | CatchClause
-    | FileLevelConstant
-    | TypeDefinition;
+  interface NameValueList extends WithComments {}
 }

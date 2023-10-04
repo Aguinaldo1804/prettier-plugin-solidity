@@ -1,7 +1,7 @@
 import { util, version } from 'prettier';
 import satisfies from 'semver/functions/satisfies.js';
 import type { ParserOptions } from 'prettier';
-import type { AST } from '../types';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
 
 export const prettierVersionSatisfies = (range: string): boolean =>
   satisfies(version, range);
@@ -49,7 +49,7 @@ export function printString(
   return util.makeString(rawContent, enclosingQuote);
 }
 
-export function hasNodeIgnoreComment(node: AST.Node): boolean {
+export function hasNodeIgnoreComment(node: AST.ASTNode): boolean {
   return Boolean(
     node &&
       node.comments &&

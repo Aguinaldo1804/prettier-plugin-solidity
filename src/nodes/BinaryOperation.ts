@@ -1,5 +1,6 @@
 import * as printers from '../binary-operator-printers/index.js';
-import type { AST, NodePrinter } from '../types';
+import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { NodePrinter } from '../types';
 
 export const BinaryOperation: NodePrinter<AST.BinaryOperation> = {
   print: ({ node, path, print }) => {
