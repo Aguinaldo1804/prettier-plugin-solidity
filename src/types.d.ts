@@ -1,4 +1,4 @@
-import type * as ParserAST from '@solidity-parser/parser/src/ast-types';
+import type * as Parser from '@solidity-parser/parser/src/ast-types';
 import type * as Extracted from 'solidity-comments-extractor';
 import type * as Prettier from 'prettier';
 
@@ -35,309 +35,210 @@ export namespace AST {
 
   export type Comment = BlockComment | LineComment;
 
-  export interface SourceUnit extends ParserAST.SourceUnit {
+  interface BaseNode {
     comments?: Comment[];
   }
 
-  export interface UserDefinedTypeName extends ParserAST.UserDefinedTypeName {
-    comments?: Comment[];
-  }
+  export interface SourceUnit extends Parser.SourceUnit, BaseNode {}
 
-  export interface InheritanceSpecifier extends ParserAST.InheritanceSpecifier {
-    comments?: Comment[];
-  }
+  export interface UserDefinedTypeName
+    extends Parser.UserDefinedTypeName,
+      BaseNode {}
 
-  export interface ContractDefinition extends ParserAST.ContractDefinition {
-    comments?: Comment[];
-  }
+  export interface InheritanceSpecifier
+    extends Parser.InheritanceSpecifier,
+      BaseNode {}
 
-  export interface PragmaDirective extends ParserAST.PragmaDirective {
-    comments?: Comment[];
-  }
+  export interface ContractDefinition
+    extends Parser.ContractDefinition,
+      BaseNode {}
 
-  export interface StringLiteral extends ParserAST.StringLiteral {
-    comments?: Comment[];
-  }
+  export interface PragmaDirective extends Parser.PragmaDirective, BaseNode {}
 
-  export interface Identifier extends ParserAST.Identifier {
-    comments?: Comment[];
-  }
+  export interface StringLiteral extends Parser.StringLiteral, BaseNode {}
 
-  export interface ImportDirective extends ParserAST.ImportDirective {
-    comments?: Comment[];
-  }
+  export interface Identifier extends Parser.Identifier, BaseNode {}
 
-  export interface VariableDeclaration extends ParserAST.VariableDeclaration {
-    comments?: Comment[];
-  }
+  export interface ImportDirective extends Parser.ImportDirective, BaseNode {}
+
+  export interface VariableDeclaration
+    extends Parser.VariableDeclaration,
+      BaseNode {}
 
   export interface StateVariableDeclarationVariable
-    extends ParserAST.StateVariableDeclarationVariable {
-    comments?: Comment[];
-  }
+    extends Parser.StateVariableDeclarationVariable,
+      BaseNode {}
 
   export interface StateVariableDeclaration
-    extends ParserAST.StateVariableDeclaration {
-    comments?: Comment[];
-  }
+    extends Parser.StateVariableDeclaration,
+      BaseNode {}
 
-  export interface FileLevelConstant extends ParserAST.FileLevelConstant {
-    comments?: Comment[];
-  }
+  export interface FileLevelConstant
+    extends Parser.FileLevelConstant,
+      BaseNode {}
 
-  export interface UsingForDeclaration extends ParserAST.UsingForDeclaration {
-    comments?: Comment[];
-  }
+  export interface UsingForDeclaration
+    extends Parser.UsingForDeclaration,
+      BaseNode {}
 
-  export interface StructDefinition extends ParserAST.StructDefinition {
-    comments?: Comment[];
-  }
+  export interface StructDefinition extends Parser.StructDefinition, BaseNode {}
 
-  export interface ModifierDefinition extends ParserAST.ModifierDefinition {
-    comments?: Comment[];
-  }
+  export interface ModifierDefinition
+    extends Parser.ModifierDefinition,
+      BaseNode {}
 
-  export interface ModifierInvocation extends ParserAST.ModifierInvocation {
-    comments?: Comment[];
-  }
+  export interface ModifierInvocation
+    extends Parser.ModifierInvocation,
+      BaseNode {}
 
-  export interface FunctionDefinition extends ParserAST.FunctionDefinition {
-    comments?: Comment[];
-  }
+  export interface FunctionDefinition
+    extends Parser.FunctionDefinition,
+      BaseNode {}
 
   export interface CustomErrorDefinition
-    extends ParserAST.CustomErrorDefinition {
-    comments?: Comment[];
-  }
+    extends Parser.CustomErrorDefinition,
+      BaseNode {}
 
-  export interface TypeDefinition extends ParserAST.TypeDefinition {
-    comments?: Comment[];
-  }
+  export interface TypeDefinition extends Parser.TypeDefinition, BaseNode {}
 
-  export interface RevertStatement extends ParserAST.RevertStatement {
-    comments?: Comment[];
-  }
+  export interface RevertStatement extends Parser.RevertStatement, BaseNode {}
 
-  export interface EventDefinition extends ParserAST.EventDefinition {
-    comments?: Comment[];
-  }
+  export interface EventDefinition extends Parser.EventDefinition, BaseNode {}
 
-  export interface EnumValue extends ParserAST.EnumValue {
-    comments?: Comment[];
-  }
+  export interface EnumValue extends Parser.EnumValue, BaseNode {}
 
-  export interface EnumDefinition extends ParserAST.EnumDefinition {
-    comments?: Comment[];
-  }
+  export interface EnumDefinition extends Parser.EnumDefinition, BaseNode {}
 
-  export interface ArrayTypeName extends ParserAST.ArrayTypeName {
-    comments?: Comment[];
-  }
+  export interface ArrayTypeName extends Parser.ArrayTypeName, BaseNode {}
 
-  export interface Mapping extends ParserAST.Mapping {
-    comments?: Comment[];
-  }
+  export interface Mapping extends Parser.Mapping, BaseNode {}
 
-  export interface FunctionTypeName extends ParserAST.FunctionTypeName {
-    comments?: Comment[];
-  }
+  export interface FunctionTypeName extends Parser.FunctionTypeName, BaseNode {}
 
-  export interface Block extends ParserAST.Block {
-    comments?: Comment[];
-  }
+  export interface Block extends Parser.Block, BaseNode {}
 
-  export interface ExpressionStatement extends ParserAST.ExpressionStatement {
-    comments?: Comment[];
+  export interface ExpressionStatement
+    extends Parser.ExpressionStatement,
+      BaseNode {
     omitSemicolon?: boolean;
   }
 
-  export interface IfStatement extends ParserAST.IfStatement {
-    comments?: Comment[];
-  }
+  export interface IfStatement extends Parser.IfStatement, BaseNode {}
 
-  export interface UncheckedStatement extends ParserAST.UncheckedStatement {
-    comments?: Comment[];
-  }
+  export interface UncheckedStatement
+    extends Parser.UncheckedStatement,
+      BaseNode {}
 
-  export interface TryStatement extends ParserAST.TryStatement {
-    comments?: Comment[];
-  }
+  export interface TryStatement extends Parser.TryStatement, BaseNode {}
 
-  export interface CatchClause extends ParserAST.CatchClause {
-    comments?: Comment[];
-  }
+  export interface CatchClause extends Parser.CatchClause, BaseNode {}
 
-  export interface WhileStatement extends ParserAST.WhileStatement {
-    comments?: Comment[];
-  }
+  export interface WhileStatement extends Parser.WhileStatement, BaseNode {}
 
-  export interface ForStatement extends ParserAST.ForStatement {
-    comments?: Comment[];
+  export interface ForStatement extends Parser.ForStatement, BaseNode {
     initExpression: SimpleStatement | null;
     loopExpression: ExpressionStatement;
   }
 
   export interface InlineAssemblyStatement
-    extends ParserAST.InlineAssemblyStatement {
-    comments?: Comment[];
-  }
+    extends Parser.InlineAssemblyStatement,
+      BaseNode {}
 
-  export interface DoWhileStatement extends ParserAST.DoWhileStatement {
-    comments?: Comment[];
-  }
+  export interface DoWhileStatement extends Parser.DoWhileStatement, BaseNode {}
 
-  export interface ContinueStatement extends ParserAST.ContinueStatement {
-    comments?: Comment[];
-  }
+  export interface ContinueStatement
+    extends Parser.ContinueStatement,
+      BaseNode {}
 
-  export interface Break extends ParserAST.Break {
-    comments?: Comment[];
-  }
+  export interface Break extends Parser.Break, BaseNode {}
 
-  export interface Continue extends ParserAST.Continue {
-    comments?: Comment[];
-  }
+  export interface Continue extends Parser.Continue, BaseNode {}
 
-  export interface BreakStatement extends ParserAST.BreakStatement {
-    comments?: Comment[];
-  }
+  export interface BreakStatement extends Parser.BreakStatement, BaseNode {}
 
-  export interface ReturnStatement extends ParserAST.ReturnStatement {
-    comments?: Comment[];
-  }
+  export interface ReturnStatement extends Parser.ReturnStatement, BaseNode {}
 
-  export interface EmitStatement extends ParserAST.EmitStatement {
-    comments?: Comment[];
-  }
+  export interface EmitStatement extends Parser.EmitStatement, BaseNode {}
 
-  export interface ThrowStatement extends ParserAST.ThrowStatement {
-    comments?: Comment[];
-  }
+  export interface ThrowStatement extends Parser.ThrowStatement, BaseNode {}
 
   export interface VariableDeclarationStatement
-    extends ParserAST.VariableDeclarationStatement {
-    comments?: Comment[];
+    extends Parser.VariableDeclarationStatement,
+      BaseNode {
     omitSemicolon?: boolean;
   }
 
-  export interface ElementaryTypeName extends ParserAST.ElementaryTypeName {
-    comments?: Comment[];
-  }
+  export interface ElementaryTypeName
+    extends Parser.ElementaryTypeName,
+      BaseNode {}
 
-  export interface FunctionCall extends ParserAST.FunctionCall {
-    comments?: Comment[];
-  }
+  export interface FunctionCall extends Parser.FunctionCall, BaseNode {}
 
-  export interface AssemblyBlock extends ParserAST.AssemblyBlock {
-    comments?: Comment[];
-  }
+  export interface AssemblyBlock extends Parser.AssemblyBlock, BaseNode {}
 
-  export interface AssemblyCall extends ParserAST.AssemblyCall {
-    comments?: Comment[];
-  }
+  export interface AssemblyCall extends Parser.AssemblyCall, BaseNode {}
 
   export interface AssemblyLocalDefinition
-    extends ParserAST.AssemblyLocalDefinition {
-    comments?: Comment[];
-  }
+    extends Parser.AssemblyLocalDefinition,
+      BaseNode {}
 
-  export interface AssemblyAssignment extends ParserAST.AssemblyAssignment {
-    comments?: Comment[];
-  }
+  export interface AssemblyAssignment
+    extends Parser.AssemblyAssignment,
+      BaseNode {}
 
   export interface AssemblyStackAssignment
-    extends ParserAST.AssemblyStackAssignment {
-    comments?: Comment[];
-  }
+    extends Parser.AssemblyStackAssignment,
+      BaseNode {}
 
-  export interface LabelDefinition extends ParserAST.LabelDefinition {
-    comments?: Comment[];
-  }
+  export interface LabelDefinition extends Parser.LabelDefinition, BaseNode {}
 
-  export interface AssemblySwitch extends ParserAST.AssemblySwitch {
-    comments?: Comment[];
-  }
+  export interface AssemblySwitch extends Parser.AssemblySwitch, BaseNode {}
 
-  export interface AssemblyCase extends ParserAST.AssemblyCase {
-    comments?: Comment[];
-  }
+  export interface AssemblyCase extends Parser.AssemblyCase, BaseNode {}
 
   export interface AssemblyFunctionDefinition
-    extends ParserAST.AssemblyFunctionDefinition {
-    comments?: Comment[];
-  }
+    extends Parser.AssemblyFunctionDefinition,
+      BaseNode {}
 
-  export interface AssemblyFor extends ParserAST.AssemblyFor {
-    comments?: Comment[];
-  }
+  export interface AssemblyFor extends Parser.AssemblyFor, BaseNode {}
 
-  export interface AssemblyIf extends ParserAST.AssemblyIf {
-    comments?: Comment[];
-  }
+  export interface AssemblyIf extends Parser.AssemblyIf, BaseNode {}
 
-  export interface AssemblyMemberAccess extends ParserAST.AssemblyMemberAccess {
-    comments?: Comment[];
-  }
+  export interface AssemblyMemberAccess
+    extends Parser.AssemblyMemberAccess,
+      BaseNode {}
 
-  export interface NewExpression extends ParserAST.NewExpression {
-    comments?: Comment[];
-  }
+  export interface NewExpression extends Parser.NewExpression, BaseNode {}
 
-  export interface TupleExpression extends ParserAST.TupleExpression {
-    comments?: Comment[];
-  }
+  export interface TupleExpression extends Parser.TupleExpression, BaseNode {}
 
-  export interface NameValueExpression extends ParserAST.NameValueExpression {
-    comments?: Comment[];
-  }
+  export interface NameValueExpression
+    extends Parser.NameValueExpression,
+      BaseNode {}
 
-  export interface NumberLiteral extends ParserAST.NumberLiteral {
-    comments?: Comment[];
-  }
+  export interface NumberLiteral extends Parser.NumberLiteral, BaseNode {}
 
-  export interface BooleanLiteral extends ParserAST.BooleanLiteral {
-    comments?: Comment[];
-  }
+  export interface BooleanLiteral extends Parser.BooleanLiteral, BaseNode {}
 
-  export interface HexLiteral extends ParserAST.HexLiteral {
-    comments?: Comment[];
-  }
+  export interface HexLiteral extends Parser.HexLiteral, BaseNode {}
 
-  export interface BinaryOperation extends ParserAST.BinaryOperation {
-    comments?: Comment[];
-  }
+  export interface BinaryOperation extends Parser.BinaryOperation, BaseNode {}
 
-  export interface UnaryOperation extends ParserAST.UnaryOperation {
-    comments?: Comment[];
-  }
+  export interface UnaryOperation extends Parser.UnaryOperation, BaseNode {}
 
-  export interface Conditional extends ParserAST.Conditional {
-    comments?: Comment[];
-  }
+  export interface Conditional extends Parser.Conditional, BaseNode {}
 
-  export interface IndexAccess extends ParserAST.IndexAccess {
-    comments?: Comment[];
-  }
+  export interface IndexAccess extends Parser.IndexAccess, BaseNode {}
 
-  export interface IndexRangeAccess extends ParserAST.IndexRangeAccess {
-    comments?: Comment[];
-  }
+  export interface IndexRangeAccess extends Parser.IndexRangeAccess, BaseNode {}
 
-  export interface MemberAccess extends ParserAST.MemberAccess {
-    comments?: Comment[];
-  }
+  export interface MemberAccess extends Parser.MemberAccess, BaseNode {}
 
-  export interface HexNumber extends ParserAST.HexNumber {
-    comments?: Comment[];
-  }
+  export interface HexNumber extends Parser.HexNumber, BaseNode {}
 
-  export interface DecimalNumber extends ParserAST.DecimalNumber {
-    comments?: Comment[];
-  }
+  export interface DecimalNumber extends Parser.DecimalNumber, BaseNode {}
 
-  export interface NameValueList extends ParserAST.NameValueList {
-    comments?: Comment[];
-  }
+  export interface NameValueList extends Parser.NameValueList, BaseNode {}
 
   export type SimpleStatement =
     | VariableDeclarationStatement
