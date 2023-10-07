@@ -1,13 +1,13 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type { ModifierDefinition as IModifierDefinition } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, hardline, indent, line } = doc.builders;
 
 const modifierParameters = (
-  node: AST.ModifierDefinition,
+  node: IModifierDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
@@ -30,11 +30,11 @@ const modifierParameters = (
   return '()';
 };
 
-const virtual = (node: AST.ModifierDefinition): Doc =>
+const virtual = (node: IModifierDefinition): Doc =>
   node.isVirtual ? [line, 'virtual'] : '';
 
 const override = (
-  node: AST.ModifierDefinition,
+  node: IModifierDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
@@ -49,7 +49,7 @@ const override = (
 };
 
 const body = (
-  node: AST.ModifierDefinition,
+  node: IModifierDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
@@ -58,7 +58,7 @@ const body = (
   return [' ', path.call(print, 'body')];
 };
 
-export const ModifierDefinition: NodePrinter<AST.ModifierDefinition> = {
+export const ModifierDefinition: NodePrinter<IModifierDefinition> = {
   print: ({ node, path, print }) => [
     'modifier ',
     node.name,

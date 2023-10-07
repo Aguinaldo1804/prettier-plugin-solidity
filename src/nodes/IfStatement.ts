@@ -3,14 +3,18 @@ import {
   printComments,
   printSeparatedItem
 } from '../common/printer-helpers.js';
+import type {
+  Comment,
+  IfStatement as IIfStatement,
+  Statement
+} from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, hardline, indent, line } = doc.builders;
 
 const printTrueBody = (
-  node: AST.Statement,
+  node: Statement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
@@ -25,7 +29,7 @@ const printTrueBody = (
 };
 
 const printFalseBody = (
-  node: AST.Statement,
+  node: Statement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -34,10 +38,10 @@ const printFalseBody = (
     : group(indent([line, path.call(print, 'falseBody')]));
 
 const printElse = (
-  node: AST.IfStatement,
+  node: IIfStatement,
   path: AstPath,
   print: (path: AstPath) => Doc,
-  commentsBetweenIfAndElse: AST.Comment[]
+  commentsBetweenIfAndElse: Comment[]
 ): Doc => {
   if (node.falseBody) {
     const elseOnSameLine =
@@ -51,7 +55,7 @@ const printElse = (
   return '';
 };
 
-export const IfStatement: NodePrinter<AST.IfStatement> = {
+export const IfStatement: NodePrinter<IIfStatement> = {
   print: ({ node, options, path, print }) => {
     const comments = node.comments || [];
     const commentsBetweenIfAndElse = comments.filter(

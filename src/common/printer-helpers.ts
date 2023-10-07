@@ -6,24 +6,24 @@ import {
   isPrettier2
 } from './backward-compatibility.js';
 import { printComment } from '../comments/printer.js';
+import type { ASTNode, Comment } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { DocV2, PrintSeparatedOptions } from './types';
 
 const { group, indent, join, line, softline, hardline } = doc.builders;
 
 export const printComments = (
-  node: AST.ASTNode,
+  node: ASTNode,
   path: AstPath,
   options: ParserOptions,
-  filter: (comment: AST.Comment) => boolean = (): true => true
+  filter: (comment: Comment) => boolean = (): true => true
 ): Doc[] => {
   if (!node.comments) return [];
   const document = join(
     line,
     path
       .map((commentPath: AstPath): Doc => {
-        const comment = getNode(commentPath) as AST.Comment;
+        const comment = getNode(commentPath) as Comment;
         if (comment.trailing || comment.leading || comment.printed) {
           return '';
         }
@@ -54,7 +54,7 @@ export function printPreservingEmptyLines(
 ): Doc[] {
   const parts: Doc[] = [];
   path.each((childPath, index) => {
-    const node = getNode(childPath) as AST.ASTNode;
+    const node = getNode(childPath) as ASTNode;
     const nodeType = node.type;
 
     if (

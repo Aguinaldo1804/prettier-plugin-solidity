@@ -4,7 +4,7 @@ import loc from './loc.js';
 import options from './options.js';
 import parse from './parser.js';
 import print from './printer.js';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { Comment } from '@solidity-parser/parser/src/ast-types';
 
 // https://prettier.io/docs/en/plugins.html#languages
 // https://github.com/ikatyang/linguist-languages/blob/master/data/Solidity.json
@@ -25,7 +25,7 @@ const languages = [
 // https://prettier.io/docs/en/plugins.html#parsers
 const parser = { astFormat: 'solidity-ast', parse, ...loc };
 const parsers = { 'solidity-parse': parser };
-const canAttachComment = (node: AST.Comment): boolean =>
+const canAttachComment = (node: Comment): boolean =>
   node.type && node.type !== 'BlockComment' && node.type !== 'LineComment';
 
 // https://prettier.io/docs/en/plugins.html#printers

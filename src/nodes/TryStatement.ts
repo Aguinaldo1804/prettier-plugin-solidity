@@ -3,14 +3,14 @@ import {
   printSeparatedItem,
   printSeparatedList
 } from '../common/printer-helpers.js';
+import type { TryStatement as ITryStatement } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { join, line } = doc.builders;
 
 const returnParameters = (
-  node: AST.TryStatement,
+  node: ITryStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -22,7 +22,7 @@ const returnParameters = (
       ]
     : '';
 
-export const TryStatement: NodePrinter<AST.TryStatement> = {
+export const TryStatement: NodePrinter<ITryStatement> = {
   print: ({ node, path, print }) => {
     let parts = [
       'try',

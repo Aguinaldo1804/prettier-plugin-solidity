@@ -1,6 +1,6 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { ThrowStatement as IThrowStatement } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
-export const ThrowStatement: NodePrinter<AST.ThrowStatement> = {
+export const ThrowStatement: NodePrinter<IThrowStatement> = {
   print: () => 'throw;'
 };

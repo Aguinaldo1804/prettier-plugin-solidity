@@ -1,7 +1,7 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { AssemblyMemberAccess as IAssemblyMemberAccess } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
-export const AssemblyMemberAccess: NodePrinter<AST.AssemblyMemberAccess> = {
+export const AssemblyMemberAccess: NodePrinter<IAssemblyMemberAccess> = {
   print: ({ path, print }) => [
     path.call(print, 'expression'),
     '.',

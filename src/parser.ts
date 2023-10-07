@@ -3,13 +3,16 @@ import extractComments from 'solidity-comments-extractor';
 import parser from '@solidity-parser/parser';
 import coerce from 'semver/functions/coerce.js';
 import satisfies from 'semver/functions/satisfies.js';
+import type {
+  BinOp,
+  BinaryOperation,
+  Expression,
+  ForStatement,
+  SourceUnit
+} from '@solidity-parser/parser/src/ast-types';
 import type { Parser, ParserOptions } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 
-const tryHug = (
-  node: AST.Expression,
-  operators: AST.BinOp[]
-): AST.Expression => {
+const tryHug = (node: Expression, operators: BinOp[]): Expression => {
   if (node.type === 'BinaryOperation' && operators.includes(node.operator))
     return { type: 'TupleExpression', components: [node], isArray: false };
   return node;
@@ -19,12 +22,12 @@ export default function parse(
   text: string,
   _parsers: Parser[] | ParserOptions,
   options = _parsers as ParserOptions
-): AST.SourceUnit {
+): SourceUnit {
   const compiler = coerce(options.compiler);
   const parsed = parser.parse(text, {
     loc: true,
     range: true
-  }) as AST.SourceUnit;
+  }) as SourceUnit;
   parsed.comments = extractComments(text);
 
   parser.visit(parsed, {
@@ -58,7 +61,7 @@ export default function parse(
         });
       }
     },
-    ForStatement(ctx: AST.ForStatement) {
+    ForStatement(ctx: ForStatement) {
       if (ctx.initExpression) {
         ctx.initExpression.omitSemicolon = true;
       }
@@ -109,7 +112,7 @@ export default function parse(
                   operator: '**',
                   left: ctx.left.right,
                   right: ctx.right
-                } as AST.BinaryOperation
+                } as BinaryOperation
               ],
               isArray: false
             };

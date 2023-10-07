@@ -1,10 +1,10 @@
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type { CustomErrorDefinition as ICustomErrorDefinition } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const parameters = (
-  node: AST.CustomErrorDefinition,
+  node: ICustomErrorDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -12,7 +12,7 @@ const parameters = (
     ? printSeparatedList(path.map(print, 'parameters'))
     : '';
 
-export const CustomErrorDefinition: NodePrinter<AST.CustomErrorDefinition> = {
+export const CustomErrorDefinition: NodePrinter<ICustomErrorDefinition> = {
   print: ({ node, path, print }) => [
     'error ',
     node.name,

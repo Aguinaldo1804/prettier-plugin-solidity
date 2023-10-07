@@ -4,12 +4,12 @@ import {
   printPreservingEmptyLines,
   printSeparatedItem
 } from '../common/printer-helpers.js';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { AssemblyBlock as IAssemblyBlock } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { hardline } = doc.builders;
 
-export const AssemblyBlock: NodePrinter<AST.AssemblyBlock> = {
+export const AssemblyBlock: NodePrinter<IAssemblyBlock> = {
   print: ({ node, options, path, print }) => [
     '{',
     printSeparatedItem(

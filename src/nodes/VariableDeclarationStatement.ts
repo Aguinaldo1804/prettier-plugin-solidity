@@ -1,7 +1,10 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type {
+  VariableDeclaration,
+  VariableDeclarationStatement as IVariableDeclarationStatement
+} from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, indentIfBreak } = doc.builders;
@@ -10,19 +13,18 @@ const embraceVariables = (document: Doc[], embrace: boolean): Doc =>
   embrace ? ['(', printSeparatedList(document), ')'] : document;
 
 const initialValue = (
-  node: AST.VariableDeclarationStatement,
+  node: IVariableDeclarationStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => (node.initialValue ? [' = ', path.call(print, 'initialValue')] : '');
 
 let groupIndex = 0;
-export const VariableDeclarationStatement: NodePrinter<AST.VariableDeclarationStatement> =
+export const VariableDeclarationStatement: NodePrinter<IVariableDeclarationStatement> =
   {
     print: ({ node, path, print }) => {
       const startsWithVar =
-        node.variables.filter(
-          (x) => x && (x as AST.VariableDeclaration).typeName
-        ).length === 0;
+        node.variables.filter((x) => x && (x as VariableDeclaration).typeName)
+          .length === 0;
 
       const declarationDoc = group(
         [

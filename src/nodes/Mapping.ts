@@ -1,10 +1,10 @@
+import type { Mapping as IMapping } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const namedParameter = (
   prefix: 'key' | 'value',
-  node: AST.Mapping,
+  node: IMapping,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -16,7 +16,7 @@ const namedParameter = (
       ]
     : path.call(print, `${prefix}Type`);
 
-export const Mapping: NodePrinter<AST.Mapping> = {
+export const Mapping: NodePrinter<IMapping> = {
   print: ({ node, path, print }) => [
     'mapping(',
     namedParameter('key', node, path, print),

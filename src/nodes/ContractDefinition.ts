@@ -5,14 +5,14 @@ import {
   printSeparatedItem,
   printSeparatedList
 } from '../common/printer-helpers.js';
+import type { ContractDefinition as IContractDefinition } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, line, hardline } = doc.builders;
 
 const inheritance = (
-  node: AST.ContractDefinition,
+  node: IContractDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -26,7 +26,7 @@ const inheritance = (
     : line;
 
 const body = (
-  node: AST.ContractDefinition,
+  node: IContractDefinition,
   path: AstPath,
   options: ParserOptions,
   print: (path: AstPath) => Doc
@@ -40,7 +40,7 @@ const body = (
     : '';
 };
 
-export const ContractDefinition: NodePrinter<AST.ContractDefinition> = {
+export const ContractDefinition: NodePrinter<IContractDefinition> = {
   print: ({ node, options, path, print }) => [
     group([
       node.kind === 'abstract' ? 'abstract contract' : node.kind,

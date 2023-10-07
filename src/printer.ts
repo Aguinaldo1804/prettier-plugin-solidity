@@ -5,8 +5,8 @@ import {
   prettierVersionSatisfies
 } from './common/util.js';
 import ignoreComments from './comments/ignore.js';
+import type { ASTNode } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 
 let checked = false;
 
@@ -27,7 +27,7 @@ export default function genericPrint(
 ): Doc {
   prettierVersionCheck();
 
-  const node = getNode(path) as AST.ASTNode;
+  const node = getNode(path) as ASTNode;
   if (node === null) {
     return '';
   }

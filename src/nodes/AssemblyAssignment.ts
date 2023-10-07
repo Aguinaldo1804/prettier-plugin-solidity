@@ -1,10 +1,10 @@
 import { doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { AssemblyAssignment as IAssemblyAssignment } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { join } = doc.builders;
 
-export const AssemblyAssignment: NodePrinter<AST.AssemblyAssignment> = {
+export const AssemblyAssignment: NodePrinter<IAssemblyAssignment> = {
   print: ({ path, print }) => [
     join(', ', path.map(print, 'names')),
     ' := ',

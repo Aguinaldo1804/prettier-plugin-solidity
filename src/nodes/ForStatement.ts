@@ -1,33 +1,33 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type { ForStatement as IForStatement } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, indent, line } = doc.builders;
 
 const initExpression = (
-  node: AST.ForStatement,
+  node: IForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => (node.initExpression ? path.call(print, 'initExpression') : '');
 
 const conditionExpression = (
-  node: AST.ForStatement,
+  node: IForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
   node.conditionExpression ? path.call(print, 'conditionExpression') : '';
 
 const loopExpression = (
-  node: AST.ForStatement,
+  node: IForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
   node.loopExpression.expression ? path.call(print, 'loopExpression') : '';
 
 const printBody = (
-  node: AST.ForStatement,
+  node: IForStatement,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -35,7 +35,7 @@ const printBody = (
     ? [' ', path.call(print, 'body')]
     : group(indent([line, path.call(print, 'body')]));
 
-export const ForStatement: NodePrinter<AST.ForStatement> = {
+export const ForStatement: NodePrinter<IForStatement> = {
   print: ({ node, path, print }) => [
     'for (',
     printSeparatedList(

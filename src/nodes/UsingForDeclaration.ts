@@ -1,11 +1,11 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { UsingForDeclaration as IUsingForDeclaration } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { line, softline } = doc.builders;
 
-export const UsingForDeclaration: NodePrinter<AST.UsingForDeclaration> = {
+export const UsingForDeclaration: NodePrinter<IUsingForDeclaration> = {
   print: ({ node, path, print, options }) => [
     'using ',
     node.functions && node.functions.length

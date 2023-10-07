@@ -1,10 +1,10 @@
 import { doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { AssemblyFor as IAssemblyFor } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { join } = doc.builders;
 
-export const AssemblyFor: NodePrinter<AST.AssemblyFor> = {
+export const AssemblyFor: NodePrinter<IAssemblyFor> = {
   print: ({ path, print }) =>
     join(' ', [
       'for',

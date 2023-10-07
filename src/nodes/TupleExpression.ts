@@ -1,13 +1,13 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type { TupleExpression as ITupleExpression } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group } = doc.builders;
 
 const contents = (
-  node: AST.TupleExpression,
+  node: ITupleExpression,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc[] =>
@@ -15,7 +15,7 @@ const contents = (
     ? path.map(print, 'components')
     : [printSeparatedList(path.map(print, 'components'))];
 
-export const TupleExpression: NodePrinter<AST.TupleExpression> = {
+export const TupleExpression: NodePrinter<ITupleExpression> = {
   print: ({ node, path, print }) =>
     group([
       node.isArray ? '[' : '(',

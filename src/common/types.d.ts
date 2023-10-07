@@ -1,11 +1,11 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { ASTNode, Comment } from '@solidity-parser/parser/src/ast-types';
 import type { Doc, util } from 'prettier';
 
 declare namespace utilV2Functions {
   function getNextNonSpaceNonCommentCharacterIndex(
     text: string,
-    node: AST.ASTNode | AST.Comment,
-    locEnd: (node: AST.ASTNode) => number
+    node: ASTNode | Comment,
+    locEnd: (node: ASTNode) => number
   ): number | false;
 
   function isNextLineEmptyAfterIndex(text: string, startIndex: number): boolean;

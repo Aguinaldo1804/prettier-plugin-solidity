@@ -1,5 +1,5 @@
-import type * as Extracted from 'solidity-comments-extractor';
-import type * as Prettier from 'prettier';
+import type { AstPath, Doc, ParserOptions } from 'prettier';
+import type { Comment as IComment } from 'solidity-comments-extractor';
 
 declare module 'prettier' {
   interface ParserOptions {
@@ -10,14 +10,14 @@ declare module 'prettier' {
 interface NodePrinter<T> {
   print: (arg: {
     node: T;
-    options: Prettier.ParserOptions;
-    path: Prettier.AstPath;
-    print: (path: Prettier.AstPath) => Prettier.Doc;
-  }) => Prettier.Doc;
+    options: ParserOptions;
+    path: AstPath;
+    print: (path: AstPath) => Doc;
+  }) => Doc;
 }
 
 declare module '@solidity-parser/parser/src/ast-types' {
-  interface BaseComment extends Extracted.Comment {
+  interface BaseComment extends IComment {
     leading?: boolean;
     trailing?: boolean;
     printed?: boolean;

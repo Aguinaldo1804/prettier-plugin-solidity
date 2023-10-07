@@ -5,14 +5,14 @@ import {
   printSeparatedItem,
   printSeparatedList
 } from '../common/printer-helpers.js';
+import type { FunctionDefinition as IFunctionDefinition } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { dedent, group, indent, join, line } = doc.builders;
 
 const functionName = (
-  node: AST.FunctionDefinition,
+  node: IFunctionDefinition,
   options: ParserOptions
 ): Doc => {
   if (node.isConstructor && !node.name) return 'constructor';
@@ -33,7 +33,7 @@ const functionName = (
 
 const parameters = (
   parametersType: 'parameters' | 'returnParameters',
-  node: AST.FunctionDefinition,
+  node: IFunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
@@ -65,16 +65,16 @@ const parameters = (
   return '';
 };
 
-const visibility = (node: AST.FunctionDefinition): Doc =>
+const visibility = (node: IFunctionDefinition): Doc =>
   node.visibility && node.visibility !== 'default'
     ? [line, node.visibility]
     : '';
 
-const virtual = (node: AST.FunctionDefinition): Doc =>
+const virtual = (node: IFunctionDefinition): Doc =>
   node.isVirtual ? [line, 'virtual'] : '';
 
 const override = (
-  node: AST.FunctionDefinition,
+  node: IFunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
@@ -88,11 +88,11 @@ const override = (
   ];
 };
 
-const stateMutability = (node: AST.FunctionDefinition): Doc =>
+const stateMutability = (node: IFunctionDefinition): Doc =>
   node.stateMutability ? [line, node.stateMutability] : '';
 
 const modifiers = (
-  node: AST.FunctionDefinition,
+  node: IFunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -101,7 +101,7 @@ const modifiers = (
     : '';
 
 const returnParameters = (
-  node: AST.FunctionDefinition,
+  node: IFunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc,
   options: ParserOptions
@@ -115,16 +115,16 @@ const returnParameters = (
       ]
     : '';
 
-const signatureEnd = (node: AST.FunctionDefinition): Doc =>
+const signatureEnd = (node: IFunctionDefinition): Doc =>
   node.body ? dedent(line) : ';';
 
 const body = (
-  node: AST.FunctionDefinition,
+  node: IFunctionDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => (node.body ? path.call(print, 'body') : '');
 
-export const FunctionDefinition: NodePrinter<AST.FunctionDefinition> = {
+export const FunctionDefinition: NodePrinter<IFunctionDefinition> = {
   print: ({ node, path, print, options }) => [
     group([
       functionName(node, options),

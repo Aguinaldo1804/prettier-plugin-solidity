@@ -3,13 +3,13 @@ import coerce from 'semver/functions/coerce.js';
 import satisfies from 'semver/functions/satisfies.js';
 import { printSeparatedList } from '../common/printer-helpers.js';
 import { printString } from '../common/util.js';
+import type { ImportDirective as IImportDirective } from '@solidity-parser/parser/src/ast-types';
 import type { Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, line, softline } = doc.builders;
 
-export const ImportDirective: NodePrinter<AST.ImportDirective> = {
+export const ImportDirective: NodePrinter<IImportDirective> = {
   print: ({ node, options }) => {
     const importPath = printString(node.path, options);
     let document: Doc;

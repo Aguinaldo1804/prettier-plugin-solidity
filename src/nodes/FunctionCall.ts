@@ -1,7 +1,7 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type { FunctionCall as IFunctionCall } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, indentIfBreak, label, line, softline } = doc.builders;
@@ -32,7 +32,7 @@ const printArguments = (path: AstPath, print: (path: AstPath) => Doc): Doc =>
   });
 
 let groupIndex = 0;
-export const FunctionCall: NodePrinter<AST.FunctionCall> = {
+export const FunctionCall: NodePrinter<IFunctionCall> = {
   print: ({ node, path, print, options }) => {
     let expressionDoc = path.call(
       print,

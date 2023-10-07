@@ -1,7 +1,7 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { AssemblyCase as IAssemblyCase } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
-export const AssemblyCase: NodePrinter<AST.AssemblyCase> = {
+export const AssemblyCase: NodePrinter<IAssemblyCase> = {
   print: ({ node, path, print }) => [
     node.default ? 'default' : ['case ', path.call(print, 'value')],
     ' ',

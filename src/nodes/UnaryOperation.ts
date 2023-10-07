@@ -1,7 +1,7 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { UnaryOperation as IUnaryOperation } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
-export const UnaryOperation: NodePrinter<AST.UnaryOperation> = {
+export const UnaryOperation: NodePrinter<IUnaryOperation> = {
   print: ({ node, path, print }) =>
     node.isPrefix
       ? [

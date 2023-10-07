@@ -1,12 +1,12 @@
 import { doc } from 'prettier';
+import type { IndexAccess as IIndexAccess } from '@solidity-parser/parser/src/ast-types';
 import type { Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, indent, indentIfBreak, label, softline } = doc.builders;
 
 let groupIndex = 0;
-export const IndexAccess: NodePrinter<AST.IndexAccess> = {
+export const IndexAccess: NodePrinter<IIndexAccess> = {
   print: ({ path, print }) => {
     let baseDoc = path.call(print, 'base') as doc.builders.DocCommand;
     let indexDoc: Doc = group([

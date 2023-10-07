@@ -1,11 +1,11 @@
 import { doc } from 'prettier';
 import { printString } from '../common/util.js';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { StringLiteral as IStringLiteral } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { join, hardline } = doc.builders;
 
-export const StringLiteral: NodePrinter<AST.StringLiteral> = {
+export const StringLiteral: NodePrinter<IStringLiteral> = {
   print: ({ node, options }) => {
     const list = node.parts.map(
       (part, index) =>

@@ -1,10 +1,10 @@
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type { EventDefinition as IEventDefinition } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const parameters = (
-  node: AST.EventDefinition,
+  node: IEventDefinition,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
@@ -12,7 +12,7 @@ const parameters = (
     ? printSeparatedList(path.map(print, 'parameters'))
     : '';
 
-export const EventDefinition: NodePrinter<AST.EventDefinition> = {
+export const EventDefinition: NodePrinter<IEventDefinition> = {
   print: ({ node, path, print }) => [
     'event ',
     node.name,

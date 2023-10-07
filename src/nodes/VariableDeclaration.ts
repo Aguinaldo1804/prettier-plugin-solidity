@@ -1,32 +1,35 @@
 import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
+import type {
+  StateVariableDeclarationVariable,
+  VariableDeclaration as IVariableDeclaration
+} from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
-import type * as AST from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
 const { group, indent, line } = doc.builders;
 
-const indexed = (node: AST.VariableDeclaration): Doc =>
+const indexed = (node: IVariableDeclaration): Doc =>
   node.isIndexed ? ' indexed' : '';
 
-const visibility = (node: AST.VariableDeclaration): Doc =>
+const visibility = (node: IVariableDeclaration): Doc =>
   node.visibility && node.visibility !== 'default'
     ? [line, node.visibility]
     : '';
 
-const constantKeyword = (node: AST.VariableDeclaration): Doc =>
+const constantKeyword = (node: IVariableDeclaration): Doc =>
   node.isDeclaredConst ? ' constant' : '';
 
-const storageLocation = (node: AST.VariableDeclaration): Doc =>
+const storageLocation = (node: IVariableDeclaration): Doc =>
   node.storageLocation && node.visibility !== 'default'
     ? [line, node.storageLocation]
     : '';
 
-const immutable = (node: AST.StateVariableDeclarationVariable): Doc =>
+const immutable = (node: StateVariableDeclarationVariable): Doc =>
   node.isImmutable ? ' immutable' : '';
 
 const override = (
-  node: AST.StateVariableDeclarationVariable,
+  node: StateVariableDeclarationVariable,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
@@ -40,10 +43,10 @@ const override = (
   ];
 };
 
-const name = (node: AST.VariableDeclaration): Doc =>
+const name = (node: IVariableDeclaration): Doc =>
   node.name ? [' ', node.name] : '';
 
-export const VariableDeclaration: NodePrinter<AST.VariableDeclaration> = {
+export const VariableDeclaration: NodePrinter<IVariableDeclaration> = {
   print: ({ node, path, print }) =>
     node.typeName
       ? group([
@@ -53,8 +56,8 @@ export const VariableDeclaration: NodePrinter<AST.VariableDeclaration> = {
             visibility(node),
             constantKeyword(node),
             storageLocation(node),
-            immutable(node as AST.StateVariableDeclarationVariable),
-            override(node as AST.StateVariableDeclarationVariable, path, print),
+            immutable(node as StateVariableDeclarationVariable),
+            override(node as StateVariableDeclarationVariable, path, print),
             name(node)
           ])
         ])

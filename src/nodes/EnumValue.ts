@@ -1,6 +1,6 @@
-import type * as AST from '@solidity-parser/parser/src/ast-types';
+import type { EnumValue as IEnumValue } from '@solidity-parser/parser/src/ast-types';
 import type { NodePrinter } from '../types';
 
-export const EnumValue: NodePrinter<AST.EnumValue> = {
+export const EnumValue: NodePrinter<IEnumValue> = {
   print: ({ node }) => node.name
 };
