@@ -4,7 +4,7 @@ const CATEGORY_GLOBAL = 'Global';
 const CATEGORY_COMMON = 'Common';
 const CATEGORY_SOLIDITY = 'Solidity';
 
-export default {
+const options: SupportOptions = {
   printWidth: {
     category: CATEGORY_GLOBAL,
     type: 'int',
@@ -44,4 +44,6 @@ export default {
     description:
       'The Solidity compiler version to help us avoid critical errors in format for the wrong version.'
   }
-} as SupportOptions;
+};
+
+export default options;

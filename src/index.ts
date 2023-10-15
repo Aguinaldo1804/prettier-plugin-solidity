@@ -5,9 +5,19 @@ import options from './options.js';
 import parse from './parser.js';
 import print from './printer.js';
 import type { Comment } from '@solidity-parser/parser/src/ast-types';
+import type {
+  Parser,
+  Plugin,
+  Printer,
+  RequiredOptions,
+  SupportLanguage
+} from 'prettier';
+
+const astFormat = 'solidity-ast';
+const parserName = 'solidity-parse';
 
 // https://prettier.io/docs/en/plugins.html#languages
-// https://github.com/ikatyang/linguist-languages/blob/master/data/Solidity.json
+// https://github.com/github-linguist/linguist/blob/master/lib/linguist/languages.yml
 const languages = [
   {
     linguistLanguageId: 237469032,
@@ -17,33 +27,41 @@ const languages = [
     aceMode: 'text',
     tmScope: 'source.solidity',
     extensions: ['.sol'],
-    parsers: ['solidity-parse'],
+    parsers: [parserName],
     vscodeLanguageIds: ['solidity']
-  }
+  } as SupportLanguage
 ];
 
 // https://prettier.io/docs/en/plugins.html#parsers
-const parser = { astFormat: 'solidity-ast', parse, ...loc };
-const parsers = { 'solidity-parse': parser };
-const canAttachComment = (node: Comment): boolean =>
-  node.type && node.type !== 'BlockComment' && node.type !== 'LineComment';
+const parser: Parser = { astFormat, parse, ...loc };
+const parsers = { [parserName]: parser };
 
 // https://prettier.io/docs/en/plugins.html#printers
-const printers = {
-  'solidity-ast': {
-    canAttachComment,
-    handleComments: {
-      ownLine: comments.solidityHandleOwnLineComment,
-      endOfLine: comments.solidityHandleEndOfLineComment,
-      remaining: comments.solidityHandleRemainingComment
-    },
-    isBlockComment: comments.isBlockComment,
-    massageAstNode,
-    print,
-    printComment: comments.printComment
-  }
+const printer: Printer = {
+  canAttachComment: (node: Comment): boolean =>
+    node.type && node.type !== 'BlockComment' && node.type !== 'LineComment',
+  handleComments: {
+    ownLine: comments.solidityHandleOwnLineComment,
+    endOfLine: comments.solidityHandleEndOfLineComment,
+    remaining: comments.solidityHandleRemainingComment
+  },
+  isBlockComment: comments.isBlockComment,
+  massageAstNode,
+  print,
+  printComment: comments.printComment
 };
+const printers = { [astFormat]: printer };
 
 // https://prettier.io/docs/en/plugins.html#defaultoptions
-const defaultOptions = { bracketSpacing: false, tabWidth: 4 };
-export default { languages, parsers, printers, options, defaultOptions };
+const defaultOptions: Partial<RequiredOptions> = {
+  bracketSpacing: false,
+  tabWidth: 4
+};
+
+export default {
+  languages,
+  parsers,
+  printers,
+  options,
+  defaultOptions
+} as Plugin;
