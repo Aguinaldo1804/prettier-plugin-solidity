@@ -91,3 +91,9 @@ export function solidityHandleRemainingComment(
 export function isBlockComment(comment: Comment): comment is BlockComment {
   return comment.type === 'BlockComment';
 }
+
+export function canAttachComment(node: Comment): boolean {
+  return (
+    node.type && node.type !== 'BlockComment' && node.type !== 'LineComment'
+  );
+}

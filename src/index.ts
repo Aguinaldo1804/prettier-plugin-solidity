@@ -4,7 +4,6 @@ import loc from './loc.js';
 import options from './options.js';
 import parse from './parser.js';
 import print from './printer.js';
-import type { Comment } from '@solidity-parser/parser/src/ast-types';
 import type {
   Parser,
   Plugin,
@@ -38,8 +37,7 @@ const parsers = { [parserName]: parser };
 
 // https://prettier.io/docs/en/plugins.html#printers
 const printer: Printer = {
-  canAttachComment: (node: Comment): boolean =>
-    node.type && node.type !== 'BlockComment' && node.type !== 'LineComment',
+  canAttachComment: comments.canAttachComment,
   handleComments: {
     ownLine: comments.solidityHandleOwnLineComment,
     endOfLine: comments.solidityHandleEndOfLineComment,
