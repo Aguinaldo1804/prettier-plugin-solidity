@@ -15,7 +15,6 @@ export default {
     'jest-snapshot-serializer-raw',
     'jest-snapshot-serializer-ansi'
   ],
-  testEnvironment: 'node',
   // ignore console warnings in TEST_STANDALONE
   silent: TEST_STANDALONE,
   testPathIgnorePatterns: TEST_STANDALONE
@@ -26,7 +25,6 @@ export default {
       ]
     : [],
   testMatch,
-  extensionsToTreatAsEsm: ['.ts'],
   watchPlugins: [
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname'
