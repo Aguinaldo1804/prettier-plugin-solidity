@@ -1,4 +1,5 @@
 import { doc } from 'prettier';
+import { getNode } from '../common/backward-compatibility.js';
 import { comparison } from './comparison.js';
 import type { AstPath, Doc } from 'prettier';
 import type { BinaryOperationPrinter } from './types';
@@ -21,7 +22,7 @@ const groupIfNecessaryBuilder =
 const indentIfNecessaryBuilder =
   (path: AstPath) =>
   (document: Doc): Doc => {
-    let node = path.getNode();
+    let node = getNode(path);
     for (let i = 0; ; i += 1) {
       const parentNode = path.getParentNode(i);
       if (parentNode.type === 'ReturnStatement') break;
