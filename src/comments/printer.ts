@@ -1,5 +1,5 @@
 import { doc, util } from 'prettier';
-import { getNode } from '../common/util.js';
+import { getNode } from '../common/backward-compatibility.js';
 import type { Comment } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc, ParserOptions } from 'prettier';
 

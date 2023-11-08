@@ -1,6 +1,6 @@
 import { util, version } from 'prettier';
 import satisfies from 'semver/functions/satisfies.js';
-import type { ASTNode } from '@solidity-parser/parser/src/ast-types';
+import type { ASTNode, Comment } from '@solidity-parser/parser/src/ast-types';
 import type { ParserOptions } from 'prettier';
 
 export const prettierVersionSatisfies = (range: string): boolean =>
@@ -55,7 +55,7 @@ export function hasNodeIgnoreComment(node: ASTNode): boolean {
       node.comments &&
       node.comments.length > 0 &&
       node.comments.some(
-        (comment: AST.Comment) => comment.value.trim() === 'prettier-ignore'
+        (comment: Comment) => comment.value.trim() === 'prettier-ignore'
       )
   );
 }

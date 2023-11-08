@@ -1,4 +1,4 @@
-import { getNode } from '../common/util.js';
+import { getNode } from '../common/backward-compatibility.js';
 import type { ASTNode, Comment } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath } from 'prettier';
 

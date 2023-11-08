@@ -2,7 +2,7 @@ import { util } from 'prettier';
 import {
   getNextNonSpaceNonCommentCharacter,
   getNextNonSpaceNonCommentCharacterIndex
-} from '../../common/util.js';
+} from '../../common/backward-compatibility.js';
 import type { AST, AstPath, ParserOptions } from 'prettier';
 
 const {

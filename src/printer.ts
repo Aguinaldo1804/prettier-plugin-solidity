@@ -1,6 +1,6 @@
 import * as nodes from './nodes/index.js';
+import { getNode } from './common/backward-compatibility.js';
 import {
-  getNode,
   hasNodeIgnoreComment,
   prettierVersionSatisfies
 } from './common/util.js';
