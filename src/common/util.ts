@@ -51,11 +51,8 @@ export function printString(
 
 export function hasNodeIgnoreComment(node: ASTNode): boolean {
   return Boolean(
-    node &&
-      node.comments &&
-      node.comments.length > 0 &&
-      node.comments.some(
-        (comment: Comment) => comment.value.trim() === 'prettier-ignore'
-      )
+    node.comments?.some(
+      (comment: Comment) => comment.value.trim() === 'prettier-ignore'
+    )
   );
 }

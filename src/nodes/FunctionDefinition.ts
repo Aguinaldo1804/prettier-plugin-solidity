@@ -38,31 +38,28 @@ const parameters = (
   print: (path: AstPath) => Doc,
   options: ParserOptions
 ): Doc => {
-  const parametersArray = node[parametersType];
+  const parametersArray = node[parametersType]!;
 
-  if (parametersArray && parametersArray.length > 0) {
+  if (parametersArray.length > 0) {
     return printSeparatedList(path.map(print, parametersType), {
       grouped: false
     });
   }
-  if (node.comments && node.comments.length > 0) {
-    // we add a check to see if the comment is inside the parentheses
-    const parameterComments = printComments(
-      node,
-      path,
-      options,
-      (comment) =>
-        getNextNonSpaceNonCommentCharacter(
-          options.originalText,
-          comment,
-          options.locEnd
-        ) === ')'
-    );
-    return parameterComments.length > 0
-      ? printSeparatedItem(parameterComments)
-      : '';
-  }
-  return '';
+  // we add a check to see if the comment is inside the parentheses
+  const parameterComments = printComments(
+    node,
+    path,
+    options,
+    (comment) =>
+      getNextNonSpaceNonCommentCharacter(
+        options.originalText,
+        comment,
+        options.locEnd
+      ) === ')'
+  );
+  return parameterComments.length > 0
+    ? printSeparatedItem(parameterComments)
+    : '';
 };
 
 const visibility = (node: IFunctionDefinition): Doc =>

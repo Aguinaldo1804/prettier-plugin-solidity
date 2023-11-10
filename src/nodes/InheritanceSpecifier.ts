@@ -8,7 +8,7 @@ const printArguments = (
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc =>
-  node.arguments && node.arguments.length
+  node.arguments.length
     ? ['(', printSeparatedList(path.map(print, 'arguments')), ')']
     : '';
 

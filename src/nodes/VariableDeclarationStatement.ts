@@ -23,8 +23,9 @@ export const VariableDeclarationStatement: NodePrinter<IVariableDeclarationState
   {
     print: ({ node, path, print }) => {
       const startsWithVar =
-        node.variables.filter((x) => x && (x as VariableDeclaration).typeName)
-          .length === 0;
+        node.variables.filter(
+          (x) => (x as VariableDeclaration | null)?.typeName
+        ).length === 0;
 
       const declarationDoc = group(
         [

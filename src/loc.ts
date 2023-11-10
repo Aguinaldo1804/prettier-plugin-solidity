@@ -5,11 +5,7 @@ function getRange(index: number, node: ASTNode): number {
   if (node.range) {
     return node.range[index];
   }
-  if (
-    node.type === 'ExpressionStatement' &&
-    node.expression &&
-    node.expression.range
-  ) {
+  if (node.type === 'ExpressionStatement' && node.expression?.range) {
     return node.expression.range[index];
   }
   return 0;

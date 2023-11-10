@@ -3,9 +3,7 @@ import type { Doc } from 'prettier';
 import type { NodePrinter } from '../types';
 
 const stateMutability = (node: IElementaryTypeName): Doc =>
-  node.stateMutability && node.stateMutability.length > 0
-    ? [' ', node.stateMutability]
-    : '';
+  node.stateMutability ? [' ', node.stateMutability] : '';
 
 export const ElementaryTypeName: NodePrinter<IElementaryTypeName> = {
   print: ({ node }) => [node.name, stateMutability(node)]
