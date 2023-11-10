@@ -5,9 +5,9 @@ export const IndexRangeAccess: NodePrinter<IIndexRangeAccess> = {
   print: ({ node, path, print }) => [
     path.call(print, 'base'),
     '[',
-    node.indexStart ? path.call(print, 'indexStart') : '',
+    path.call(print, 'indexStart'),
     ':',
-    node.indexEnd ? path.call(print, 'indexEnd') : '',
+    path.call(print, 'indexEnd'),
     ']'
   ]
 };

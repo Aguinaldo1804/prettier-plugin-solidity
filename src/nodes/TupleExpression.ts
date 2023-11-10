@@ -10,16 +10,16 @@ const contents = (
   node: ITupleExpression,
   path: AstPath,
   print: (path: AstPath) => Doc
-): Doc[] =>
+): Doc =>
   node.components.length === 1 && node.components[0]!.type === 'BinaryOperation'
     ? path.map(print, 'components')
-    : [printSeparatedList(path.map(print, 'components'))];
+    : printSeparatedList(path.map(print, 'components'));
 
 export const TupleExpression: NodePrinter<ITupleExpression> = {
   print: ({ node, path, print }) =>
     group([
       node.isArray ? '[' : '(',
-      ...contents(node, path, print),
+      contents(node, path, print),
       node.isArray ? ']' : ')'
     ])
 };

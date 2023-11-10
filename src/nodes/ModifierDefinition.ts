@@ -39,12 +39,12 @@ const override = (
   print: (path: AstPath) => Doc
 ): Doc => {
   if (!node.override) return '';
-  if (node.override.length === 0) return [line, 'override'];
   return [
     line,
-    'override(',
-    printSeparatedList(path.map(print, 'override')),
-    ')'
+    'override',
+    node.override.length === 0
+      ? ''
+      : ['(', printSeparatedList(path.map(print, 'override')), ')']
   ];
 };
 
@@ -54,8 +54,8 @@ const body = (
   print: (path: AstPath) => Doc
 ): Doc => {
   if (!node.body) return ';';
-  if (node.isVirtual) return group([' ', path.call(print, 'body')]);
-  return [' ', path.call(print, 'body')];
+  const document = [' ', path.call(print, 'body')];
+  return node.isVirtual ? group(document) : document;
 };
 
 export const ModifierDefinition: NodePrinter<IModifierDefinition> = {

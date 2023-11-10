@@ -7,7 +7,7 @@ import type { NodePrinter } from '../types';
 export const InlineAssemblyStatement: NodePrinter<IInlineAssemblyStatement> = {
   print: ({ node, path, print, options }) => [
     'assembly ',
-    node.language ? `${printString(node.language, options)} ` : '',
+    node.language ? [printString(node.language, options), ' '] : '',
     node.flags.length > 0
       ? [
           '(',

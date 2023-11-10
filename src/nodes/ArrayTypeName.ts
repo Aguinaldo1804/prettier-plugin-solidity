@@ -2,10 +2,10 @@ import type { ArrayTypeName as IArrayTypeName } from '@solidity-parser/parser/sr
 import type { NodePrinter } from '../types';
 
 export const ArrayTypeName: NodePrinter<IArrayTypeName> = {
-  print: ({ node, path, print }) => [
+  print: ({ path, print }) => [
     path.call(print, 'baseTypeName'),
     '[',
-    node.length ? path.call(print, 'length') : '',
+    path.call(print, 'length'),
     ']'
   ]
 };

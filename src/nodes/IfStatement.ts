@@ -4,11 +4,10 @@ import {
   printSeparatedItem
 } from '../common/printer-helpers.js';
 import type {
-  Comment,
   IfStatement as IIfStatement,
   Statement
 } from '@solidity-parser/parser/src/ast-types';
-import type { AstPath, Doc } from 'prettier';
+import type { AstPath, Doc, ParserOptions } from 'prettier';
 import type { NodePrinter } from '../types';
 
 const { group, hardline, indent, line } = doc.builders;
@@ -41,37 +40,33 @@ const printElse = (
   node: IIfStatement,
   path: AstPath,
   print: (path: AstPath) => Doc,
-  commentsBetweenIfAndElse: Comment[]
-): Doc => {
+  options: ParserOptions
+): Doc[] => {
+  const parts = [];
   if (node.falseBody) {
+    const comments = printComments(node, path, options);
+    if (comments.length) {
+      parts.push(hardline, comments);
+    }
+
     const elseOnSameLine =
-      node.trueBody.type === 'Block' && commentsBetweenIfAndElse.length === 0;
-    return [
+      node.trueBody.type === 'Block' && comments.length === 0;
+
+    parts.push(
       elseOnSameLine ? ' ' : hardline,
       'else',
       printFalseBody(node.falseBody, path, print)
-    ];
+    );
   }
-  return '';
+  return parts;
 };
 
 export const IfStatement: NodePrinter<IIfStatement> = {
-  print: ({ node, options, path, print }) => {
-    const comments = node.comments || [];
-    const commentsBetweenIfAndElse = comments.filter(
-      (comment) => !comment.leading && !comment.trailing
-    );
-
-    const parts = [];
-
-    parts.push('if (', printSeparatedItem(path.call(print, 'condition')), ')');
-    parts.push(printTrueBody(node.trueBody, path, print));
-    if (commentsBetweenIfAndElse.length && node.falseBody) {
-      parts.push(hardline);
-      parts.push(printComments(node, path, options));
-    }
-    parts.push(printElse(node, path, print, commentsBetweenIfAndElse));
-
-    return parts;
-  }
+  print: ({ node, path, print, options }) => [
+    'if (',
+    printSeparatedItem(path.call(print, 'condition')),
+    ')',
+    printTrueBody(node.trueBody, path, print),
+    printElse(node, path, print, options)
+  ]
 };

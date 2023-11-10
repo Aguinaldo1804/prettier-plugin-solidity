@@ -24,7 +24,7 @@ function printIndentableBlockComment(comment: Comment): Doc {
       lines.map((line, index) =>
         index === 0
           ? line.trimEnd()
-          : ` ${index < lines.length - 1 ? line.trim() : line.trimStart()}`
+          : [' ', index < lines.length - 1 ? line.trim() : line.trimStart()]
       )
     ),
     '*/'

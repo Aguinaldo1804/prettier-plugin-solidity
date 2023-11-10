@@ -16,7 +16,7 @@ const functionName = (
   options: ParserOptions
 ): Doc => {
   if (node.isConstructor && !node.name) return 'constructor';
-  if (node.name) return `function ${node.name}`;
+  if (node.name) return ['function ', node.name];
   if (node.isReceiveEther) return 'receive';
   // The parser doesn't give us any information about the keyword used for the
   // fallback.
@@ -115,12 +115,6 @@ const returnParameters = (
 const signatureEnd = (node: IFunctionDefinition): Doc =>
   node.body ? dedent(line) : ';';
 
-const body = (
-  node: IFunctionDefinition,
-  path: AstPath,
-  print: (path: AstPath) => Doc
-): Doc => (node.body ? path.call(print, 'body') : '');
-
 export const FunctionDefinition: NodePrinter<IFunctionDefinition> = {
   print: ({ node, path, print, options }) => [
     group([
@@ -142,6 +136,6 @@ export const FunctionDefinition: NodePrinter<IFunctionDefinition> = {
         ])
       )
     ]),
-    body(node, path, print)
+    path.call(print, 'body')
   ]
 };

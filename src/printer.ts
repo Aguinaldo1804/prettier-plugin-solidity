@@ -28,7 +28,7 @@ export default function genericPrint(
   prettierVersionCheck();
 
   const node = getNode(path) as ASTNode;
-  if (node === null) {
+  if (typeof node === 'undefined' || node === null) {
     return '';
   }
 

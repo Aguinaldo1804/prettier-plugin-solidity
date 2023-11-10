@@ -21,10 +21,10 @@ export const ImportDirective: NodePrinter<IImportDirective> = {
       // import { Foo, Bar as Qux } from "./Foo.sol";
       const compiler = coerce(options.compiler);
       const symbolAliases = node.symbolAliases.map(([a, b]) =>
-        b ? `${a} as ${b}` : a
+        b ? [a, ' as ', b] : a
       );
-      let firstSeparator;
-      let separator;
+      let firstSeparator: Doc;
+      let separator: Doc;
 
       if (compiler && satisfies(compiler, '>=0.7.4')) {
         // if the compiler exists and is greater than or equal to 0.7.4 we will

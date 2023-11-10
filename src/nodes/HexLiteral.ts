@@ -6,8 +6,9 @@ import type { NodePrinter } from '../types';
 const { join, line } = doc.builders;
 
 export const HexLiteral: NodePrinter<IHexLiteral> = {
-  print: ({ node, options }) => {
-    const list = node.parts.map((part) => `hex${printString(part, options)}`);
-    return join(line, list);
-  }
+  print: ({ node, options }) =>
+    join(
+      line,
+      node.parts.map((part) => ['hex', printString(part, options)])
+    )
 };

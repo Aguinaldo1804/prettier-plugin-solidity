@@ -10,7 +10,7 @@ import type { NodePrinter } from '../types';
 const { hardline } = doc.builders;
 
 export const AssemblyBlock: NodePrinter<IAssemblyBlock> = {
-  print: ({ node, options, path, print }) => [
+  print: ({ node, path, print, options }) => [
     '{',
     printSeparatedItem(
       [

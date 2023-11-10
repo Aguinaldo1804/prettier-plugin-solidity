@@ -6,26 +6,6 @@ import type { NodePrinter } from '../types';
 
 const { group, indent, line } = doc.builders;
 
-const initExpression = (
-  node: IForStatement,
-  path: AstPath,
-  print: (path: AstPath) => Doc
-): Doc => (node.initExpression ? path.call(print, 'initExpression') : '');
-
-const conditionExpression = (
-  node: IForStatement,
-  path: AstPath,
-  print: (path: AstPath) => Doc
-): Doc =>
-  node.conditionExpression ? path.call(print, 'conditionExpression') : '';
-
-const loopExpression = (
-  node: IForStatement,
-  path: AstPath,
-  print: (path: AstPath) => Doc
-): Doc =>
-  node.loopExpression.expression ? path.call(print, 'loopExpression') : '';
-
 const printBody = (
   node: IForStatement,
   path: AstPath,
@@ -39,11 +19,9 @@ export const ForStatement: NodePrinter<IForStatement> = {
   print: ({ node, path, print }) => [
     'for (',
     printSeparatedList(
-      [
-        initExpression(node, path, print),
-        conditionExpression(node, path, print),
-        loopExpression(node, path, print)
-      ],
+      ['initExpression', 'conditionExpression', 'loopExpression'].map(
+        (expression) => path.call(print, expression)
+      ),
       {
         separator:
           node.initExpression ||
