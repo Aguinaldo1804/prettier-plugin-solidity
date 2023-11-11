@@ -11,7 +11,7 @@ const { group, indent, label, softline } = doc.builders;
 const isEndOfChain = (node: IMemberAccess, path: AstPath): boolean => {
   let i = 0;
   let currentNode: ASTNode = node;
-  let parentNode: ASTNode = path.getParentNode(i) as ASTNode;
+  let parentNode: ASTNode = path.getParentNode(i);
   while (
     parentNode &&
     [
@@ -46,7 +46,7 @@ const isEndOfChain = (node: IMemberAccess, path: AstPath): boolean => {
 
     i += 1;
     currentNode = parentNode;
-    parentNode = path.getParentNode(i) as ASTNode;
+    parentNode = path.getParentNode(i);
   }
   return true;
 };

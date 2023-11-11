@@ -46,7 +46,7 @@ export function getNextNonSpaceNonCommentCharacter(
 }
 
 export const getNode = (path: AstPath): ASTNode | Comment =>
-  (isPrettier2 ? path.getValue() : path.node) as ASTNode | Comment; // V3 deprecated `getValue`
+  isPrettier2 ? path.getValue() : path.node; // V3 deprecated `getValue`
 
 export function isLast(path: AstPath, key: string, index: number): boolean {
   return isPrettier2

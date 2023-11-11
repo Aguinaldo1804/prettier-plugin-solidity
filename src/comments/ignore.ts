@@ -7,7 +7,7 @@ export default function ignoreComments(path: AstPath): void {
   // We ignore anything that is not an object
   if (node === null || typeof node !== 'object') return;
 
-  const keys = Object.keys(node);
+  const keys = Object.keys(node) as (keyof ASTNode)[];
   keys.forEach((key) => {
     switch (key) {
       // We ignore `loc` and `range` since these are added by the parser
@@ -23,7 +23,7 @@ export default function ignoreComments(path: AstPath): void {
         break;
       default:
         // If the value for that key is an Array or an Object we go deeper.
-        const childNode = node[key as keyof ASTNode];
+        const childNode = node[key];
         if (typeof childNode === 'object') {
           if (Array.isArray(childNode)) {
             path.each(ignoreComments, key);

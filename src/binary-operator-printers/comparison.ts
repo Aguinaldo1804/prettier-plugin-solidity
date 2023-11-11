@@ -11,7 +11,7 @@ const indentIfNecessaryBuilder =
   (document: Doc): Doc => {
     let node: ASTNode = getNode(path) as ASTNode;
     for (let i = 0; ; i += 1) {
-      const parentNode: ASTNode = path.getParentNode(i) as ASTNode;
+      const parentNode: ASTNode = path.getParentNode(i);
       if (parentNode.type === 'ReturnStatement') break;
       if (parentNode.type === 'IfStatement') break;
       if (parentNode.type === 'ForStatement') break;

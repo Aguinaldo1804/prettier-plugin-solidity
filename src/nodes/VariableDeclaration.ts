@@ -9,6 +9,17 @@ import type { NodePrinter } from '../types';
 
 const { group, indent, line } = doc.builders;
 
+function isStateVariableDeclarationVariable(
+  node: IVariableDeclaration
+): node is StateVariableDeclarationVariable {
+  return (
+    typeof (node as StateVariableDeclarationVariable).override !==
+      'undefined' &&
+    typeof (node as StateVariableDeclarationVariable).isImmutable !==
+      'undefined'
+  );
+}
+
 const indexed = (node: IVariableDeclaration): Doc =>
   node.isIndexed ? ' indexed' : '';
 
@@ -25,15 +36,17 @@ const storageLocation = (node: IVariableDeclaration): Doc =>
     ? [line, node.storageLocation]
     : '';
 
-const immutable = (node: StateVariableDeclarationVariable): Doc =>
-  node.isImmutable ? ' immutable' : '';
+const immutable = (node: IVariableDeclaration): Doc =>
+  isStateVariableDeclarationVariable(node) && node.isImmutable
+    ? ' immutable'
+    : '';
 
 const override = (
-  node: StateVariableDeclarationVariable,
+  node: IVariableDeclaration,
   path: AstPath,
   print: (path: AstPath) => Doc
 ): Doc => {
-  if (!node.override) return '';
+  if (!isStateVariableDeclarationVariable(node) || !node.override) return '';
   return [
     line,
     'override',
@@ -56,8 +69,8 @@ export const VariableDeclaration: NodePrinter<IVariableDeclaration> = {
             visibility(node),
             constantKeyword(node),
             storageLocation(node),
-            immutable(node as StateVariableDeclarationVariable),
-            override(node as StateVariableDeclarationVariable, path, print),
+            immutable(node),
+            override(node, path, print),
             name(node)
           ])
         ])

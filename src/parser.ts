@@ -24,10 +24,10 @@ export default function parse(
   options = _parsers as ParserOptions
 ): SourceUnit {
   const compiler = coerce(options.compiler);
-  const parsed = parser.parse(text, {
+  const parsed: SourceUnit = parser.parse(text, {
     loc: true,
     range: true
-  }) as SourceUnit;
+  });
   parsed.comments = extractComments(text);
 
   parser.visit(parsed, {
@@ -104,16 +104,16 @@ export default function parse(
           ) {
             // the parser still organizes the a**b**c as (a**b)**c so we need
             // to restructure it.
+            const right: BinaryOperation = {
+              type: 'BinaryOperation',
+              operator: '**',
+              left: ctx.left.right,
+              right: ctx.right
+            };
+
             ctx.right = {
               type: 'TupleExpression',
-              components: [
-                {
-                  type: 'BinaryOperation',
-                  operator: '**',
-                  left: ctx.left.right,
-                  right: ctx.right
-                } as BinaryOperation
-              ],
+              components: [right],
               isArray: false
             };
             ctx.left = ctx.left.left;

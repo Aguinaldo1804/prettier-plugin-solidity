@@ -10,7 +10,7 @@ const { group, line, indent } = doc.builders;
 const groupIfNecessaryBuilder =
   (path: AstPath) =>
   (document: Doc): Doc => {
-    const parentNode = path.getParentNode() as ASTNode;
+    const parentNode: ASTNode = path.getParentNode();
     if (
       parentNode.type === 'BinaryOperation' &&
       !comparison.match(parentNode.operator)
@@ -25,7 +25,7 @@ const indentIfNecessaryBuilder =
   (document: Doc): Doc => {
     let node = getNode(path);
     for (let i = 0; ; i += 1) {
-      const parentNode = path.getParentNode(i) as ASTNode;
+      const parentNode: ASTNode = path.getParentNode(i);
       if (parentNode.type === 'ReturnStatement') break;
       if (
         parentNode.type !== 'BinaryOperation' ||
