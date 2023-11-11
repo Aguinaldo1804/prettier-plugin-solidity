@@ -2,14 +2,10 @@ import { util, version } from 'prettier';
 import satisfies from 'semver/functions/satisfies.js';
 import type { ASTNode, Comment } from '@solidity-parser/parser/src/ast-types';
 import type { ParserOptions } from 'prettier';
+import type { QuoteRegex } from './types';
 
 export const prettierVersionSatisfies = (range: string): boolean =>
   satisfies(version, range);
-
-interface QuoteRegex {
-  quote: util.Quote;
-  regex: RegExp;
-}
 
 const double: QuoteRegex = { quote: '"', regex: /"/g };
 const single: QuoteRegex = { quote: "'", regex: /'/g };

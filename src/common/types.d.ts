@@ -15,6 +15,11 @@ type utilV2 = typeof util & typeof utilV2Functions;
 
 type DocV2 = Doc[] & { parts: Doc[] };
 
+interface QuoteRegex {
+  quote: util.Quote;
+  regex: RegExp;
+}
+
 interface PrintSeparatedOptions {
   firstSeparator?: Doc;
   separator?: Doc;
