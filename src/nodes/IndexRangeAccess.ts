@@ -2,7 +2,7 @@ import type { IndexRangeAccess as IIndexRangeAccess } from '@solidity-parser/par
 import type { NodePrinter } from '../types';
 
 export const IndexRangeAccess: NodePrinter<IIndexRangeAccess> = {
-  print: ({ node, path, print }) => [
+  print: ({ path, print }) => [
     path.call(print, 'base'),
     '[',
     path.call(print, 'indexStart'),

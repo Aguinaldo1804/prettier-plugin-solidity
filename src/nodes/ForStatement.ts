@@ -24,8 +24,8 @@ export const ForStatement: NodePrinter<IForStatement> = {
       ),
       {
         separator:
-          node.initExpression ||
-          node.conditionExpression ||
+          node.initExpression ??
+          node.conditionExpression ??
           node.loopExpression.expression
             ? [';', line]
             : ';'

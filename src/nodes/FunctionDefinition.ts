@@ -63,9 +63,7 @@ const parameters = (
 };
 
 const visibility = (node: IFunctionDefinition): Doc =>
-  node.visibility && node.visibility !== 'default'
-    ? [line, node.visibility]
-    : '';
+  node.visibility !== 'default' ? [line, node.visibility] : '';
 
 const virtual = (node: IFunctionDefinition): Doc =>
   node.isVirtual ? [line, 'virtual'] : '';

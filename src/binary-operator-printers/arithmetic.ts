@@ -1,6 +1,7 @@
 import { doc } from 'prettier';
 import { getNode } from '../common/backward-compatibility.js';
 import { comparison } from './comparison.js';
+import type { ASTNode } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
 import type { BinaryOperationPrinter } from './types';
 
@@ -9,7 +10,7 @@ const { group, line, indent } = doc.builders;
 const groupIfNecessaryBuilder =
   (path: AstPath) =>
   (document: Doc): Doc => {
-    const parentNode = path.getParentNode();
+    const parentNode = path.getParentNode() as ASTNode;
     if (
       parentNode.type === 'BinaryOperation' &&
       !comparison.match(parentNode.operator)
@@ -24,7 +25,7 @@ const indentIfNecessaryBuilder =
   (document: Doc): Doc => {
     let node = getNode(path);
     for (let i = 0; ; i += 1) {
-      const parentNode = path.getParentNode(i);
+      const parentNode = path.getParentNode(i) as ASTNode;
       if (parentNode.type === 'ReturnStatement') break;
       if (
         parentNode.type !== 'BinaryOperation' ||

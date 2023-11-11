@@ -32,8 +32,8 @@ export function printString(
     rawContent.includes(preferred.quote) ||
     rawContent.includes(alternate.quote)
   ) {
-    const numPreferredQuotes = (rawContent.match(preferred.regex) || []).length;
-    const numAlternateQuotes = (rawContent.match(alternate.regex) || []).length;
+    const numPreferredQuotes = (rawContent.match(preferred.regex) ?? []).length;
+    const numAlternateQuotes = (rawContent.match(alternate.regex) ?? []).length;
 
     shouldUseAlternateQuote = numPreferredQuotes > numAlternateQuotes;
   }

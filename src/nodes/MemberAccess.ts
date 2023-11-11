@@ -1,5 +1,8 @@
 import { doc } from 'prettier';
-import type { MemberAccess as IMemberAccess } from '@solidity-parser/parser/src/ast-types';
+import type {
+  ASTNode,
+  MemberAccess as IMemberAccess
+} from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
 import type { NodePrinter } from '../types';
 
@@ -7,8 +10,8 @@ const { group, indent, label, softline } = doc.builders;
 
 const isEndOfChain = (node: IMemberAccess, path: AstPath): boolean => {
   let i = 0;
-  let currentNode = node;
-  let parentNode = path.getParentNode(i);
+  let currentNode: ASTNode = node;
+  let parentNode: ASTNode = path.getParentNode(i) as ASTNode;
   while (
     parentNode &&
     [
@@ -43,7 +46,7 @@ const isEndOfChain = (node: IMemberAccess, path: AstPath): boolean => {
 
     i += 1;
     currentNode = parentNode;
-    parentNode = path.getParentNode(i);
+    parentNode = path.getParentNode(i) as ASTNode;
   }
   return true;
 };

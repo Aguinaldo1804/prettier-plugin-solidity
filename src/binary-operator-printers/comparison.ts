@@ -1,5 +1,6 @@
 import { doc } from 'prettier';
 import { getNode } from '../common/backward-compatibility.js';
+import type { ASTNode } from '@solidity-parser/parser/src/ast-types';
 import type { AstPath, Doc } from 'prettier';
 import type { BinaryOperationPrinter } from './types';
 
@@ -8,9 +9,9 @@ const { group, indent, line } = doc.builders;
 const indentIfNecessaryBuilder =
   (path: AstPath) =>
   (document: Doc): Doc => {
-    let node = getNode(path);
+    let node: ASTNode = getNode(path) as ASTNode;
     for (let i = 0; ; i += 1) {
-      const parentNode = path.getParentNode(i);
+      const parentNode: ASTNode = path.getParentNode(i) as ASTNode;
       if (parentNode.type === 'ReturnStatement') break;
       if (parentNode.type === 'IfStatement') break;
       if (parentNode.type === 'ForStatement') break;
