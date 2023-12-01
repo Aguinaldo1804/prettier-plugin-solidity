@@ -31,21 +31,21 @@ export default function parse(
   parsed.comments = extractComments(text);
 
   parser.visit(parsed, {
-    PragmaDirective(ctx) {
-      // if the pragma is not for solidity we leave.
-      if (ctx.name !== 'solidity') return;
-      // if the compiler option has not been provided we leave.
-      if (!compiler) return;
-      // we make a check against each pragma directive in the document.
-      if (!satisfies(compiler, ctx.value)) {
-        // @TODO: investigate the best way to warn that would apply to
-        // different editors.
-        // eslint-disable-next-line no-console
-        console.warn(
-          `[prettier-solidity] The compiler option is set to '${options.compiler}', which does not satisfy 'pragma solidity ${ctx.value}'.`
-        );
-      }
-    },
+    PragmaDirective: !compiler
+      ? undefined // if the compiler option has not been provided we don't define it.
+      : (ctx): void => {
+          // if the pragma is not for solidity we leave.
+          if (ctx.name !== 'solidity') return;
+          // if the compiler option has not been provided we leave.
+          if (!satisfies(compiler, ctx.value)) {
+            // @TODO: investigate the best way to warn that would apply to
+            // different editors.
+            // eslint-disable-next-line no-console
+            console.warn(
+              `[prettier-solidity] The compiler option is set to '${compiler}', which does not satisfy 'pragma solidity ${ctx.value}'.`
+            );
+          }
+        },
     ModifierDefinition(ctx) {
       if (!ctx.parameters) {
         ctx.parameters = [];
