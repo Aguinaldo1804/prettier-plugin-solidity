@@ -1,7 +1,4 @@
-import { doc } from 'prettier';
 import { printSeparatedList } from '../common/printer-helpers.js';
-
-const { group } = doc.builders;
 
 const contents = (node, path, print) =>
   node.components &&
@@ -11,10 +8,9 @@ const contents = (node, path, print) =>
     : [printSeparatedList(path.map(print, 'components'))];
 
 export const TupleExpression = {
-  print: ({ node, path, print }) =>
-    group([
-      node.isArray ? '[' : '(',
-      ...contents(node, path, print),
-      node.isArray ? ']' : ')'
-    ])
+  print: ({ node, path, print }) => [
+    node.isArray ? '[' : '(',
+    ...contents(node, path, print),
+    node.isArray ? ']' : ')'
+  ]
 };
