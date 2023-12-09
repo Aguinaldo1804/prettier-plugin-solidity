@@ -68,9 +68,8 @@ export default function parse(
       ctx.loopExpression.omitSemicolon = true;
     },
     HexLiteral(ctx) {
-      ctx.value = options.singleQuote
-        ? `hex'${ctx.value.slice(4, -1)}'`
-        : `hex"${ctx.value.slice(4, -1)}"`;
+      const value = ctx.value.slice(4, -1);
+      ctx.value = options.singleQuote ? `hex'${value}'` : `hex"${value}"`;
     },
     BinaryOperation(ctx) {
       switch (ctx.operator) {
